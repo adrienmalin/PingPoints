@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/radioButton1"
+            android:id="@+id/radioButtonJoueur1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
