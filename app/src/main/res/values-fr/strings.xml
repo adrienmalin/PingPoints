@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ping Points</string>
+    <string name="go">Allons-y !</string>
+    <string name="dialog_title">Nouvelle partie</string>
+    <string name="dialog_message">Qui commence ?</string>
+    <string name="info">Cliquez sur le joueur qui a marqué</string>
+    <string name="service">Service :</string>
+    <string name="score">Score :</string>
+    <string name="quit">Quitter</string>
+    <string-array name="players_names">
+        <item>Joueur 1</item>
+        <item>Joueur 2</item>
+    </string-array>
+</resources>

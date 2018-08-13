@@ -1,12 +1,14 @@
 <resources>
     <string name="app_name">Ping Points</string>
-    <string name="go">Allons-y !</string>
-    <string name="cancel">Annuler</string>
-    <string name="dialog_title">Nouvelle partie</string>
-    <string name="dialog_message">Qui commence ?</string>
-    <string name="nom_joueur_1">Joueur 1</string>
-    <string name="nom_joueur_2">Joueur 2</string>
-    <string name="info">Cliquez sur le joueur qui a marqué</string>
-    <string name="service">Service</string>
-    <string name="score">Score</string>
+    <string name="go">Play</string>
+    <string name="quit">Quit</string>
+    <string name="dialog_title">New match</string>
+    <string name="dialog_message">Who starts?</string>
+    <string name="info">Click on the scoring player</string>
+    <string name="service">Service:</string>
+    <string name="score">Score:</string>
+    <string-array name="players_names">
+        <item>Player 1</item>
+        <item>Player 2</item>
+    </string-array>
 </resources>

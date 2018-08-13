@@ -16,7 +16,7 @@ class Dialog : DialogFragment() {
                 .setPositiveButton(R.string.go, DialogInterface.OnClickListener { dialog, id ->
                     // FIRE ZE MISSILES!
                 })
-                .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, id ->
+                .setNegativeButton(R.string.quit, DialogInterface.OnClickListener { dialog, id ->
                     // User cancelled the dialog
                 })
                 .setView(view)
