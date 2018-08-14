@@ -1,5 +1,6 @@
 package adrienmalin.pingpoints
 
+import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
@@ -9,6 +10,7 @@ import android.os.Build
 import android.text.Spanned
 import android.text.TextUtils.join
 import kotlin.math.abs
+import android.support.design.widget.Snackbar
 
 
 @SuppressWarnings("deprecation")
@@ -42,6 +44,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        }
+
         val names: Array<String> = resources.getStringArray(R.array.players_names)
         for ((player, name) in players.zip(names)) {
             player.name = name
@@ -55,6 +61,9 @@ class MainActivity : AppCompatActivity() {
         )
 
         update_ui()
+
+        Snackbar.make(findViewById(R.layout.activity_main), R.string.info, Snackbar.LENGTH_LONG)
+                .show()
     }
 
     fun update_ui() {
@@ -87,16 +96,15 @@ class MainActivity : AppCompatActivity() {
     fun updateScore(scoringPlayerId: Int) {
         players[scoringPlayerId].score++
 
-        if (players.sumBy { it.score } % 2 == 0) {
-            server = notServer.also { notServer = server }
-        }
-
-        update_ui()
-
         if (
-                (players.map { it -> it.score } .max() ?: 0 >= 11) and
-                (abs(players[0].score - players[1].score) >= 2)
+                (players.map { it -> it.score } .max() ?: 0 < 11) or
+                (abs(players[0].score - players[1].score) < 2)
         ) {
+            if (players.sumBy { it.score } % 2 == 0) {
+                server = notServer.also { notServer = server }
+            }
+            update_ui()
+        } else {
             endOfMatch()
         }
     }
