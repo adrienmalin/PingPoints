@@ -5,11 +5,14 @@
     <string name="dialog_title">Nouvelle partie</string>
     <string name="dialog_message">Qui commence ?</string>
     <string name="info">Cliquez sur le joueur qui a marqué</string>
-    <string name="service">Service :</string>
-    <string name="score">Score :</string>
+    <string name="service">Service : %1s</string>
+    <string name="score">Score : %1d - %2d</string>
     <string name="quit">Quitter</string>
     <string-array name="players_names">
         <item>Joueur 1</item>
         <item>Joueur 2</item>
     </string-array>
+    <string name="end_match_dialog_title">Bravo %1s !</string>
+    <string name="new_match_button">Nouvelle partie</string>
+    <string name="quit_button">Quitter</string>
 </resources>

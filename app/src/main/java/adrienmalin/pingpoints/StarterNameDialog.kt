@@ -7,7 +7,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 
 
-class Dialog : DialogFragment() {
+class StarterNameDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // Use the Builder class for convenient dialog construction
         val builder = AlertDialog.Builder(activity)
@@ -19,7 +19,7 @@ class Dialog : DialogFragment() {
                 .setNegativeButton(R.string.quit, DialogInterface.OnClickListener { dialog, id ->
                     // User cancelled the dialog
                 })
-                .setView(view)
+                .setView(R.layout.dialog)
         // Create the AlertDialog object and return it
         return builder.create()
     }

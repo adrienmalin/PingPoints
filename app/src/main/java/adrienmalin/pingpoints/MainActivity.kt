@@ -2,8 +2,24 @@ package adrienmalin.pingpoints
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.view.View
 import android.widget.Button
+import android.os.Build
+import android.text.Spanned
+import android.text.TextUtils.join
+import kotlin.math.abs
+
+
+@SuppressWarnings("deprecation")
+fun fromHtml(html: String): Spanned {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
+    } else {
+        Html.fromHtml(html)
+
+    }
+}
 
 
 class MainActivity : AppCompatActivity() {
@@ -14,16 +30,12 @@ class MainActivity : AppCompatActivity() {
     var server: Int = 0
     var notServer: Int = 1
 
-    var buttonPlayers: Array<Button> = emptyArray()
-    var serviceTexts: Array<Array<String>> = arrayOf(
-            arrayOf("""_o/°""", ""),
-            arrayOf("", """°\o_""")
-    )
 
     var textScore: android.widget.TextView? = null
-    var textService: android.widget.TextView? = null
     var stringScore:String = ""
+    var textService: android.widget.TextView? = null
     var stringService:String = ""
+    var buttons: Array<Button> = emptyArray()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,12 +49,7 @@ class MainActivity : AppCompatActivity() {
 
         textScore = findViewById(R.id.textScore)
         textService = findViewById(R.id.textService)
-
-        stringScore = getString(R.string.score)
-        stringService = getString(R.string.service)
-
-
-        buttonPlayers = arrayOf(
+        buttons = arrayOf(
                 findViewById(R.id.buttonPlayer1),
                 findViewById(R.id.buttonPlayer2)
         )
@@ -50,14 +57,23 @@ class MainActivity : AppCompatActivity() {
         update_ui()
     }
 
-    fun updateScore(scoringPlayerId: Int) {
-        players[scoringPlayerId].score ++
+    fun update_ui() {
 
-        if (players.sumBy { it.score } % 2 == 0) {
-            server = notServer.also { notServer = server }
+        textScore?.text = getString(R.string.score, players[server].score, players[notServer].score)
+
+        textService?.text = getString(R.string.service, players[server].name)
+
+        for ((button, player) in buttons.zip(players)) {
+            button.text = fromHtml(getString(R.string.button_text, player.name, player.score))
         }
 
-        update_ui()
+        if (server == 0) {
+            buttons[0].setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_button, 0, 0, 0)
+            buttons[1].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        } else {
+            buttons[0].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+            buttons[1].setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_button, 0)
+        }
     }
 
     fun onClickPlayer1(view: View) {
@@ -68,27 +84,42 @@ class MainActivity : AppCompatActivity() {
         updateScore(1)
     }
 
-    fun update_ui(){
+    fun updateScore(scoringPlayerId: Int) {
+        players[scoringPlayerId].score++
 
-        textScore?.text = "$stringScore ${players[server].score} - ${players[notServer].score}"
-
-        textService?.text = "$stringService ${players[server].name}"
-
-        for ((player, serviceText) in players.zip(serviceTexts[server])) {
-            player.serviceText = serviceText
+        if (players.sumBy { it.score } % 2 == 0) {
+            server = notServer.also { notServer = server }
         }
 
-        for ((button, player) in buttonPlayers.zip(players)) {
-            button.text = """
-                    |${player.name}
-                    |${player.score}
-                    |${player.serviceText}""".trimMargin()
+        update_ui()
+
+        if (
+                (players.map { it -> it.score } .max() ?: 0 >= 11) and
+                (abs(players[0].score - players[1].score) >= 2)
+        ) {
+            endOfMatch()
         }
+    }
+
+    fun endOfMatch() {
+        val (loser, winner) = players.sortedBy { it.score }
+        var endOfMatchDialog: EndOfMatchDialog = EndOfMatchDialog()
+
+        val bundle = Bundle()
+        bundle.putString("WINNER_NAME", winner.name)
+        bundle.putInt("WINNER_SCORE", winner.score)
+        bundle.putInt("LOSER_SCORE", loser.score)
+
+        endOfMatchDialog.arguments = bundle
+        endOfMatchDialog.show(
+                supportFragmentManager,
+                join(" ", arrayOf(winner.name, winner.score.toString(), "-", loser.name, loser.score.toString()))
+        )
     }
 
 }
 
-class Player(
+data class Player(
     var name: String = "",
     var score: Int = 0,
     var serviceText: String = ""

@@ -5,10 +5,14 @@
     <string name="dialog_title">New match</string>
     <string name="dialog_message">Who starts?</string>
     <string name="info">Click on the scoring player</string>
-    <string name="service">Service:</string>
-    <string name="score">Score:</string>
+    <string name="service">Service: %1s</string>
+    <string name="score">Score: %1d - %2d</string>
+    <string name="button_text" translatable="false">%1s &lt;br /&gt; &lt;big&gt; &lt;big&gt; %2d &lt;/big&gt; &lt;/big&gt;</string>
+    <string name="end_match_dialog_title">Congratulations, %1s!</string>
     <string-array name="players_names">
         <item>Player 1</item>
         <item>Player 2</item>
     </string-array>
+    <string name="new_match_button">New match</string>
+    <string name="quit_button">Quit</string>
 </resources>
