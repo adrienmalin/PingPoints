@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Ping Points</string>
-    <string name="go">Allons-y !</string>
-    <string name="dialog_title">Nouvelle partie</string>
-    <string name="dialog_message">Qui commence ?</string>
     <string name="info">Cliquez sur le joueur qui a marqué</string>
     <string name="service">Service : %1s</string>
     <string name="score">Score : %1d - %2d</string>
-    <string name="quit">Quitter</string>
     <string-array name="players_names">
         <item>Joueur 1</item>
         <item>Joueur 2</item>
     </string-array>
     <string name="end_match_dialog_title">Bravo %1s !</string>
-    <string name="new_match_button">Nouvelle partie</string>
+    <string name="new_match">Nouveau match</string>
     <string name="quit_button">Quitter</string>
+    <string name="name">Nom</string>
+    <string name="go_button">Allons-y !</string>
+    <string name="starter_name_dialog_message">Qui commence ?</string>
+    <string name="share_button">Partager</string>
+    <string name="share_subject">Match Ping Points : %1s contre %2s</string>
+    <string name="share_message">%1s vs. %2s\\nVainqueur : %3s\\nScore : %4d - %5d\\n\\n--\\nArbitré avec l\'application gratuite Ping Points disponible sur Google Play</string>
 </resources>

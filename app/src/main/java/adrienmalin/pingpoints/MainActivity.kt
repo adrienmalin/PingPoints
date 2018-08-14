@@ -11,6 +11,8 @@ import android.text.Spanned
 import android.text.TextUtils.join
 import kotlin.math.abs
 import android.support.design.widget.Snackbar
+import android.support.v4.app.DialogFragment
+import android.widget.Toast
 
 
 @SuppressWarnings("deprecation")
@@ -24,7 +26,7 @@ fun fromHtml(html: String): Spanned {
 }
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogListener{
     var players: Array<Player> = arrayOf(
             Player(),
             Player()
@@ -34,9 +36,7 @@ class MainActivity : AppCompatActivity() {
 
 
     var textScore: android.widget.TextView? = null
-    var stringScore:String = ""
     var textService: android.widget.TextView? = null
-    var stringService:String = ""
     var buttons: Array<Button> = emptyArray()
 
 
@@ -45,12 +45,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
         }
 
-        val names: Array<String> = resources.getStringArray(R.array.players_names)
-        for ((player, name) in players.zip(names)) {
-            player.name = name
+        val defaultNames: Array<String> = resources.getStringArray(R.array.players_names)
+        for ((player, defaultName) in players.zip(defaultNames)) {
+            player.name = defaultName
         }
 
         textScore = findViewById(R.id.textScore)
@@ -60,10 +60,31 @@ class MainActivity : AppCompatActivity() {
                 findViewById(R.id.buttonPlayer2)
         )
 
+        openStarterNameDialog()
+
         update_ui()
 
-        Snackbar.make(findViewById(R.layout.activity_main), R.string.info, Snackbar.LENGTH_LONG)
+        Toast.makeText(applicationContext, R.string.info, Snackbar.LENGTH_LONG)
                 .show()
+    }
+
+    fun openStarterNameDialog() {
+        val (loser, winner) = players.sortedBy { it.score }
+        var starterNameDialog: EndOfMatchDialog = EndOfMatchDialog()
+        starterNameDialog.arguments = Bundle()
+        starterNameDialog.arguments?.putString("PLAYER_1_NAME", players[0].name)
+        starterNameDialog.arguments?.putString("PLAYER_2_NAME", players[1].name)
+        starterNameDialog.show(
+                supportFragmentManager,
+                join(" ", arrayOf(winner.name, winner.score.toString(), "-", loser.name, loser.score.toString()))
+        )
+    }
+
+    override fun onStaterNameDialogPositiveClick(dialog: DialogFragment) {
+        val inputPlayer1Name: android.widget.EditText? = findViewById(R.id.input_player_1_name)
+        players[0].name = inputPlayer1Name?.text.toString()
+        val inputPlayer2Name: android.widget.EditText? = findViewById(R.id.input_player_2_name)
+        players[1].name = inputPlayer2Name?.text.toString()
     }
 
     fun update_ui() {
@@ -86,39 +107,40 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClickPlayer1(view: View) {
-        updateScore(0)
+        updateScore(players[0])
     }
 
     fun onClickPlayer2(view: View) {
-        updateScore(1)
+        updateScore(players[1])
     }
 
-    fun updateScore(scoringPlayerId: Int) {
-        players[scoringPlayerId].score++
+    fun finishedMatch() = (
+            (players.map { it -> it.score } .max() ?: 0 >= 11) or
+            (abs(players[0].score - players[1].score) >= 2)
+    )
 
-        if (
-                (players.map { it -> it.score } .max() ?: 0 < 11) or
-                (abs(players[0].score - players[1].score) < 2)
-        ) {
+    fun updateScore(scoringPlayer: Player) {
+        if ( !finishedMatch() ) {
+            scoringPlayer.score++
             if (players.sumBy { it.score } % 2 == 0) {
                 server = notServer.also { notServer = server }
             }
-            update_ui()
-        } else {
-            endOfMatch()
         }
+        if ( finishedMatch() ) {
+            openEndOfMatchDialog()
+        }
+        update_ui()
     }
 
-    fun endOfMatch() {
-        val (loser, winner) = players.sortedBy { it.score }
+    fun openEndOfMatchDialog() {
         var endOfMatchDialog: EndOfMatchDialog = EndOfMatchDialog()
-
-        val bundle = Bundle()
-        bundle.putString("WINNER_NAME", winner.name)
-        bundle.putInt("WINNER_SCORE", winner.score)
-        bundle.putInt("LOSER_SCORE", loser.score)
-
-        endOfMatchDialog.arguments = bundle
+        val (loser, winner) = players.sortedBy { it.score }
+        endOfMatchDialog.arguments = Bundle()
+        endOfMatchDialog.arguments?.putString("PLAYER_1_NAME", players[0].name)
+        endOfMatchDialog.arguments?.putString("PLAYER_2_NAME", players[1].name)
+        endOfMatchDialog.arguments?.putString("WINNER_NAME", winner.name)
+        endOfMatchDialog.arguments?.putInt("WINNER_SCORE", winner.score)
+        endOfMatchDialog.arguments?.putInt("LOSER_SCORE", loser.score)
         endOfMatchDialog.show(
                 supportFragmentManager,
                 join(" ", arrayOf(winner.name, winner.score.toString(), "-", loser.name, loser.score.toString()))

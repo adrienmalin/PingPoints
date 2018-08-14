@@ -1,18 +1,20 @@
 <resources>
     <string name="app_name">Ping Points</string>
-    <string name="go">Play</string>
-    <string name="quit">Quit</string>
-    <string name="dialog_title">New match</string>
-    <string name="dialog_message">Who starts?</string>
+    <string name="go_button">Play</string>
+    <string name="starter_name_dialog_message">Who starts?</string>
     <string name="info">Click on the scoring player</string>
     <string name="service">Service: %1s</string>
     <string name="score">Score: %1d - %2d</string>
-    <string name="button_text" translatable="false">%1s &lt;br /&gt; &lt;big&gt; &lt;big&gt; %2d &lt;/big&gt; &lt;/big&gt;</string>
+    <string name="button_text" translatable="false">%1s &lt;br /&gt; &lt;br /&gt; &lt;big&gt; &lt;big&gt; %2d &lt;/big&gt; &lt;/big&gt;</string>
     <string name="end_match_dialog_title">Congratulations, %1s!</string>
     <string-array name="players_names">
         <item>Player 1</item>
         <item>Player 2</item>
     </string-array>
-    <string name="new_match_button">New match</string>
+    <string name="new_match">New match</string>
     <string name="quit_button">Quit</string>
+    <string name="name">Name</string>
+    <string name="share_button">Share</string>
+    <string name="share_subject">Ping Points Match: %1s vs. %2s</string>
+    <string name="share_message">%1s vs. %2s\\nWinner: %3s\\nScore: %4d - %5d\\n\\n--\\nRefereed with Ping Points free Android app on Google Play</string>
 </resources>

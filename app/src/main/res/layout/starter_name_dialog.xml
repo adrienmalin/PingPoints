@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".NomsJoueursEtPremierServeurDialog">
 
     <!-- TODO: Update blank fragment layout -->
@@ -14,10 +14,9 @@
 
         <RadioButton
             android:id="@+id/radioButtonJoueur1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="RadioButton" />
+            android:layout_weight="1" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -25,18 +24,17 @@
             android:layout_weight="1">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/InputJoueur1"
+                android:id="@+id/input_player_1_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="hint" />
+                android:hint="@string/name" />
         </android.support.design.widget.TextInputLayout>
 
         <RadioButton
             android:id="@+id/radioButton2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="RadioButton" />
+            android:layout_weight="1" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -44,10 +42,10 @@
             android:layout_weight="1">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/InputJoueur2"
+                android:id="@+id/input_player_2_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="hint" />
+                android:hint="@string/name" />
         </android.support.design.widget.TextInputLayout>
     </RadioGroup>
 </FrameLayout>
