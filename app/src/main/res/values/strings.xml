@@ -7,7 +7,7 @@
     <string name="score">Score: %1d - %2d</string>
     <string name="button_text" translatable="false">%1s &lt;br /&gt; &lt;br /&gt; &lt;big&gt; &lt;big&gt; %2d &lt;/big&gt; &lt;/big&gt;</string>
     <string name="end_match_dialog_title">Congratulations, %1s!</string>
-    <string-array name="players_names">
+    <string-array name="default_players_names">
         <item>Player 1</item>
         <item>Player 2</item>
     </string-array>
@@ -16,5 +16,9 @@
     <string name="name">Name</string>
     <string name="share_button">Share</string>
     <string name="share_subject">Ping Points Match: %1s vs. %2s</string>
-    <string name="share_message">%1s vs. %2s\\nWinner: %3s\\nScore: %4d - %5d\\n\\n--\\nRefereed with Ping Points free Android app on Google Play</string>
+    <string name="share_message">%1s vs. %2s:\n%3s won by %4d to %5d\n\nGet Ping Points on Google Play</string>
+    <string name="radioText" translatable="false"></string>
+    <string name="PingPointsCredits">Ping Points by Adrien Malingrey</string>
+    <string name="iconCredits"><div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div></string>
+    <string name="about">About</string>
 </resources>

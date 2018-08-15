@@ -4,7 +4,7 @@
     <string name="info">Cliquez sur le joueur qui a marqué</string>
     <string name="service">Service : %1s</string>
     <string name="score">Score : %1d - %2d</string>
-    <string-array name="players_names">
+    <string-array name="default_players_names">
         <item>Joueur 1</item>
         <item>Joueur 2</item>
     </string-array>
@@ -16,5 +16,8 @@
     <string name="starter_name_dialog_message">Qui commence ?</string>
     <string name="share_button">Partager</string>
     <string name="share_subject">Match Ping Points : %1s contre %2s</string>
-    <string name="share_message">%1s vs. %2s\\nVainqueur : %3s\\nScore : %4d - %5d\\n\\n--\\nArbitré avec l\'application gratuite Ping Points disponible sur Google Play</string>
+    <string name="share_message">%1s contre %2s:\n%3s a gagné par %4d à %5d\n\nPing Points est disponible sur Google Play</string>
+    <string name="PingPointsCredits">Ping Points par Adrien Malingrey</string>
+    <string name="iconCredits"><div>Icônes par <a href="http://www.freepik.com" title="Freepik">Freepik</a> chez <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> Licence <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div></string>
+    <string name="about">À propos</string>
 </resources>

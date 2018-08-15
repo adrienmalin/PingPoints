@@ -7,6 +7,8 @@
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="73dp">
 
+
+
         <LinearLayout
             android:id="@+id/linearLayoutText"
             android:layout_width="0dp"
@@ -30,7 +32,6 @@
                 android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="@string/service"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayoutButtons"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +48,6 @@
                 android:layout_weight="1"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="@string/score"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -70,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutText">
 
             <Button
-                android:id="@+id/buttonPlayer1"
+                android:id="@+id/buttonLeftPlayer"
                 style="@style/Base.Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -82,20 +82,20 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:bufferType="spannable"
-                android:onClick="onClickPlayer1"
+                android:drawableLeft="@drawable/ic_service"
+                android:onClick="onClickLeftPlayer"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/textScore"
-                app:layout_constraintEnd_toStartOf="@+id/buttonPlayer2"
+                app:layout_constraintEnd_toStartOf="@+id/buttonRightPlayer"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textService"
-                tools:text="@string/button_text" />
+                app:layout_constraintTop_toBottomOf="@+id/textService" />
 
             <Button
-                android:id="@+id/buttonPlayer2"
+                android:id="@+id/buttonRightPlayer"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -107,16 +107,16 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:bufferType="spannable"
-                android:onClick="onClickPlayer2"
+                android:drawableRight="@drawable/ic_relaunch"
+                android:onClick="onClickRightPlayer"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/textScore"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/buttonPlayer1"
-                app:layout_constraintTop_toBottomOf="@+id/textService"
-                tools:text="@string/button_text" />
+                app:layout_constraintStart_toEndOf="@+id/buttonLeftPlayer"
+                app:layout_constraintTop_toBottomOf="@+id/textService" />
         </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
