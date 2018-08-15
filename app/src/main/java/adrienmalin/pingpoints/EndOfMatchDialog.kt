@@ -31,7 +31,7 @@ class EndOfMatchDialog: DialogFragment() {
                                     putExtra("names", names)
                                 }
                         )
-                        activity?.finish()
+                        //activity?.finish()
                     }
             )
             setNeutralButton(
