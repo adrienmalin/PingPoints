@@ -62,12 +62,12 @@ class EndOfMatchDialog: DialogFragment() {
                         startActivity(sendIntent)
                     }
             )
-            setNegativeButton(
+            /*setNegativeButton(
                     R.string.quit_button,
                     DialogInterface.OnClickListener { dialog, id ->
                         activity?.finish()
                     }
-            )
+            )*/
         }.create()
     }
 }

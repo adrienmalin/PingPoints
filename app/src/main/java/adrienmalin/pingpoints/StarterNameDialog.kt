@@ -47,7 +47,7 @@ class StarterNameDialog : DialogFragment() {
             setView(namesView)
             setPositiveButton(R.string.go_button) { dialog, id ->
                 mainActivity?.setStarterName(
-                        when ((namesView.findViewById(R.id.radioGroup) as RadioGroup)?.checkedRadioButtonId) {
+                        when ((namesView.findViewById(R.id.radioGroup) as RadioGroup).checkedRadioButtonId) {
                             R.id.radioLeftPlayer -> Side.LEFT
                             else -> Side.RIGHT
                         },
@@ -55,7 +55,7 @@ class StarterNameDialog : DialogFragment() {
                 )
                 dismiss()
             }
-            setNegativeButton(R.string.quit_button) { dialog, id -> activity?.finish() }
+            //setNegativeButton(R.string.quit_button) { dialog, id -> activity?.finish() }
         }.create()
     }
 }

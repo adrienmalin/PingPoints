@@ -7,123 +7,141 @@
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="73dp">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
-    <LinearLayout
-            android:id="@+id/linearLayoutText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-                android:id="@+id/textService"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayoutButtons"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/textScore"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textScore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/linearLayoutButtons"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayoutText">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/buttonLeftPlayer"
-                style="@style/Base.Widget.AppCompat.Button.Colored"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_marginBottom="8dp"
+                android:background="@color/colorPrimary"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayoutText"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:bufferType="spannable"
-                android:drawableLeft="@drawable/ic_left_service"
-                android:onClick="onClickLeftPlayer"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/textScore"
-                app:layout_constraintEnd_toStartOf="@+id/buttonRightPlayer"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textService" />
-
-            <Button
-                android:id="@+id/buttonRightPlayer"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:bufferType="spannable"
-                android:drawableRight="@drawable/ic_relaunch"
-                android:onClick="onClickRightPlayer"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/textScore"
+                android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/buttonLeftPlayer"
-                app:layout_constraintTop_toBottomOf="@+id/textService" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="8dp">
+
+                <TextView
+                    android:id="@+id/textService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:layout_constraintBottom_toTopOf="@+id/linearLayoutButtons"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toEndOf="@+id/textScore"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/service" />
+
+                <TextView
+                    android:id="@+id/textScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/score" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutButtons"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutText">
+
+                <Button
+                    android:id="@+id/buttonLeftPlayer"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:bufferType="spannable"
+                    android:drawableLeft="@drawable/ic_left_service"
+                    android:onClick="onClickLeftPlayer"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/textScore"
+                    app:layout_constraintEnd_toStartOf="@+id/buttonRightPlayer"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textService"
+                    tools:text="@string/button_text" />
+
+                <Button
+                    android:id="@+id/buttonRightPlayer"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:bufferType="spannable"
+                    android:onClick="onClickRightPlayer"
+                    android:textAllCaps="false"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/textScore"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/buttonLeftPlayer"
+                    app:layout_constraintTop_toBottomOf="@+id/textService"
+                    tools:text="@string/button_text" />
+            </LinearLayout>
         </LinearLayout>
+
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
