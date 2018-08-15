@@ -3,10 +3,10 @@
     <string name="go_button">Play</string>
     <string name="starter_name_dialog_message">Who starts?</string>
     <string name="info">Click on the scoring player</string>
-    <string name="service">Service: %1s</string>
-    <string name="score">Score: %1d - %2d</string>
-    <string name="button_text" translatable="false">%1s &lt;br /&gt; &lt;br /&gt; &lt;big&gt; &lt;big&gt; %2d &lt;/big&gt; &lt;/big&gt;</string>
-    <string name="end_match_dialog_title">Congratulations, %1s!</string>
+    <string name="service">Service: %s</string>
+    <string name="score">Score: %d - %d</string>
+    <string name="button_text" translatable="false">%s <br /> <br /> <big> <big> %d </big> </big></string>
+    <string name="end_match_dialog_title">Congratulations, %s!</string>
     <string-array name="default_players_names">
         <item>Player 1</item>
         <item>Player 2</item>
@@ -15,8 +15,8 @@
     <string name="quit_button">Quit</string>
     <string name="name">Name</string>
     <string name="share_button">Share</string>
-    <string name="share_subject">Ping Points Match: %1s vs. %2s</string>
-    <string name="share_message">%1s vs. %2s:\n%3s won by %4d to %5d\n\nGet Ping Points on Google Play</string>
+    <string name="share_subject">Ping Points Match: %s vs. %s</string>
+    <string name="share_message">%s vs. %s: %s won by %d to %d Get Ping Points on Google Play</string>
     <string name="radioText" translatable="false"></string>
     <string name="PingPointsCredits">Ping Points by Adrien Malingrey</string>
     <string name="iconCredits"><div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div></string>

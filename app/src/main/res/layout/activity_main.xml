@@ -7,9 +7,16 @@
     tools:context=".MainActivity"
     tools:layout_editor_absoluteY="73dp">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-
-        <LinearLayout
+    <LinearLayout
             android:id="@+id/linearLayoutText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -23,7 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
+        <TextView
                 android:id="@+id/textService"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -82,7 +89,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:bufferType="spannable"
-                android:drawableLeft="@drawable/ic_service"
+                android:drawableLeft="@drawable/ic_left_service"
                 android:onClick="onClickLeftPlayer"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Button"

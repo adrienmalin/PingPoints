@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //setSupportActionBar(findViewById(R.id.toolbar))
+        setSupportActionBar(findViewById(R.id.toolbar))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
@@ -82,12 +82,12 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
 
         when (serviceSide) {
             Side.LEFT -> {
-                buttons[Side.LEFT.value].setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_service, 0, 0, 0)
-                buttons[Side.RIGHT.value].setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_relaunch, 0, 0, 0)
+                buttons[Side.LEFT.value].setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_left_service, 0, 0, 0)
+                buttons[Side.RIGHT.value].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
             }
             Side.RIGHT -> {
-                buttons[Side.LEFT.value].setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_relaunch, 0)
-                buttons[Side.RIGHT.value].setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_service, 0)
+                buttons[Side.LEFT.value].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                buttons[Side.RIGHT.value].setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_right_service, 0)
             }
         }
     }
