@@ -12,9 +12,9 @@ class EndOfMatchDialog: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?)=
             AlertDialog.Builder(activity).apply{
                 val players = (activity as MainActivity).players
-                val names = players.map { it.name }.toTypedArray()
+                val names = players.map { it.name }
                 val winnerName = players.maxBy { it.score }?.name ?: ""
-                val score = players.map { it.score }.sortedDescending().toIntArray()
+                val score = players.map { it.score }.sortedDescending()
 
                 setTitle(getString(R.string.end_match_dialog_title, winnerName))
                 setMessage(getString(R.string.score, score[0], score[1]))
@@ -23,7 +23,7 @@ class EndOfMatchDialog: DialogFragment() {
                         DialogInterface.OnClickListener { dialog, id ->
                             startActivity(
                                     Intent(context, MainActivity::class.java).apply {
-                                        putExtra("names", names)
+                                        putExtra("names", names.toTypedArray())
                                     }
                             )
                         }

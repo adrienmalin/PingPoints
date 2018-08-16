@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.Button
 import android.os.Build
 import android.support.v7.app.AppCompatDelegate
-import android.support.v7.view.menu.ActionMenuItem
 import android.view.Menu
 import android.widget.Toast
 import android.view.MenuItem
@@ -24,10 +23,9 @@ class MainActivity : AppCompatActivity() {
     var buttons: Array<Button> = emptyArray()
     var imageViews: Array<ImageView?> = emptyArray()
     var history: MutableList<State> = ArrayList()
-    var step: Int = 0
+    var game: Int = 0
     var undo: MenuItem? = null
     var redo: MenuItem? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,13 +64,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_undo -> {
-            step--
+            game--
             reloadState()
             redo?.isVisible = true
             true
         }
         R.id.action_redo -> {
-            step++
+            game++
             reloadState()
             undo?.isVisible = true
             true
@@ -96,19 +94,19 @@ class MainActivity : AppCompatActivity() {
 
     fun saveState() {
         val state = State(players.map { it.score }, serviceSide)
-        if (step == history.size) {
+        if (game == history.size) {
             history.add(state)
         } else {
-            history[step] = state
-            history = history.subList(0, step+1).toMutableList()
+            history[game] = state
+            history = history.subList(0, game+1).toMutableList()
         }
-        if (step > 0) {
+        if (game > 0) {
             undo?.isVisible = true
         }
     }
 
     fun reloadState() {
-        history[step].let{
+        history[game].let{
             players.zip(it.score).forEach{(player, score) -> player.score = score}
             serviceSide = it.serviceSide
             relaunchSide = when(serviceSide) {
@@ -116,11 +114,11 @@ class MainActivity : AppCompatActivity() {
                 Side.RIGHT -> Side.LEFT
             }
         }
-        when(step){
+        when(game){
             0 -> undo?.isVisible = false
             history.size - 1 -> redo?.isVisible = false
         }
-        this.step = step
+        this.game = game
         updateUI()
     }
 
@@ -156,26 +154,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun onClickLeftPlayer(view: View) {
-        updateScore(players[Side.LEFT.value])
-    }
-
-    fun onClickRightPlayer(view: View) {
-        updateScore(players[Side.RIGHT.value])
-    }
-
-    fun updateScore(scoringPlayer: Player) {
-        if ( !matchIsFinished() ) {
-            step++
-            scoringPlayer.score++
-            if (players.sumBy { it.score } % 2 == 0) {
-                serviceSide = relaunchSide.also { relaunchSide = serviceSide }
+    fun updateScore(view: View) {
+        for (side in enumValues<Side>()) {
+            if (view == buttons[side.value]) {
+                if (!matchIsFinished()) {
+                    game++
+                    players[side.value].score++
+                    if (players.sumBy { it.score } % 2 == 0) {
+                        serviceSide = relaunchSide.also { relaunchSide = serviceSide }
+                    }
+                    saveState()
+                    updateUI()
+                }
+                if (matchIsFinished()) {
+                    EndOfMatchDialog().show(supportFragmentManager, "EndOfMatchDialog")
+                }
             }
-            saveState()
-            updateUI()
-        }
-        if ( matchIsFinished() ) {
-            EndOfMatchDialog().show(supportFragmentManager,"EndOfMatchDialog")
         }
     }
 
