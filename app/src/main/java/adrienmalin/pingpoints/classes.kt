@@ -17,6 +17,11 @@ enum class Side(val value:Int) {
 }
 
 
+data class State(
+        val score: List<Int>,
+        val service: Side
+)
+
 @SuppressWarnings("deprecation")
 fun fromHtml(html: String): Spanned {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

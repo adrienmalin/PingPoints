@@ -37,7 +37,7 @@ class EndOfMatchDialog: DialogFragment() {
             setNeutralButton(
                     R.string.share_button,
                     DialogInterface.OnClickListener { dialog, id ->
-                        val sendIntent: Intent = Intent().apply {
+                        val newMatchIntent: Intent = Intent().apply {
                             action = Intent.ACTION_SEND
                             putExtra(
                                     Intent.EXTRA_SUBJECT,
@@ -59,7 +59,7 @@ class EndOfMatchDialog: DialogFragment() {
                             )
                             type = "text/plain"
                         }
-                        startActivity(sendIntent)
+                        startActivity(newMatchIntent)
                     }
             )
             /*setNegativeButton(

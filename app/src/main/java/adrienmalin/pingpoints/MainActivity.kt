@@ -1,27 +1,34 @@
 package adrienmalin.pingpoints
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.os.Build
-import android.text.TextUtils.join
+import android.support.v7.app.AppCompatDelegate
+import android.view.Menu
 import android.widget.Toast
+import android.view.MenuItem
+import android.widget.ImageView
 
 
 class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogListener{
     var players: Array<Player> = emptyArray()
     var serviceSide: Side = Side.LEFT
     var relaunchSide: Side = Side.RIGHT
-
     var textScore: android.widget.TextView? = null
     var textService: android.widget.TextView? = null
     var buttons: Array<Button> = emptyArray()
+    var imageViews: Array<ImageView?> = emptyArray()
+    var history: ArrayList<State> = ArrayList()
+    var step: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
@@ -41,22 +48,56 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
                 findViewById(R.id.buttonLeftPlayer),
                 findViewById(R.id.buttonRightPlayer)
         )
+        imageViews = arrayOf(
+                findViewById(R.id.imgLeftService),
+                findViewById(R.id.imgRightService)
+        )
 
         updateUI()
 
         openStarterNameDialog()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_new_match -> {
+            startActivity(
+                    Intent(this, MainActivity::class.java).apply {
+                        putExtra("names", players.map{ it.name }.toTypedArray())
+                    }
+            )
+            true
+        }
+        R.id.action_about -> {
+            startActivity(Intent(this, CreditsActivity::class.java))
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun reloadState(): {
+        history[step].apply{
+            players.zip(score).forEach{(player, playerScore) -> player.score = playerScore}
+            serviceSide = service
+            relaunchSide = when(serviceSide) {
+                Side.LEFT -> Side.RIGHT
+                Side.RIGHT -> Side.LEFT
+            }
+        }
+    }
+
     fun openStarterNameDialog() {
         StarterNameDialog().apply {
-            val names = players.map{ it.name }.toTypedArray()
             arguments = Bundle().apply {
-                putStringArray("names", names)
+                putStringArray("names", players.map{ it.name }.toTypedArray())
             }
-            show(
-                supportFragmentManager,
-                "StarterNameDialog:" + join(" vs. ", names)
-            )
+            show( supportFragmentManager, "StarterNameDialog")
         }
     }
 
@@ -82,12 +123,12 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
 
         when (serviceSide) {
             Side.LEFT -> {
-                buttons[Side.LEFT.value].setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_left_service, 0, 0, 0)
-                buttons[Side.RIGHT.value].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                imageViews[Side.LEFT.value]?.setImageResource(R.drawable.ic_left_service)
+                imageViews[Side.RIGHT.value]?.setImageResource(0)
             }
             Side.RIGHT -> {
-                buttons[Side.LEFT.value].setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                buttons[Side.RIGHT.value].setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_right_service, 0)
+                imageViews[Side.LEFT.value]?.setImageResource(0)
+                imageViews[Side.RIGHT.value]?.setImageResource(R.drawable.ic_right_service)
             }
         }
     }
@@ -101,6 +142,15 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
     }
 
     fun updateScore(scoringPlayer: Player) {
+        val state = State(players.map { it.score }, serviceSide)
+        if (step >= history.size) {
+            history.add(state)
+        } else {
+            history.removeAt(step + 1)
+            history[step] = state
+        }
+        step ++
+
         if ( !matchIsFinished() ) {
             scoringPlayer.score++
             if (players.sumBy { it.score } % 2 == 0) {
@@ -125,10 +175,7 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
                 putString("winnerName", players.maxBy { it.score }?.name)
                 putIntArray("score", players.map{ it.score }.sortedDescending().toIntArray())
             }
-            show(
-                    supportFragmentManager,
-                    "EndOfMatchDialog"
-            )
+            show(supportFragmentManager,"EndOfMatchDialog")
         }
     }
 }
