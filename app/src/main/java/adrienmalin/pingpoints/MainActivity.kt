@@ -15,7 +15,7 @@ import android.view.MenuItem
 import android.widget.ImageView
 
 
-class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogListener{
+class MainActivity : AppCompatActivity() {
     var players: Array<Player> = emptyArray()
     var serviceSide: Side = Side.LEFT
     var relaunchSide: Side = Side.RIGHT
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
                 findViewById(R.id.imgRightService)
         )
         updateUI()
-        openStarterNameDialog()
+        StarterNameDialog().show( supportFragmentManager, "StarterNameDialog")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -124,16 +124,7 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
         updateUI()
     }
 
-    fun openStarterNameDialog() {
-        StarterNameDialog().apply {
-            arguments = Bundle().apply {
-                putStringArray("names", players.map{ it.name }.toTypedArray())
-            }
-            show( supportFragmentManager, "StarterNameDialog")
-        }
-    }
-
-    override fun setStarterName(serviceSide: Side, names: Collection<String>) {
+    fun setStarterName(serviceSide: Side, names: Collection<String>) {
         players.zip(names).forEach { (player, name) -> player.name = name}
         this.serviceSide = serviceSide
         relaunchSide = when(serviceSide) {
@@ -184,23 +175,12 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
             updateUI()
         }
         if ( matchIsFinished() ) {
-            openEndOfMatchDialog()
+            EndOfMatchDialog().show(supportFragmentManager,"EndOfMatchDialog")
         }
     }
 
     fun matchIsFinished(): Boolean {
         val (minScore, maxScore) = players.map { it.score }.sorted()
         return (maxScore >= 11) and (maxScore - minScore >= 2)
-    }
-
-    fun openEndOfMatchDialog() {
-        EndOfMatchDialog().apply {
-            arguments = Bundle().apply {
-                putStringArray("names", players.map{ it.name }.toTypedArray())
-                putString("winnerName", players.maxBy { it.score }?.name)
-                putIntArray("score", players.map{ it.score }.sortedDescending().toIntArray())
-            }
-            show(supportFragmentManager,"EndOfMatchDialog")
-        }
     }
 }
