@@ -103,6 +103,7 @@ class MainActivity : AppCompatActivity() {
         if (game > 0) {
             undo?.isVisible = true
         }
+        redo?.isVisible = false
     }
 
     fun reloadState() {
