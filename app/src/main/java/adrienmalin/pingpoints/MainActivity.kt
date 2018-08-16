@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.os.Build
 import android.support.v7.app.AppCompatDelegate
+import android.support.v7.view.menu.ActionMenuItem
 import android.view.Menu
 import android.widget.Toast
 import android.view.MenuItem
@@ -22,8 +23,10 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
     var textService: android.widget.TextView? = null
     var buttons: Array<Button> = emptyArray()
     var imageViews: Array<ImageView?> = emptyArray()
-    var history: ArrayList<State> = ArrayList()
+    var history: MutableList<State> = ArrayList()
     var step: Int = 0
+    var undo: MenuItem? = null
+    var redo: MenuItem? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +34,6 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
         }
@@ -41,7 +43,6 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
                 Player(names[Side.LEFT.value]),
                 Player(names[Side.RIGHT.value])
         )
-
         textScore = findViewById(R.id.textScore)
         textService = findViewById(R.id.textService)
         buttons = arrayOf(
@@ -52,18 +53,30 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
                 findViewById(R.id.imgLeftService),
                 findViewById(R.id.imgRightService)
         )
-
         updateUI()
-
         openStarterNameDialog()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
+        undo = menu.findItem(R.id.action_undo)
+        redo = menu.findItem(R.id.action_redo)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_undo -> {
+            step--
+            reloadState()
+            redo?.isVisible = true
+            true
+        }
+        R.id.action_redo -> {
+            step++
+            reloadState()
+            undo?.isVisible = true
+            true
+        }
         R.id.action_new_match -> {
             startActivity(
                     Intent(this, MainActivity::class.java).apply {
@@ -81,15 +94,34 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
         }
     }
 
-    fun reloadState(): {
-        history[step].apply{
-            players.zip(score).forEach{(player, playerScore) -> player.score = playerScore}
-            serviceSide = service
+    fun saveState() {
+        val state = State(players.map { it.score }, serviceSide)
+        if (step == history.size) {
+            history.add(state)
+        } else {
+            history[step] = state
+            history = history.subList(0, step+1).toMutableList()
+        }
+        if (step > 0) {
+            undo?.isVisible = true
+        }
+    }
+
+    fun reloadState() {
+        history[step].let{
+            players.zip(it.score).forEach{(player, score) -> player.score = score}
+            serviceSide = it.serviceSide
             relaunchSide = when(serviceSide) {
                 Side.LEFT -> Side.RIGHT
                 Side.RIGHT -> Side.LEFT
             }
         }
+        when(step){
+            0 -> undo?.isVisible = false
+            history.size - 1 -> redo?.isVisible = false
+        }
+        this.step = step
+        updateUI()
     }
 
     fun openStarterNameDialog() {
@@ -108,7 +140,7 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
             Side.LEFT -> Side.RIGHT
             Side.RIGHT -> Side.LEFT
         }
-
+        saveState()
         updateUI()
         Toast.makeText(applicationContext, R.string.info, Toast.LENGTH_LONG).show()
     }
@@ -142,25 +174,18 @@ class MainActivity : AppCompatActivity(), StarterNameDialog.StarterNameDialogLis
     }
 
     fun updateScore(scoringPlayer: Player) {
-        val state = State(players.map { it.score }, serviceSide)
-        if (step >= history.size) {
-            history.add(state)
-        } else {
-            history.removeAt(step + 1)
-            history[step] = state
-        }
-        step ++
-
         if ( !matchIsFinished() ) {
+            step++
             scoringPlayer.score++
             if (players.sumBy { it.score } % 2 == 0) {
                 serviceSide = relaunchSide.also { relaunchSide = serviceSide }
             }
+            saveState()
+            updateUI()
         }
         if ( matchIsFinished() ) {
             openEndOfMatchDialog()
         }
-        updateUI()
     }
 
     fun matchIsFinished(): Boolean {

@@ -47,7 +47,7 @@ class StarterNameDialog : DialogFragment() {
             setView(namesView)
             setPositiveButton(R.string.go_button) { dialog, id ->
                 mainActivity?.setStarterName(
-                        when ((namesView.findViewById(R.id.radioGroup) as RadioGroup).checkedRadioButtonId) {
+                        when (namesView.findViewById<RadioGroup>(R.id.radioGroup)?.checkedRadioButtonId) {
                             R.id.radioLeftPlayer -> Side.LEFT
                             else -> Side.RIGHT
                         },

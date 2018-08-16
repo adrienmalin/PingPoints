@@ -19,13 +19,13 @@
             android:id="@+id/radioLeftPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:checked="true"
             android:inputType="text" />
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/inputLeftPlayerName"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/name"
@@ -36,12 +36,12 @@
             android:id="@+id/radioRightPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:inputType="none" />
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/inputRightPlayerName"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/name"

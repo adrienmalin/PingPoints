@@ -19,7 +19,7 @@ enum class Side(val value:Int) {
 
 data class State(
         val score: List<Int>,
-        val service: Side
+        val serviceSide: Side
 )
 
 @SuppressWarnings("deprecation")
