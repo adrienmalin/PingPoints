@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     var buttons: Array<Button> = emptyArray()
     var imageViews: Array<ImageView?> = emptyArray()
     var history: MutableList<State> = ArrayList()
-    var game: Int = 0
+    var step: Int = 0
     var undo: MenuItem? = null
     var redo: MenuItem? = null
 
@@ -64,13 +64,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_undo -> {
-            game--
+            step--
             reloadState()
             redo?.isVisible = true
             true
         }
         R.id.action_redo -> {
-            game++
+            step++
             reloadState()
             undo?.isVisible = true
             true
@@ -94,20 +94,20 @@ class MainActivity : AppCompatActivity() {
 
     fun saveState() {
         val state = State(players.map { it.score }, serviceSide)
-        if (game == history.size) {
+        if (step == history.size) {
             history.add(state)
         } else {
-            history[game] = state
-            history = history.subList(0, game+1).toMutableList()
+            history[step] = state
+            history = history.subList(0, step+1).toMutableList()
         }
-        if (game > 0) {
+        if (step > 0) {
             undo?.isVisible = true
         }
         redo?.isVisible = false
     }
 
     fun reloadState() {
-        history[game].let{
+        history[step].let{
             players.zip(it.score).forEach{(player, score) -> player.score = score}
             serviceSide = it.serviceSide
             relaunchSide = when(serviceSide) {
@@ -115,11 +115,11 @@ class MainActivity : AppCompatActivity() {
                 Side.RIGHT -> Side.LEFT
             }
         }
-        when(game){
+        when(step){
             0 -> undo?.isVisible = false
             history.size - 1 -> redo?.isVisible = false
         }
-        this.game = game
+        this.step = step
         updateUI()
     }
 
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
         for (side in enumValues<Side>()) {
             if (view == buttons[side.value]) {
                 if (!matchIsFinished()) {
-                    game++
+                    step++
                     players[side.value].score++
                     if (players.sumBy { it.score } % 2 == 0) {
                         serviceSide = relaunchSide.also { relaunchSide = serviceSide }
