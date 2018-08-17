@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity() {
                 if (!matchIsFinished()) {
                     step++
                     players[side.value].score++
-                    if (players.sumBy { it.score } % 2 == 0) {
+                    if ((players.sumBy { it.score } % 2 == 0) or (players.all { it.score >= 10 })) {
                         serviceSide = relaunchSide.also { relaunchSide = serviceSide }
                     }
                     saveState()
