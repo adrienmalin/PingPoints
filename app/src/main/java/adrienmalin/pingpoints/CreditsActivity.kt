@@ -1,11 +1,10 @@
 package adrienmalin.pingpoints
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
+import android.support.v7.app.AppCompatActivity
 import android.text.method.LinkMovementMethod
+import android.view.MenuItem
 import android.widget.TextView
-
 
 
 class CreditsActivity : AppCompatActivity() {
