@@ -15,69 +15,77 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" android:textAppearance="@style/TextAppearance.AppCompat.Headline"
     />
-    <RadioGroup
-            android:layout_width="0dp"
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/WhoStarts" android:id="@+id/radioGroup"
-            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp">
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            app:layout_constraintTop_toBottomOf="@+id/WhoStarts"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp" android:id="@+id/linearLayout">
+        <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/WhoStarts" android:id="@+id/radioGroup"
+                android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="8dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp">
             <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" tools:layout_editor_absoluteY="93dp"
-                    tools:layout_editor_absoluteX="16dp" android:id="@+id/radioPlayer1Starts"/>
+                    tools:layout_editor_absoluteX="16dp" android:id="@+id/radioPlayer1Starts"
+                    android:layout_weight="1"/>
+            <RadioButton
+                    android:layout_height="wrap_content" tools:layout_editor_absoluteY="93dp"
+                    tools:layout_editor_absoluteX="16dp" android:id="@+id/radioPlayer2Starts"
+                    android:layout_width="wrap_content" android:layout_weight="1"/>
+        </RadioGroup>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
             <AutoCompleteTextView
                     android:text="@string/player_1_default_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" tools:layout_editor_absoluteY="48dp"
                     android:id="@+id/player1Name"
-                    tools:layout_editor_absoluteX="143dp" android:hint="@string/player_name_hint"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <RadioButton
-                    android:layout_height="wrap_content" tools:layout_editor_absoluteY="93dp"
-                    tools:layout_editor_absoluteX="16dp" android:id="@+id/radioPlayer2Starts"
-                    android:layout_width="wrap_content"/>
+                    tools:layout_editor_absoluteX="143dp" android:hint="@string/player_name_hint"
+                    android:selectAllOnFocus="true"/>
             <AutoCompleteTextView
                     android:text="@string/player_2_default_name"
                     tools:layout_editor_absoluteX="136dp" android:id="@+id/player2Name"
                     android:hint="@string/player_name_hint" android:layout_height="wrap_content"
-                    android:layout_width="match_parent"/>
+                    android:layout_width="match_parent" android:selectAllOnFocus="true"/>
         </LinearLayout>
-    </RadioGroup>
+    </LinearLayout>
     <Switch
-            android:text="Switch"
+            android:text="@string/STT"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/enableTTS" tools:text="@string/TTS"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp"/>
+            android:id="@+id/enableSTT"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/enableTTS" android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"/>
     <Switch
-            android:text="Switch"
+            android:text="@string/TTS"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/enableSTT" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/enableTTS" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" tools:text="@string/STT"/>
+            android:id="@+id/enableTTS"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp" app:layout_constraintHorizontal_bias="0.0"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/linearLayout"/>
     <Button
             android:text="@string/start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button"
-            android:drawableLeft="@drawable/ic_new_match" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
-            style="@style/Widget.AppCompat.Button.Colored"/>
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:drawableStart="@drawable/ic_new_match"/>
 </android.support.constraint.ConstraintLayout>
