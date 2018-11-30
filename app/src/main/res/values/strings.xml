@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">PingPoints</string>
+    <string name="who_starts">Who starts?</string>
+    <string name="player_1_default_name">Player 1</string>
+    <string name="player_2_default_name">Player 2</string>
+    <string name="player_name_hint">Player\'s name</string>
+    <string name="TTS">Text to speech</string>
+    <string name="STT">Voice recognizer</string>
+    <string name="start">Let\'s go!</string>
 </resources>

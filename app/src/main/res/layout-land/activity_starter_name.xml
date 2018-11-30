@@ -15,6 +15,15 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" android:textAppearance="@style/TextAppearance.AppCompat.Headline"
     />
+    <Button
+            android:text="@string/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button2"
+            android:drawableLeft="@drawable/ic_new_match" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
+            style="@style/Widget.AppCompat.Button.Colored"/>
     <RadioGroup
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -22,36 +31,28 @@
             app:layout_constraintTop_toBottomOf="@+id/WhoStarts" android:id="@+id/radioGroup"
             android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp">
-        <LinearLayout
-                android:orientation="horizontal"
+            android:layout_marginRight="8dp" android:orientation="horizontal">
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" tools:layout_editor_absoluteY="93dp"
+                tools:layout_editor_absoluteX="16dp" android:id="@+id/radioPlayer1Starts" android:layout_weight="0"/>
+        <AutoCompleteTextView
+                android:text="@string/player_1_default_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" tools:layout_editor_absoluteY="93dp"
-                    tools:layout_editor_absoluteX="16dp" android:id="@+id/radioPlayer1Starts"/>
-            <AutoCompleteTextView
-                    android:text="@string/player_1_default_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" tools:layout_editor_absoluteY="48dp"
-                    android:id="@+id/player1Name"
-                    tools:layout_editor_absoluteX="143dp" android:hint="@string/player_name_hint"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="horizontal"
+                android:layout_height="wrap_content" tools:layout_editor_absoluteY="48dp"
+                android:id="@+id/player1Name"
+                tools:layout_editor_absoluteX="143dp" android:hint="@string/player_name_hint"
+                android:layout_weight="1"/>
+        <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" tools:layout_editor_absoluteY="93dp"
+                tools:layout_editor_absoluteX="16dp" android:id="@+id/radioPlayer2Starts"
+                android:layout_weight="0"/>
+        <AutoCompleteTextView
+                android:text="@string/player_2_default_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <RadioButton
-                    android:layout_height="wrap_content" tools:layout_editor_absoluteY="93dp"
-                    tools:layout_editor_absoluteX="16dp" android:id="@+id/radioPlayer2Starts"
-                    android:layout_width="wrap_content"/>
-            <AutoCompleteTextView
-                    android:text="@string/player_2_default_name"
-                    tools:layout_editor_absoluteX="136dp" android:id="@+id/player2Name"
-                    android:hint="@string/player_name_hint" android:layout_height="wrap_content"
-                    android:layout_width="match_parent"/>
-        </LinearLayout>
+                tools:layout_editor_absoluteX="136dp" android:id="@+id/player2Name"
+                android:hint="@string/player_name_hint" android:layout_height="wrap_content" android:layout_weight="1"/>
     </RadioGroup>
     <Switch
             android:text="Switch"
@@ -71,13 +72,4 @@
             android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" tools:text="@string/STT"/>
-    <Button
-            android:text="@string/start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/button"
-            android:drawableLeft="@drawable/ic_new_match" android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
-            style="@style/Widget.AppCompat.Button.Colored"/>
 </android.support.constraint.ConstraintLayout>

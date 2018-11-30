@@ -1,8 +1,10 @@
 package adrienmalin.pingpoints
 
+import android.arch.lifecycle.ViewModel
+
 class MatchModel : ViewModel() {
-    var players: List<Player> = ListOf(Player(), Player())
+    var players: List<Player> = listOf(Player(), Player())
     var server: Int = 0
-    var ttsEnabled: Boolean = False
-    var sttEnabled: Boolean = False
+    var ttsEnabled: Boolean = false
+    var sttEnabled: Boolean = false
 }
