@@ -8,4 +8,5 @@
     <string name="TTS">Synthèse vocale</string>
     <string name="STT">Reconnaissance vocale</string>
     <string name="start">Allons-y !</string>
+    <string name="swap_names">Échanger les noms</string>
 </resources>

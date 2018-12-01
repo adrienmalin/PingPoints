@@ -7,4 +7,5 @@
     <string name="TTS">Text to speech</string>
     <string name="STT">Voice recognizer</string>
     <string name="start">Let\'s go!</string>
+    <string name="swap_names">Swap names</string>
 </resources>

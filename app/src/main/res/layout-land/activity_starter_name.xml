@@ -20,15 +20,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/button2"
-            android:drawableLeft="@drawable/ic_new_match" android:layout_marginBottom="8dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
-            style="@style/Widget.AppCompat.Button.Colored"/>
+            style="@style/Widget.AppCompat.Button.Colored" android:drawableStart="@drawable/ic_new_match"
+            android:onClick="startMatch"/>
     <RadioGroup
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/WhoStarts" android:id="@+id/radioGroup"
+            app:layout_constraintTop_toBottomOf="@+id/WhoStarts" android:id="@+id/starterRadioGroup"
             android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp" android:orientation="horizontal">
@@ -43,6 +44,11 @@
                 android:id="@+id/player1Name"
                 tools:layout_editor_absoluteX="143dp" android:hint="@string/player_name_hint"
                 android:layout_weight="1"/>
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" app:srcCompat="@drawable/ic_swap_horiz"
+                android:layout_weight="0" android:id="@+id/swapNamesButton"
+                android:contentDescription="@string/swap_names" android:onClick="swapNames"/>
         <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" tools:layout_editor_absoluteY="93dp"
@@ -55,21 +61,21 @@
                 android:hint="@string/player_name_hint" android:layout_height="wrap_content" android:layout_weight="1"/>
     </RadioGroup>
     <Switch
-            android:text="Switch"
+            android:text="@string/TTS"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/enableTTS" tools:text="@string/TTS"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+            android:id="@+id/enableTTS"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/starterRadioGroup"
             android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
             android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="8dp"/>
     <Switch
-            android:text="Switch"
+            android:text="@string/STT"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/enableSTT" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/enableTTS" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp" tools:text="@string/STT"/>
+            android:layout_marginStart="8dp"/>
 </android.support.constraint.ConstraintLayout>
