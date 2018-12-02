@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PingPoints</string>
+    <string name="app_name">Ping Points</string>
     <string name="who_starts">Qui commence ?</string>
     <string name="player_1_default_name">Joueur 1</string>
     <string name="player_2_default_name">Joueur 2</string>
-    <string name="player_name_hint">Nom du joueur</string>
     <string name="TTS">Synthèse vocale</string>
     <string name="STT">Reconnaissance vocale</string>
     <string name="start">Allons-y !</string>
     <string name="swap_names">Échanger les noms</string>
+    <string name="PingPointsCredits">Ping Points par Adrien Malin</string>
+    <string name="iconCredits">&lt;html&gt;Icônes par &lt;a href=&quot;http://www.freepik.com&quot; title=&quot;Freepik&quot;&gt;Freepik&lt;/a&gt; chez &lt;a href=&quot;https://www.flaticon.com/&quot; title=&quot;Flaticon&quot;&gt;flaticon.com&lt;/a&gt; Licence &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/&quot; title=&quot;Creative Commons BY 3.0&quot; target=&quot;_blank&quot;&gt;CC 3.0 BY&lt;/a&gt;&lt;/html&gt;</string>
+    <string name="TTS_unavailable">Désolé, votre appareil ne permet pas la synthèse vocale.</string>
+    <string name="STT_unavailable">Désolé, votre appareil ne permet pas la reconnaissance vocale.</string>
 </resources>

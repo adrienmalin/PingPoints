@@ -1,11 +1,14 @@
 <resources>
-    <string name="app_name">PingPoints</string>
+    <string name="app_name">Ping Points</string>
     <string name="who_starts">Who starts?</string>
     <string name="player_1_default_name">Player 1</string>
     <string name="player_2_default_name">Player 2</string>
-    <string name="player_name_hint">Player\'s name</string>
     <string name="TTS">Text to speech</string>
     <string name="STT">Voice recognizer</string>
     <string name="start">Let\'s go!</string>
     <string name="swap_names">Swap names</string>
+    <string name="PingPointsCredits">Ping Points by Adrien Malin</string>
+    <string name="iconCredits">"&lt;html&gt;Icons made by &lt;a href=&quot;http://www.freepik.com&quot; title=&quot;Freepik&quot;&gt;Freepik&lt;/a&gt; from &lt;a href=&quot;https://www.flaticon.com/&quot; title=&quot;Flaticon&quot;&gt;flaticon.com&lt;/a&gt; is licensed by &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/&quot; title=&quot;Creative Commons BY 3.0&quot; target=&quot;_blank&quot;&gt;CC 3.0 BY&lt;/a&gt;&lt;/html&gt;"</string>
+    <string name="TTS_unavailable">Sorry, your device doesn\'t support text to speech.</string>
+    <string name="STT_unavailable">Sorry, your device doesn\'t support voice recognition.</string>
 </resources>
