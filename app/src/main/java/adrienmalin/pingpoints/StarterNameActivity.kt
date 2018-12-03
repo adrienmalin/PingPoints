@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.*
@@ -39,7 +40,7 @@ class StarterNameActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         // Set HTML text for icons credits
         findViewById<TextView>(R.id.iconsCredit).run {
-            setHtmlText(getString(R.string.iconCredits))
+            setText(Html.fromHtml2(getString(R.string.iconCredits)))
             movementMethod = LinkMovementMethod.getInstance()
         }
         // Find views
