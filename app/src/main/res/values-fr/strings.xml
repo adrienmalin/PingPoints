@@ -25,4 +25,6 @@ Vous pouvez à tout moment changer la permission dans les paramètres Android."
     <string name="score">Score : %d - %d</string>
     <string name="service_img_description">Service</string>
     <string name="title_activity_match">Ping Points</string>
+    <string name="update_score_speech">%d - %d. Service : %s</string>
+    <string name="button_hint">Cliquez sur le joueur qui a marqué</string>
 </resources>

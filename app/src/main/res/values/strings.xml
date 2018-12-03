@@ -29,4 +29,6 @@
     <string name="service_img_description">Service</string>
     <string name="button_text" translatable="false">%s &lt;br /&gt; &lt;br /&gt; &lt;big&gt; &lt;big&gt; %d &lt;/big&gt; &lt;/big&gt;
     </string>
+    <string name="update_score_speech">%d - %d. Service: %s</string>
+    <string name="button_hint">Click on the scoring player</string>
 </resources>
