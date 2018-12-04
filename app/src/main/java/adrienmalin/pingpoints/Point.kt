@@ -1,6 +1,6 @@
 package adrienmalin.pingpoints
 
-data class Play (
+data class Point (
     val score: List<Int>,
     val serviceSide: Int
 )

@@ -192,7 +192,6 @@ class StarterNameActivity : AppCompatActivity() {
                 putExtra(
                     "starterId",
                     when(radioStarterId) {
-                        R.id.radioPlayer1Starts -> 0
                         R.id.radioPlayer2Starts -> 1
                         else -> 0
                     }

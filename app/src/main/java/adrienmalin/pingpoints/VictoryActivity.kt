@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.GridView
 import android.widget.TextView
 
 
@@ -38,7 +40,7 @@ class VictoryActivity : AppCompatActivity() {
                     putString(
                         "previousMatches",
                         getString(
-                            R.string.score_names,
+                            R.string.result,
                             it.player1Name,
                             it.score,
                             it.player2Name
@@ -50,8 +52,16 @@ class VictoryActivity : AppCompatActivity() {
 
             // UpdateUI
             findViewById<TextView>(R.id.congrats).text = getString(R.string.congrats, it.winnerName)
-            findViewById<TextView>(R.id.scoreNames).text = getString(R.string.score_names, it.player1Name, it.score, it.player2Name)
-            findViewById<TextView>(R.id.previousMatches).text = it.previousMatches
+            findViewById<GridView>(R.id.resultGrid).adapter = ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                arrayOf(it.player1Name, it.score, it.player2Name)
+            )
+            findViewById<GridView>(R.id.previousMatchesGrid).adapter = ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                it.previousMatches.split("\t|\n".toRegex())
+            )
         }
     }
 

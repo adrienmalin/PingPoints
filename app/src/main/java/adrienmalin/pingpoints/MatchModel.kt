@@ -1,20 +1,17 @@
 package adrienmalin.pingpoints
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 
 
 class MatchModel : ViewModel() {
     var matchStarted: Boolean = false
-    var matchFinished: Boolean = false
     var players: List<Player> = emptyList()
     var serviceSide: Int = 0
     var relaunchSide: Int = 1
     var ttsEnabled: Boolean = false
     var sttEnabled: Boolean = false
     var playId: Int = 0
-    var history: MutableList<Play> = ArrayList()
+    var history: MutableList<Point> = ArrayList()
 
     fun startMatch(player1Name: String, player2Name:String, starterId: Int, enableTTS: Boolean, enableSTT: Boolean) {
         matchStarted = true
@@ -36,14 +33,20 @@ class MatchModel : ViewModel() {
             serviceSide = relaunchSide.also { relaunchSide = serviceSide }
         }
         saveState()
+    }
 
-        // Is match finished?
+    fun matchFinished(): Boolean {
         val (minScore, maxScore) = players.map { it.score }.sorted()
-        if ((maxScore >= 11) and (maxScore - minScore >= 2)) matchFinished = true
+        return (maxScore >= 11) and (maxScore - minScore >= 2)
+    }
+
+    fun matchPoint(): Boolean {
+        val (minScore, maxScore) = players.map { it.score }.sorted()
+        return (maxScore >= 10) and (maxScore - minScore >= 1)
     }
 
     fun saveState() {
-        val play = Play(players.map { it.score }, serviceSide)
+        val play = Point(players.map { it.score }, serviceSide)
         if (playId == history.size) {
             history.add(play)
         } else {
@@ -53,7 +56,6 @@ class MatchModel : ViewModel() {
     }
 
     fun undo() {
-        matchFinished = false
         playId--
         reloadState()
     }

@@ -133,7 +133,7 @@ class MatchActivity : AppCompatActivity() {
             }
 
             if (it.ttsEnabled) {
-                if (it.matchFinished) {
+                if (it.matchFinished()) {
                     val (loser, winner) = it.players.sortedBy { player -> player.score }
                     tts?.speak(
                         getString(
@@ -156,16 +156,23 @@ class MatchActivity : AppCompatActivity() {
                         TextToSpeech.QUEUE_FLUSH,
                         hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "MessageId")
                     )
+                    if (it.matchPoint()) {
+                        tts?.speak(
+                            getString(R.string.match_point),
+                            TextToSpeech.QUEUE_ADD,
+                            hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "MessageId")
+                        )
+                    }
                 }
             }
 
-            if (it.matchFinished) endMatch()
+            if (it.matchFinished()) endMatch()
         }
     }
 
     fun updateScore(view: View) {
         matchModel?.apply {
-            if (!matchFinished) {
+            if (!matchFinished()) {
                 for (side in 0..1) {
                     if (view == buttons[side]) {
                         updateScore(side)
