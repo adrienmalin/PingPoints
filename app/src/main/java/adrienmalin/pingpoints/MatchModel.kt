@@ -15,7 +15,7 @@ class MatchModel : ViewModel() {
 
     fun startMatch(player1Name: String, player2Name:String, starterId: Int, enableTTS: Boolean, enableSTT: Boolean) {
         matchStarted = true
-        players = listOf(Player(player1Name), Player(player2Name))
+        players = listOf(Player(player1Name, 0), Player(player2Name, 0))
         serviceSide = starterId
         relaunchSide = when(serviceSide) {
             0 -> 1
@@ -26,9 +26,9 @@ class MatchModel : ViewModel() {
         saveState()
     }
 
-    fun updateScore(scorerId: Int) {
+    fun updateScore(scorer: player) {
         playId++
-        players[scorerId].score++
+        scorer.score++
         if ((players.sumBy { it.score } % 2 == 0) or (players.all { it.score >= 10 })) {
             serviceSide = relaunchSide.also { relaunchSide = serviceSide }
         }

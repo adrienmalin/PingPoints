@@ -31,9 +31,16 @@ class VictoryActivity : AppCompatActivity() {
             if (!it.matchFinished) {
                 it.matchFinished = true
                 it.winnerName = intent.getStringExtra("winnerName")
-                it.player1Name = intent.getStringExtra("player1Name")
-                it.player2Name = intent.getStringExtra("player2Name")
-                it.score = intent.getStringExtra("score")
+                it.players = listOf(
+                    Player(
+                        intent.getStringExtra("player1Name"),
+                        intent.getIntExtra("player1Score", 0)
+                    ),
+                    Player(
+                        intent.getStringExtra("player2Name"),
+                        intent.getIntExtra("player2Score", 0)
+                    )
+                )
 
                 it.previousMatches = previousMatch.getString("previousMatches", "")
                 previousMatch.edit().apply {
@@ -41,10 +48,11 @@ class VictoryActivity : AppCompatActivity() {
                         "previousMatches",
                         getString(
                             R.string.result,
-                            it.player1Name,
-                            it.score,
-                            it.player2Name
-                        ) + '\n' + it.previousMatches
+                            it.players[0].name,
+                            it.players[0].score,
+                            it.players[1].score,
+                            it.players[1].name
+                        ) + it.previousMatches
                     )
                     commit()
                 }
@@ -54,12 +62,18 @@ class VictoryActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.congrats).text = getString(R.string.congrats, it.winnerName)
             findViewById<GridView>(R.id.resultGrid).adapter = ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_list_item_1,
-                arrayOf(it.player1Name, it.score, it.player2Name)
+                R.layout.grid_item,
+                R.id.grid_item_text,
+                arrayOf<String>(
+                    it.players[0].name,
+                    it.players[0].score.toString() + " - " + it.players[1].score.toString(),
+                    it.players[1].name
+                )
             )
             findViewById<GridView>(R.id.previousMatchesGrid).adapter = ArrayAdapter<String>(
                 this,
-                android.R.layout.simple_list_item_1,
+                R.layout.grid_item,
+                R.id.grid_item_text,
                 it.previousMatches.split("\t|\n".toRegex())
             )
         }
@@ -80,18 +94,19 @@ class VictoryActivity : AppCompatActivity() {
                         Intent.EXTRA_SUBJECT,
                         getString(
                             R.string.share_subject,
-                            it.player1Name,
-                            it.player2Name
+                            it.players[0].name,
+                            it.players[1].name
                         )
                     )
                     putExtra(
                         Intent.EXTRA_TEXT,
                         getString(
                             R.string.share_message,
-                            it.player1Name,
-                            it.player2Name,
+                            it.players[0].name,
+                            it.players[1].name,
                             it.winnerName,
-                            it.score
+                            it.players[0].score,
+                            it.players[1].score
                         )
                     )
                     type = "text/plain"

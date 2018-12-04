@@ -14,16 +14,14 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.*
 
 
-const val CHECK_TTS = 1
-const val ASK_PERMISSIONS_RECORD_AUDIO = 2
-
-
 class StarterNameActivity : AppCompatActivity() {
+    val CHECK_TTS = 1
+    val ASK_PERMISSIONS_RECORD_AUDIO = 2
+
     var player1NameInput: AutoCompleteTextView? = null
     var player2NameInput: AutoCompleteTextView? = null
     var starterRadioGroup: RadioGroup? = null

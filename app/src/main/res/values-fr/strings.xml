@@ -35,7 +35,8 @@ Vous pouvez à tout moment changer la permission dans les paramètres Android."
     <string name="share">Partager</string>
     <string name="victory_speech">%s gagne par %d à %d.</string>
     <string name="share_subject">Match Ping Points : %s contre %s</string>
-    <string name="share_message">"%s contre %s:\n%s a gagné par %s\nPing Points est disponible sur Google Play\n "</string>
-    <string name="score_only">%d - %d</string>
+    <string name="share_message">"%s contre %s:\n%s a gagné par %d à %d\nPing Points est disponible sur Google Play\n "</string>
     <string name="match_point">Balle de match</string>
+    <string name="STT_hint">Dîtes : \"Point pour %s\"\nou \"Point pour %s\"</string>
+    <string name="pattern">Point pour %s</string>
 </resources>

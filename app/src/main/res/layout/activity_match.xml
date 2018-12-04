@@ -82,7 +82,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
-                    android:background="@color/colorAccent"
                     android:bufferType="spannable"
                     android:onClick="updateScore"
                     android:textAllCaps="false"
@@ -92,7 +91,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imgService0"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/button_text" android:layout_margin="8dp" android:layout_weight="1"/>
+                    tools:text="@string/button_text" android:layout_margin="8dp" android:layout_weight="1"
+                    android:clickable="true" android:focusableInTouchMode="true"
+                    android:theme="@style/ScoreButton"/>
 
             <Button
                     android:id="@+id/buttonPlayer1"
@@ -100,7 +101,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:background="@color/colorAccent"
                     android:bufferType="spannable"
                     android:onClick="updateScore"
                     android:textAllCaps="false"
@@ -110,7 +110,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/imgService1"
                     app:layout_constraintStart_toEndOf="@+id/buttonPlayer0"
-                    tools:text="@string/button_text" android:layout_margin="8dp" android:layout_weight="1"/>
+                    tools:text="@string/button_text" android:layout_margin="8dp" android:layout_weight="1"
+                    android:clickable="true" android:focusableInTouchMode="true"
+                    android:theme="@style/ScoreButton"/>
 
             <ImageView
                     android:id="@+id/imgService1"

@@ -38,10 +38,11 @@
     <string name="previous_matches">Previous matches</string>
     <string name="new_match">New match</string>
     <string name="share">Share</string>
-    <string name="result" translatable="false">"%s\t%s\t%s"</string>
+    <string name="result" translatable="false">"%s\t%d - %d\t%s\n"</string>
     <string name="victory_speech">%s wins by %d to %d.</string>
     <string name="share_subject">Ping Points Match: %s vs. %s</string>
-    <string name="share_message">%s vs. %s:\n%s won by %s\nGet Ping Points on Google Play</string>
-    <string name="score_only">"%d\t-\t%d"</string>
+    <string name="share_message">%s vs. %s:\n%s won by %d to %d\nGet Ping Points on Google Play</string>
     <string name="match_point">Match point</string>
+    <string name="STT_hint">Say: \"Point for %s\"\nor \"Point for %s\"</string>
+    <string name="pattern">Point for %s</string>
 </resources>

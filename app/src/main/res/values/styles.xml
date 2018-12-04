@@ -3,4 +3,7 @@
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="ScoreButton">
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
 </resources>
