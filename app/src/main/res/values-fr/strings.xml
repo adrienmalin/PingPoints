@@ -9,7 +9,7 @@
     <string name="start">Allons-y !</string>
     <string name="swap_names">Échanger les noms</string>
     <string name="PingPointsCredits">Ping Points par Adrien Malin</string>
-    <string name="iconCredits">&lt;html&gt;Icônes par &lt;a href=&quot;http://www.freepik.com&quot; title=&quot;Freepik&quot;&gt;Freepik&lt;/a&gt; chez &lt;a href=&quot;https://www.flaticon.com/&quot; title=&quot;Flaticon&quot;&gt;flaticon.com&lt;/a&gt; Licence &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/&quot; title=&quot;Creative Commons BY 3.0&quot; target=&quot;_blank&quot;&gt;CC 3.0 BY&lt;/a&gt;&lt;/html&gt;</string>
+    <string name="iconCredits">Icônes par &lt;a href=&quot;http://www.freepik.com&quot; title=&quot;Freepik&quot;&gt;Freepik&lt;/a&gt; chez &lt;a href=&quot;https://www.flaticon.com/&quot; title=&quot;Flaticon&quot;&gt;flaticon.com&lt;/a&gt; Licence &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/&quot; title=&quot;Creative Commons BY 3.0&quot; target=&quot;_blank&quot;&gt;CC 3.0 BY&lt;/a&gt;</string>
     <string name="TTS_unavailable">Désolé, votre appareil ne permet pas la synthèse vocale.</string>
     <string name="STT_unavailable">Désolé, votre appareil ne permet pas la reconnaissance vocale.</string>
     <string name="explain_record_audio_request">"Cette appli utilise l'API de Google pour la reconnaissance vocale : votre voix sera enregistrée et envoyée aux serveurs de Google pour analyse.
@@ -27,4 +27,6 @@ Vous pouvez à tout moment changer la permission dans les paramètres Android."
     <string name="title_activity_match">Ping Points</string>
     <string name="update_score_speech">%d - %d. Service : %s</string>
     <string name="button_hint">Cliquez sur le joueur qui a marqué</string>
+    <string name="redo">Rétablir</string>
+    <string name="undo">Annuler</string>
 </resources>

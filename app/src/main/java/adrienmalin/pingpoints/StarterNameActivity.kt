@@ -37,11 +37,7 @@ class StarterNameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_starter_name)
         setSupportActionBar(findViewById(R.id.toolbar))
-        // Set HTML text for icons credits
-        findViewById<TextView>(R.id.iconsCredit).run {
-            setText(fromHtml(getString(R.string.iconCredits)))
-            movementMethod = LinkMovementMethod.getInstance()
-        }
+
         // Find views
         player1NameInput = findViewById(R.id.player1Name)
         player2NameInput = findViewById(R.id.player2Name)

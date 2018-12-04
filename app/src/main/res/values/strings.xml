@@ -8,10 +8,10 @@
     <string name="start">Let\'s go!</string>
     <string name="swap_names">Swap names</string>
     <string name="PingPointsCredits">Ping Points by Adrien Malin</string>
-    <string name="iconCredits">"&lt;html&gt;Icons made by &lt;a href=&quot;http://www.freepik.com&quot; title=&quot;Freepik&quot;&gt;Freepik&lt;/a&gt;
+    <string name="iconCredits">Icons made by &lt;a href=&quot;http://www.freepik.com&quot; title=&quot;Freepik&quot;&gt;Freepik&lt;/a&gt;
         from &lt;a href=&quot;https://www.flaticon.com/&quot; title=&quot;Flaticon&quot;&gt;flaticon.com&lt;/a&gt; is
         licensed by &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/&quot; title=&quot;Creative Commons BY
-        3.0&quot; target=&quot;_blank&quot;&gt;CC 3.0 BY&lt;/a&gt;&lt;/html&gt;"
+        3.0&quot; target=&quot;_blank&quot;&gt;CC 3.0 BY&lt;/a&gt;
     </string>
     <string name="TTS_unavailable">Sorry, your device doesn\'t support text to speech.</string>
     <string name="STT_unavailable">Sorry, your device doesn\'t support voice recognition.</string>
@@ -27,8 +27,11 @@
     <string name="service">Service: %s</string>
     <string name="score">Score: %d - %d</string>
     <string name="service_img_description">Service</string>
-    <string name="button_text" translatable="false">%s &lt;br /&gt; &lt;br /&gt; &lt;big&gt; &lt;big&gt; %d &lt;/big&gt; &lt;/big&gt;
+    <string name="button_text" translatable="false">%s &lt;br /&gt; &lt;br /&gt; &lt;big&gt; &lt;big&gt; %d &lt;/big&gt;
+        &lt;/big&gt;
     </string>
     <string name="update_score_speech">%d - %d. Service: %s</string>
     <string name="button_hint">Click on the scoring player</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
 </resources>
