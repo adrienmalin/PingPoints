@@ -29,4 +29,12 @@ Vous pouvez à tout moment changer la permission dans les paramètres Android."
     <string name="button_hint">Cliquez sur le joueur qui a marqué</string>
     <string name="redo">Rétablir</string>
     <string name="undo">Annuler</string>
+    <string name="congrats">Bravo %s !</string>
+    <string name="previous_matches">Matchs précédents</string>
+    <string name="new_match">Nouveau match</string>
+    <string name="share">Partager</string>
+    <string name="victory_speech">%s gagne par %d à %d.</string>
+    <string name="share_subject">Match Ping Points : %s contre %s</string>
+    <string name="share_message">"%s contre %s:\n%s a gagné par %s\nPing Points est disponible sur Google Play\n "</string>
+    <string name="score_only">%d - %d</string>
 </resources>

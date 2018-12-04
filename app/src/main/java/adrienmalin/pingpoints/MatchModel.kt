@@ -53,6 +53,7 @@ class MatchModel : ViewModel() {
     }
 
     fun undo() {
+        matchFinished = false
         playId--
         reloadState()
     }

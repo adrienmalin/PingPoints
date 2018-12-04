@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.view.View
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.speech.tts.TextToSpeech
 import android.support.design.widget.Snackbar
 import android.text.method.LinkMovementMethod
@@ -53,20 +54,17 @@ class MatchActivity : AppCompatActivity() {
         matchModel = ViewModelProviders.of(this).get(MatchModel::class.java)
         matchModel?.let {
             if (!it.matchStarted) {
-                it.startMatch(
-                    intent.getStringExtra("player1Name"),
-                    intent.getStringExtra("player2Name"),
-                    intent.getIntExtra("starterId", 0),
-                    intent.getBooleanExtra("enableTTS", false),
-                    intent.getBooleanExtra("enableSTT", false)
-                )
-                if (it.ttsEnabled) {
-                    tts = TextToSpeech(
-                        this,
-                        TextToSpeech.OnInitListener {
-                            fun onInit(status: Int) {}
-                        }
+                intent.apply {
+                    it.startMatch(
+                        getStringExtra("player1Name"),
+                        getStringExtra("player2Name"),
+                        getIntExtra("starterId", 0),
+                        getBooleanExtra("enableTTS", false),
+                        getBooleanExtra("enableSTT", false)
                     )
+                }
+                if (it.ttsEnabled) {
+                    tts = TextToSpeech(this, TextToSpeech.OnInitListener { fun onInit(status: Int) {} })
                 }
                 Snackbar.make(
                     findViewById(R.id.coordinatorLayout),
@@ -102,54 +100,66 @@ class MatchActivity : AppCompatActivity() {
     }
 
     fun updateUI() {
-        matchModel?.apply {
-            if (matchFinished) {
+        matchModel?.let {
+            textScore?.text = getString(
+                R.string.score,
+                it.players[it.serviceSide].score,
+                it.players[it.relaunchSide].score
+            )
+            textService?.text = getString(R.string.service, it.players[it.serviceSide].name)
 
-            } else {
-                textScore?.text = getString(
-                    R.string.score,
-                    players[serviceSide].score,
-                    players[relaunchSide].score
-                )
-                textService?.text = getString(R.string.service, players[serviceSide].name)
+            for ((button, player) in buttons.zip(it.players)) {
+                button.text = fromHtml(getString(R.string.button_text, player.name, player.score))
+            }
 
-                for ((button, player) in buttons.zip(players)) {
-                    button.text = fromHtml(getString(R.string.button_text, player.name, player.score))
+            when (it.serviceSide) {
+                0 -> {
+                    imageViews[0]?.setImageResource(R.drawable.ic_service_0)
+                    imageViews[1]?.setImageResource(0)
                 }
-
-                when (serviceSide) {
-                    0 -> {
-                        imageViews[0]?.setImageResource(R.drawable.ic_service_0)
-                        imageViews[1]?.setImageResource(0)
-                    }
-                    else -> {
-                        imageViews[0]?.setImageResource(0)
-                        imageViews[1]?.setImageResource(R.drawable.ic_service_1)
-                    }
+                else -> {
+                    imageViews[0]?.setImageResource(0)
+                    imageViews[1]?.setImageResource(R.drawable.ic_service_1)
                 }
+            }
 
-                undo?.isVisible = when (playId) {
-                    0 -> false
-                    else -> true
-                }
-                redo?.isVisible = when (playId) {
-                    history.size - 1 -> false
-                    else -> true
-                }
+            undo?.isVisible = when (it.playId) {
+                0 -> false
+                else -> true
+            }
+            redo?.isVisible = when (it.playId) {
+                it.history.size - 1 -> false
+                else -> true
+            }
 
-                if (ttsEnabled) {
+            if (it.ttsEnabled) {
+                if (it.matchFinished) {
+                    val (loser, winner) = it.players.sortedBy { player -> player.score }
+                    tts?.speak(
+                        getString(
+                            R.string.victory_speech,
+                            winner.name,
+                            winner.score,
+                            loser.score
+                        ),
+                        TextToSpeech.QUEUE_FLUSH,
+                        hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "Victory")
+                    )
+                } else {
                     tts?.speak(
                         getString(
                             R.string.update_score_speech,
-                            players[serviceSide].score,
-                            players[relaunchSide].score,
-                            players[serviceSide].name
+                            it.players[it.serviceSide].score,
+                            it.players[it.relaunchSide].score,
+                            it.players[it.serviceSide].name
                         ),
                         TextToSpeech.QUEUE_FLUSH,
                         hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "MessageId")
                     )
                 }
             }
+
+            if (it.matchFinished) endMatch()
         }
     }
 
@@ -163,6 +173,19 @@ class MatchActivity : AppCompatActivity() {
                 }
                 updateUI()
             }
+        }
+    }
+
+    fun endMatch() {
+        matchModel?.let {
+            startActivity(
+                Intent(this, VictoryActivity::class.java).apply {
+                    putExtra("winnerName", it.players.maxBy{ player -> player.score }?.name)
+                    putExtra("player1Name", it.players[0].name)
+                    putExtra("player2Name", it.players[1].name)
+                    putExtra("score", getString(R.string.score_only, it.players[0].score, it.players[1].score))
+                }
+            )
         }
     }
 
