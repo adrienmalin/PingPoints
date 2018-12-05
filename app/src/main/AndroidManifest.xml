@@ -23,8 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".MatchActivity"
-                android:label="@string/title_activity_match">
+                android:name=".MatchActivity">
         </activity>
         <activity android:name=".VictoryActivity">
         </activity>

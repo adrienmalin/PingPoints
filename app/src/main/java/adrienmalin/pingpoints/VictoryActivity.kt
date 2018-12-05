@@ -10,6 +10,8 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.TextView
+import kotlin.math.max
+import kotlin.math.min
 
 
 class VictoryActivity : AppCompatActivity() {
@@ -46,12 +48,13 @@ class VictoryActivity : AppCompatActivity() {
                     putString(
                         "previousMatches",
                         getString(
-                            R.string.result,
+                            R.string.results,
                             players[0].name,
                             players[0].score,
                             players[1].score,
-                            players[1].name
-                        ) + previousMatches
+                            players[1].name,
+                            previousMatches
+                        )
                     )
                     commit()
                 }
@@ -101,8 +104,8 @@ class VictoryActivity : AppCompatActivity() {
                             players[0].name,
                             players[1].name,
                             winnerName,
-                            players[0].score,
-                            players[1].score
+                            max(players[0].score, players[1].score),
+                            min(players[0].score, players[1].score)
                         )
                     )
                     type = "text/plain"

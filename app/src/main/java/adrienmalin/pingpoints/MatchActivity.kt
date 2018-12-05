@@ -156,23 +156,19 @@ class MatchActivity : AppCompatActivity() {
                     hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "Victory")
                 )
             } else {
+                var scoreSpeech: String = getString(
+                    R.string.update_score_speech,
+                    players[serviceSide].score,
+                    players[relaunchSide].score,
+                    players[serviceSide].name
+                )
+                if (matchPoint)
+                    scoreSpeech += getString(R.string.match_point)
                 tts?.speak(
-                    getString(
-                        R.string.update_score_speech,
-                        players[serviceSide].score,
-                        players[relaunchSide].score,
-                        players[serviceSide].name
-                    ),
+                    scoreSpeech,
                     TextToSpeech.QUEUE_FLUSH,
                     hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "MessageId")
                 )
-                if (matchPoint) {
-                    tts?.speak(
-                        getString(R.string.match_point),
-                        TextToSpeech.QUEUE_ADD,
-                        hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "MessageId")
-                    )
-                }
             }
         }
     }

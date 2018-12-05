@@ -18,14 +18,13 @@
     <string name="OK">OK</string>
     <string name="cancel">Cancel</string>
     <string name="audio_record_permission_denied">Audio recording permission required to use voice recognition.</string>
-    <string name="title_activity_match">Ping Points</string>
     <string name="service">Service: %s</string>
     <string name="score_score">Score: %d - %d</string>
     <string name="service_img_description">Service</string>
     <string name="button_text" translatable="false">%s &lt;br /&gt; &lt;br /&gt; &lt;big&gt; &lt;big&gt; %d &lt;/big&gt;
         &lt;/big&gt;
     </string>
-    <string name="update_score_speech">%d - %d. Service: %s</string>
+    <string name="update_score_speech">"%d - %d. Service: %s. "</string>
     <string name="button_hint">Click on the scoring player</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
@@ -33,14 +32,14 @@
     <string name="previous_matches">Previous matches</string>
     <string name="new_match">New match</string>
     <string name="share">Share</string>
-    <string name="result" translatable="false">"%s\t%d - %d\t%s\n"</string>
+    <string name="results" translatable="false">%s\t%d - %d\t%s\n%s</string>
     <string name="victory_speech">%s wins by %d to %d.</string>
     <string name="share_subject">Ping Points Match: %s vs. %s</string>
     <string name="share_message">%s vs. %s:\n%s won by %d to %d\nGet Ping Points on Google Play</string>
     <string name="match_point">Match point</string>
-    <string name="STT_hint">Say: \"Point for %s\"\nor \"Point for %s\"</string>
-    <string name="pattern">(?i:Point for %s)</string>
-    <string name="not_understood">Can you repeat?</string>
+    <string name="STT_hint">Say: \"%s\" or \"%s\"</string>
+    <string name="pattern">(?i:%s)</string>
+    <string name="not_understood">Can you repeat, please?</string>
     <string name="score" translatable="false">%d - %d</string>
     <string name="STT_disabled">Voice recognition disabled.</string>
 </resources>

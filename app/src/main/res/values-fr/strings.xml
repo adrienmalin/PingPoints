@@ -20,8 +20,7 @@
     <string name="service">Service : %s</string>
     <string name="score_score">Score : %d - %d</string>
     <string name="service_img_description">Service</string>
-    <string name="title_activity_match">Ping Points</string>
-    <string name="update_score_speech">%d - %d. Service : %s</string>
+    <string name="update_score_speech">"%d - %d. Service : %s. "</string>
     <string name="button_hint">Cliquez sur le joueur qui a marqué</string>
     <string name="redo">Rétablir</string>
     <string name="undo">Annuler</string>
@@ -33,8 +32,8 @@
     <string name="share_subject">Match Ping Points : %s contre %s</string>
     <string name="share_message">"%s contre %s:\n%s a gagné par %d à %d\nPing Points est disponible sur Google Play\n "</string>
     <string name="match_point">Balle de match</string>
-    <string name="STT_hint">Dîtes : \"Point pour %s\"\nou \"Point pour %s\"</string>
-    <string name="pattern">(?i:Point pour %s)</string>
+    <string name="STT_hint">Dîtes : \"%s\" ou \"%s\"</string>
+    <string name="pattern">(?i:%s)</string>
     <string name="not_understood">Pouvez-vous répéter ?</string>
     <string name="STT_disabled">Reconnaissance vocale désactivée.</string>
 </resources>
