@@ -69,8 +69,8 @@ class StarterNameActivity : AppCompatActivity() {
         }
 
         // Check if function is available on switch checked or swapped
-        enableTtsSwitch?.setOnTouchListener { view, event ->
-            if ((event.action == MotionEvent.ACTION_DOWN) and (enableTtsSwitch?.isChecked == false))  {
+        enableTtsSwitch?.setOnCheckedChangeListener  { _, isChecked ->
+        if (isChecked)  {
                 Intent().apply {
                     action = TextToSpeech.Engine.ACTION_CHECK_TTS_DATA
                     startActivityForResult(this, CHECK_TTS)
@@ -79,8 +79,8 @@ class StarterNameActivity : AppCompatActivity() {
             false
         }
 
-        enableSttSwitch?.setOnTouchListener { view, event ->
-            if ((event.action == MotionEvent.ACTION_DOWN) and (enableSttSwitch?.isChecked == false)) {
+        enableSttSwitch?.setOnCheckedChangeListener  { _, isChecked ->
+        if (isChecked) {
                 if (SpeechRecognizer.isRecognitionAvailable(this@StarterNameActivity)) {
                     // Ask for record audio permission
                     if (ContextCompat.checkSelfPermission(
