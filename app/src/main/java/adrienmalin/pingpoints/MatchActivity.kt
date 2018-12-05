@@ -147,14 +147,14 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
             if (ttsEnabled) ttsSpeak()
 
-            if (matchFinished()) endMatch()
+            if (matchFinished) endMatch()
             else if (sttEnabled and !ttsEnabled) launchStt()
         }
     }
 
     fun ttsSpeak() {
         matchModel?.apply {
-            if (matchFinished()) {
+            if (matchFinished) {
                 val (loser, winner) = players.sortedBy { it.score }
                 tts?.speak(
                     getString(
@@ -177,7 +177,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     TextToSpeech.QUEUE_FLUSH,
                     hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "MessageId")
                 )
-                if (matchPoint()) {
+                if (matchPoint) {
                     tts?.speak(
                         getString(R.string.match_point),
                         TextToSpeech.QUEUE_ADD,
@@ -190,7 +190,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     fun launchStt() {
         matchModel?.apply {
-            if (sttEnabled) {
+            if (sttEnabled and !matchFinished) {
                 try {
                     startActivityForResult(
                         Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
@@ -268,7 +268,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     fun updateScore(view: View) {
         matchModel?.apply {
-            if (!matchFinished()) {
+            if (!matchFinished) {
                 for (side in 0..1) {
                     if (view == buttons[side]) {
                         updateScore(players[side])

@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModel
 
 class MatchModel : ViewModel() {
     var matchStarted: Boolean = false
+    var matchFinished: Boolean = false
+    var matchPoint: Boolean = false
     var players: List<Player> = emptyList()
     var serviceSide: Int = 0
     var relaunchSide: Int = 1
@@ -32,17 +34,12 @@ class MatchModel : ViewModel() {
         if ((players.sumBy { it.score } % 2 == 0) or (players.all { it.score >= 10 })) {
             serviceSide = relaunchSide.also { relaunchSide = serviceSide }
         }
+
+        val (minScore, maxScore) = players.map { it.score }.sorted()
+        matchFinished = (maxScore >= 11) and (maxScore - minScore >= 2)
+        matchPoint = (maxScore >= 10) and (maxScore - minScore >= 1)
+
         saveState()
-    }
-
-    fun matchFinished(): Boolean {
-        val (minScore, maxScore) = players.map { it.score }.sorted()
-        return (maxScore >= 11) and (maxScore - minScore >= 2)
-    }
-
-    fun matchPoint(): Boolean {
-        val (minScore, maxScore) = players.map { it.score }.sorted()
-        return (maxScore >= 10) and (maxScore - minScore >= 1)
     }
 
     fun saveState() {
