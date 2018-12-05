@@ -11,8 +11,6 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.text.method.LinkMovementMethod
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -46,15 +44,12 @@ class MatchActivity : AppCompatActivity() {
     var buttons: Array<Button> = emptyArray()
     var imageViews: Array<ImageView?> = emptyArray()
     var tts: TextToSpeech? = null
-    var undo: MenuItem? = null
-    var redo: MenuItem? = null
     var numSttCancelled:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_match)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
         // Set HTML text for icons credits
         findViewById<TextView>(R.id.iconsCredit).run {
@@ -103,31 +98,8 @@ class MatchActivity : AppCompatActivity() {
         updateUI()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.match_menu, menu)
-        undo = menu.findItem(R.id.action_undo)
-        redo = menu.findItem(R.id.action_redo)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_undo -> {
-            matchModel?.undo()
-            updateUI()
-            true
-        }
-        R.id.action_redo -> {
-            matchModel?.redo()
-            updateUI()
-            true
-        }
-        else -> {
-            super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onBackPressed() {
-        if (matchModel?.playId == 0)
+        if (matchModel?.pointId == 0)
             super.onBackPressed()
         else {
             matchModel?.undo()
@@ -137,15 +109,6 @@ class MatchActivity : AppCompatActivity() {
 
     fun updateUI() {
         matchModel?.apply {
-            undo?.isVisible = when (playId) {
-                0 -> false
-                else -> true
-            }
-            redo?.isVisible = when (playId) {
-                history.size - 1 -> false
-                else -> true
-            }
-
             textScore?.text = getString(
                 R.string.score_score,
                 players[serviceSide].score,

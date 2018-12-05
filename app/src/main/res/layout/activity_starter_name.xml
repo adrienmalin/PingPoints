@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
+        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/coordinatorLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -15,24 +15,13 @@
         android:layout_height="match_parent"
         tools:context=".StarterNameActivity">
 
-        <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_marginBottom="8dp"
-                android:background="@color/colorPrimary"
-                android:elevation="4dp"
-                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
         <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/WhoStarts" android:text="@string/who_starts"
-                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp" android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+                android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"

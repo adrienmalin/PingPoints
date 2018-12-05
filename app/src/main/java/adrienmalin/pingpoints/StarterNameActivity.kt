@@ -32,7 +32,6 @@ class StarterNameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_starter_name)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
         // Find views
         player1NameInput = findViewById(R.id.player1Name)

@@ -20,7 +20,6 @@ class VictoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_victory)
-        setSupportActionBar(findViewById(R.id.toolbar))
 
         val previousMatch = getPreferences(Context.MODE_PRIVATE)
 
