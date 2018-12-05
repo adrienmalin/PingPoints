@@ -15,11 +15,6 @@
     </string>
     <string name="TTS_unavailable">Sorry, your device doesn\'t support text to speech.</string>
     <string name="STT_unavailable">Sorry, your device doesn\'t support voice recognition.</string>
-    <string name="explain_record_audio_request">"This app uses Google API for voice recognition: your voice will be
-        recorded and analyzed by Google's servers.
-        It requires an internet connection and permission for audio recording.
-        You can always change permission in Android settings."
-    </string>
     <string name="OK">OK</string>
     <string name="cancel">Cancel</string>
     <string name="audio_record_permission_denied">Audio recording permission required to use voice recognition.</string>

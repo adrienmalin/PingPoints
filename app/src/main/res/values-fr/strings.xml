@@ -12,10 +12,6 @@
     <string name="iconCredits">Icônes par &lt;a href=&quot;http://www.freepik.com&quot; title=&quot;Freepik&quot;&gt;Freepik&lt;/a&gt; chez &lt;a href=&quot;https://www.flaticon.com/&quot; title=&quot;Flaticon&quot;&gt;flaticon.com&lt;/a&gt; Licence &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/&quot; title=&quot;Creative Commons BY 3.0&quot; target=&quot;_blank&quot;&gt;CC 3.0 BY&lt;/a&gt;</string>
     <string name="TTS_unavailable">Désolé, votre appareil ne permet pas la synthèse vocale.</string>
     <string name="STT_unavailable">Désolé, votre appareil ne permet pas la reconnaissance vocale.</string>
-    <string name="explain_record_audio_request">"Cette appli utilise l'API de Google pour la reconnaissance vocale : votre voix sera enregistrée et envoyée aux serveurs de Google pour analyse.
-Cela requiert une connexion internet et la permission d'enregistrer des fichiers audio.
-Vous pouvez à tout moment changer la permission dans les paramètres Android."
-    </string>
     <string name="OK">OK</string>
     <string name="cancel">Annuler</string>
     <string name="audio_record_permission_denied">La reconnaissance vocale a besoin de la permission d\'enregistrer des

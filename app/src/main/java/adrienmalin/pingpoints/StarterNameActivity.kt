@@ -1,6 +1,7 @@
 package adrienmalin.pingpoints
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -13,6 +14,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 
@@ -29,6 +31,7 @@ class StarterNameActivity : AppCompatActivity() {
     var previousMatch: SharedPreferences? = null
     var previousPlayers: Set<String> = emptySet()
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_starter_name)
@@ -39,12 +42,6 @@ class StarterNameActivity : AppCompatActivity() {
         starterRadioGroup = findViewById(R.id.starterRadioGroup)
         enableTtsSwitch = findViewById(R.id.enableTtsSwitch)
         enableSttSwitch = findViewById(R.id.enableSttSwitch)
-
-        // Check if function is available on switch checked or swapped
-        enableTtsSwitch?.setOnCheckedChangeListener { view, isChecked -> checkTTS() }
-        enableTtsSwitch?.setOnTouchListener { view, event -> checkTTS(); false}
-        enableSttSwitch?.setOnCheckedChangeListener { view, isChecked -> checkSTT() }
-        enableSttSwitch?.setOnTouchListener { view, event -> checkSTT(); false}
 
         // Restore previous data
         previousMatch = getPreferences(Context.MODE_PRIVATE)
@@ -70,20 +67,43 @@ class StarterNameActivity : AppCompatActivity() {
             enableTtsSwitch?.isChecked = getBoolean("enableTTS", false)
             enableSttSwitch?.isChecked = getBoolean("enableSTT", false)
         }
-    }
 
-    fun swapNames(view: View) {
-        player1NameInput?.text = player2NameInput?.text.also {
-            player2NameInput?.text = player1NameInput?.text
-        }
-    }
-
-    fun checkTTS(){
-        if (enableTtsSwitch?.isChecked == true) {
-            Intent().apply {
-                action = TextToSpeech.Engine.ACTION_CHECK_TTS_DATA
-                startActivityForResult(this, CHECK_TTS)
+        // Check if function is available on switch checked or swapped
+        enableTtsSwitch?.setOnTouchListener { view, event ->
+            if ((event.action == MotionEvent.ACTION_DOWN) and (enableTtsSwitch?.isChecked == false))  {
+                Intent().apply {
+                    action = TextToSpeech.Engine.ACTION_CHECK_TTS_DATA
+                    startActivityForResult(this, CHECK_TTS)
+                }
             }
+            false
+        }
+
+        enableSttSwitch?.setOnTouchListener { view, event ->
+            if ((event.action == MotionEvent.ACTION_DOWN) and (enableSttSwitch?.isChecked == false)) {
+                if (SpeechRecognizer.isRecognitionAvailable(this@StarterNameActivity)) {
+                    // Ask for record audio permission
+                    if (ContextCompat.checkSelfPermission(
+                            this@StarterNameActivity,
+                            Manifest.permission.RECORD_AUDIO
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        ActivityCompat.requestPermissions(
+                            this@StarterNameActivity,
+                            arrayOf(Manifest.permission.RECORD_AUDIO),
+                            ASK_PERMISSIONS_RECORD_AUDIO
+                        )
+                    }
+                } else {
+                    enableSttSwitch?.isChecked = false
+                    Snackbar.make(
+                        findViewById(R.id.coordinatorLayout),
+                        R.string.STT_unavailable,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            false
         }
     }
 
@@ -91,92 +111,44 @@ class StarterNameActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             CHECK_TTS -> {
-                if (resultCode != TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
+                    enableTtsSwitch?.isChecked = true
+                } else {
+                    enableTtsSwitch?.isChecked = false
                     Snackbar.make(
                         findViewById(R.id.coordinatorLayout),
                         R.string.TTS_unavailable,
                         Snackbar.LENGTH_SHORT
                     ).show()
-                    enableTtsSwitch?.isChecked = false
                     Intent().apply {
                         action = TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA
                         startActivity(this)
                     }
                 }
-            } else -> {
-            }
-        }
-    }
-
-    fun checkSTT(){
-        enableSttSwitch?.apply {
-            if (isChecked) {
-                if (!SpeechRecognizer.isRecognitionAvailable(this@StarterNameActivity)) {
-                    Snackbar.make(
-                        findViewById(R.id.coordinatorLayout),
-                        R.string.STT_unavailable,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                    isChecked = false
-                } else {
-                    // Ask for record audio permission
-                    if (ContextCompat.checkSelfPermission(
-                            this@StarterNameActivity,
-                            Manifest.permission.RECORD_AUDIO
-                        ) != PackageManager.PERMISSION_GRANTED) {
-                        // Permission is not granted
-                        // Should we show an explanation?
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                                this@StarterNameActivity,
-                                Manifest.permission.RECORD_AUDIO
-                            )
-                        ) {
-                            AlertDialog.Builder(this@StarterNameActivity).apply {
-                                setTitle(R.string.STT)
-                                setMessage(R.string.explain_record_audio_request)
-                                setPositiveButton(R.string.OK) { dialog, id ->
-                                    ActivityCompat.requestPermissions(
-                                        this@StarterNameActivity,
-                                        arrayOf(Manifest.permission.RECORD_AUDIO),
-                                        ASK_PERMISSIONS_RECORD_AUDIO
-                                    )
-                                }
-                                setNegativeButton(R.string.cancel) { dialog, id ->
-                                    isChecked = false
-                                }
-                                create()
-                                show()
-                            }
-                        } else {
-                            // No explanation needed, we can request the permission.
-                            ActivityCompat.requestPermissions(
-                                this@StarterNameActivity,
-                                arrayOf(Manifest.permission.RECORD_AUDIO),
-                                ASK_PERMISSIONS_RECORD_AUDIO
-                            )
-                        }
-                    }
-                }
-            }
+            } else -> {}
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             ASK_PERMISSIONS_RECORD_AUDIO -> {
-                // If request is cancelled, the result arrays are empty.
-                if ((grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED)) {
-                    // permission denied
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    enableSttSwitch?.isChecked = true
+                } else {
+                    enableSttSwitch?.isChecked = false
                     Snackbar.make(
                         findViewById(R.id.coordinatorLayout),
                         R.string.audio_record_permission_denied,
                         Snackbar.LENGTH_LONG
                     ).show()
-                    enableSttSwitch?.isChecked = false
                 }
-                return
-            } else -> {
-            }
+            } else -> {}
+        }
+    }
+
+    fun swapNames(view: View) {
+        player1NameInput?.text = player2NameInput?.text.also {
+            player2NameInput?.text = player1NameInput?.text
         }
     }
 
