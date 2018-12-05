@@ -1,25 +1,44 @@
 package adrienmalin.pingpoints
 
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDelegate
-import android.view.View
 import android.arch.lifecycle.ViewModelProviders
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AppCompatDelegate
 import android.text.method.LinkMovementMethod
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.*
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import java.util.*
 import java.util.regex.Pattern
 
 
-class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
+class MatchActivity : AppCompatActivity() {
+
+    inner class WaitForTtsInit : TextToSpeech.OnInitListener {
+        override fun onInit(status: Int) {
+            ttsSpeak()
+        }
+    }
+
+    inner class WaitForTtsSpeak : UtteranceProgressListener() {
+        override fun onDone(id: String) {
+            launchStt()
+        }
+        override fun onStart(id: String) {}
+        override fun onError(id: String) {}
+    }
+
     val REQ_CODE_SPEECH_INPUT = 1
+    val STT_RETRIES = 3
 
     var matchModel: MatchModel? = null
     var textScore: android.widget.TextView? = null
@@ -29,6 +48,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     var tts: TextToSpeech? = null
     var undo: MenuItem? = null
     var redo: MenuItem? = null
+    var numSttCancelled:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,17 +76,18 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         // Init or restore ViewModel
         matchModel = ViewModelProviders.of(this).get(MatchModel::class.java)
-        matchModel?.let {
-            if (!it.matchStarted) {
+        matchModel?.apply {
+            if (!matchStarted) {
                 intent.apply {
-                    it.startMatch(
+                    startMatch(
                         getStringExtra("player1Name"),
                         getStringExtra("player2Name"),
                         getIntExtra("starterId", 0),
                         getBooleanExtra("enableTTS", false),
                         getBooleanExtra("enableSTT", false)
                     )
-                    for (player in it.players) player.pattern = Pattern.compile(getString(R.string.pattern, player.name))
+                    for (player in players)
+                        player.pattern = Pattern.compile(this@MatchActivity.getString(R.string.pattern, player.name))
                 }
                 Snackbar.make(
                     findViewById(R.id.coordinatorLayout),
@@ -74,16 +95,12 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
-            if (it.ttsEnabled) {
-                tts = TextToSpeech(this, this)
-                if (it.sttEnabled) tts?.setOnUtteranceProgressListener(WaitForTTS(::launchStt))
+            if (ttsEnabled) {
+                tts = TextToSpeech(this@MatchActivity, WaitForTtsInit())
+                if (sttEnabled) tts?.setOnUtteranceProgressListener(WaitForTtsSpeak())
             }
         }
         updateUI()
-    }
-
-    override fun onInit(status: Int) {
-        ttsSpeak()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -229,20 +246,20 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQ_CODE_SPEECH_INPUT -> {
-                matchModel?.let {
+                matchModel?.apply {
                     if (resultCode == RESULT_OK && data != null) {
                         var understood: Boolean = false
                         val result: String = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)[0]
-                        for (player in it.players) {
+                        for (player in players) {
                             if (player.pattern?.matcher(result)?.find() == true) {
                                 understood = true
-                                it.updateScore(player)
+                                updateScore(player)
                                 updateUI()
                                 break
                             }
                         }
                         if (!understood) {
-                            if (it.ttsEnabled) {
+                            if (ttsEnabled) {
                                 tts?.speak(
                                     getString(R.string.not_understood),
                                     TextToSpeech.QUEUE_FLUSH,
@@ -258,6 +275,10 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                                 launchStt()
                             }
                         }
+                    } else {
+                        numSttCancelled++
+                        if (numSttCancelled >= STT_RETRIES)
+                            sttEnabled = false
                     }
                 }
             }

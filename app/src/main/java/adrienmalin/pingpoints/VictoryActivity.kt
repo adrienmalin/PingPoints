@@ -27,11 +27,11 @@ class VictoryActivity : AppCompatActivity() {
         // Init victoryModel
         victoryModel = ViewModelProviders.of(this).get(VictoryModel::class.java)
 
-        victoryModel?.let {
-            if (!it.matchFinished) {
-                it.matchFinished = true
-                it.winnerName = intent.getStringExtra("winnerName")
-                it.players = listOf(
+        victoryModel?.apply {
+            if (!matchFinished) {
+                matchFinished = true
+                winnerName = intent.getStringExtra("winnerName")
+                players = listOf(
                     Player(
                         intent.getStringExtra("player1Name"),
                         intent.getIntExtra("player1Score", 0)
@@ -42,36 +42,36 @@ class VictoryActivity : AppCompatActivity() {
                     )
                 )
 
-                it.previousMatches = previousMatch.getString("previousMatches", "")
+                previousMatches = previousMatch.getString("previousMatches", "")
                 previousMatch.edit().apply {
                     putString(
                         "previousMatches",
                         getString(
                             R.string.result,
-                            it.players[0].name,
-                            it.players[0].score,
-                            it.players[1].score,
-                            it.players[1].name
-                        ) + it.previousMatches
+                            players[0].name,
+                            players[0].score,
+                            players[1].score,
+                            players[1].name
+                        ) + previousMatches
                     )
                     commit()
                 }
             }
 
             // UpdateUI
-            findViewById<TextView>(R.id.congrats).text = getString(R.string.congrats, it.winnerName)
-            findViewById<TextView>(R.id.player1NameTextView).text = it.players[0].name
+            findViewById<TextView>(R.id.congrats).text = getString(R.string.congrats, winnerName)
+            findViewById<TextView>(R.id.player1NameTextView).text = players[0].name
             findViewById<TextView>(R.id.scoreTextView).text = getString(
                 R.string.score,
-                it.players[0].score,
-                it.players[1].score
+                players[0].score,
+                players[1].score
             )
-            findViewById<TextView>(R.id.player2NameTextView).text = it.players[1].name
+            findViewById<TextView>(R.id.player2NameTextView).text = players[1].name
             findViewById<GridView>(R.id.previousMatchesGrid).adapter = ArrayAdapter<String>(
-                this,
+                this@VictoryActivity,
                 R.layout.grid_item,
                 R.id.grid_item_text,
-                it.previousMatches.split("\t|\n".toRegex())
+                previousMatches.split("\t|\n".toRegex())
             )
         }
     }
@@ -83,7 +83,7 @@ class VictoryActivity : AppCompatActivity() {
     }
 
     fun share(view: View) {
-        victoryModel?.let {
+        victoryModel?.apply {
             startActivity(
                 Intent().apply {
                     action = Intent.ACTION_SEND
@@ -91,19 +91,19 @@ class VictoryActivity : AppCompatActivity() {
                         Intent.EXTRA_SUBJECT,
                         getString(
                             R.string.share_subject,
-                            it.players[0].name,
-                            it.players[1].name
+                            players[0].name,
+                            players[1].name
                         )
                     )
                     putExtra(
                         Intent.EXTRA_TEXT,
                         getString(
                             R.string.share_message,
-                            it.players[0].name,
-                            it.players[1].name,
-                            it.winnerName,
-                            it.players[0].score,
-                            it.players[1].score
+                            players[0].name,
+                            players[1].name,
+                            winnerName,
+                            players[0].score,
+                            players[1].score
                         )
                     )
                     type = "text/plain"

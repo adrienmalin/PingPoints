@@ -34,12 +34,14 @@ class MatchModel : ViewModel() {
         if ((players.sumBy { it.score } % 2 == 0) or (players.all { it.score >= 10 })) {
             serviceSide = relaunchSide.also { relaunchSide = serviceSide }
         }
+        saveState()
+        updateMatch()
+    }
 
+    fun updateMatch() {
         val (minScore, maxScore) = players.map { it.score }.sorted()
         matchFinished = (maxScore >= 11) and (maxScore - minScore >= 2)
         matchPoint = (maxScore >= 10) and (maxScore - minScore >= 1)
-
-        saveState()
     }
 
     fun saveState() {
@@ -71,5 +73,6 @@ class MatchModel : ViewModel() {
                 else -> 0
             }
         }
+        updateMatch()
     }
 }

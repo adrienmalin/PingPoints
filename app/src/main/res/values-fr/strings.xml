@@ -38,6 +38,6 @@ Vous pouvez à tout moment changer la permission dans les paramètres Android."
     <string name="share_message">"%s contre %s:\n%s a gagné par %d à %d\nPing Points est disponible sur Google Play\n "</string>
     <string name="match_point">Balle de match</string>
     <string name="STT_hint">Dîtes : \"Point pour %s\"\nou \"Point pour %s\"</string>
-    <string name="pattern">point pour %s</string>
+    <string name="pattern">(?i:Point pour %s)</string>
     <string name="not_understood">Pouvez-vous répéter ?</string>
 </resources>
