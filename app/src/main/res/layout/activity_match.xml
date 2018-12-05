@@ -92,7 +92,6 @@
                     app:layout_constraintStart_toEndOf="@+id/imgService0"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/button_text" android:layout_margin="8dp" android:layout_weight="1"
-                    android:clickable="true" android:focusableInTouchMode="true"
                     android:theme="@style/ScoreButton"/>
 
             <Button
@@ -111,7 +110,6 @@
                     app:layout_constraintEnd_toStartOf="@+id/imgService1"
                     app:layout_constraintStart_toEndOf="@+id/buttonPlayer0"
                     tools:text="@string/button_text" android:layout_margin="8dp" android:layout_weight="1"
-                    android:clickable="true" android:focusableInTouchMode="true"
                     android:theme="@style/ScoreButton"/>
 
             <ImageView
