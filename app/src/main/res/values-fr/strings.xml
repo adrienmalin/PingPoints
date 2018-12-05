@@ -40,4 +40,5 @@ Vous pouvez à tout moment changer la permission dans les paramètres Android."
     <string name="STT_hint">Dîtes : \"Point pour %s\"\nou \"Point pour %s\"</string>
     <string name="pattern">(?i:Point pour %s)</string>
     <string name="not_understood">Pouvez-vous répéter ?</string>
+    <string name="STT_disabled">Reconnaissance vocale désactivée.</string>
 </resources>

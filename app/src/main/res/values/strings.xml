@@ -47,4 +47,5 @@
     <string name="pattern">(?i:Point for %s)</string>
     <string name="not_understood">Can you repeat?</string>
     <string name="score" translatable="false">%d - %d</string>
+    <string name="STT_disabled">Voice recognition disabled.</string>
 </resources>

@@ -277,8 +277,14 @@ class MatchActivity : AppCompatActivity() {
                         }
                     } else {
                         numSttCancelled++
-                        if (numSttCancelled >= STT_RETRIES)
+                        if (numSttCancelled >= STT_RETRIES) {
                             sttEnabled = false
+                            Snackbar.make(
+                                findViewById(R.id.coordinatorLayout),
+                                R.string.STT_disabled,
+                                Snackbar.LENGTH_SHORT
+                            ).show()
+                        }
                     }
                 }
             }
