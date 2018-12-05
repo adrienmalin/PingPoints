@@ -18,7 +18,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 
-class MatchActivity : AppCompatActivity() {
+class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     val REQ_CODE_SPEECH_INPUT = 1
 
     var matchModel: MatchModel? = null
@@ -75,11 +75,15 @@ class MatchActivity : AppCompatActivity() {
                 ).show()
             }
             if (it.ttsEnabled) {
-                tts = TextToSpeech(this, TextToSpeech.OnInitListener { fun onInit(status: Int) {} })
+                tts = TextToSpeech(this, this)
                 if (it.sttEnabled) tts?.setOnUtteranceProgressListener(WaitForTTS(::launchStt))
             }
         }
         updateUI()
+    }
+
+    override fun onInit(status: Int) {
+        ttsSpeak()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
