@@ -60,16 +60,13 @@ class VictoryActivity : AppCompatActivity() {
 
             // UpdateUI
             findViewById<TextView>(R.id.congrats).text = getString(R.string.congrats, it.winnerName)
-            findViewById<GridView>(R.id.resultGrid).adapter = ArrayAdapter<String>(
-                this,
-                R.layout.grid_item,
-                R.id.grid_item_text,
-                arrayOf<String>(
-                    it.players[0].name,
-                    it.players[0].score.toString() + " - " + it.players[1].score.toString(),
-                    it.players[1].name
-                )
+            findViewById<TextView>(R.id.player1NameTextView).text = it.players[0].name
+            findViewById<TextView>(R.id.scoreTextView).text = getString(
+                R.string.score,
+                it.players[0].score,
+                it.players[1].score
             )
+            findViewById<TextView>(R.id.player2NameTextView).text = it.players[1].name
             findViewById<GridView>(R.id.previousMatchesGrid).adapter = ArrayAdapter<String>(
                 this,
                 R.layout.grid_item,

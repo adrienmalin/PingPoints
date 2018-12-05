@@ -22,7 +22,7 @@ Vous pouvez à tout moment changer la permission dans les paramètres Android."
         fichiers audio pour fonctionner.
     </string>
     <string name="service">Service : %s</string>
-    <string name="score">Score : %d - %d</string>
+    <string name="score_score">Score : %d - %d</string>
     <string name="service_img_description">Service</string>
     <string name="title_activity_match">Ping Points</string>
     <string name="update_score_speech">%d - %d. Service : %s</string>

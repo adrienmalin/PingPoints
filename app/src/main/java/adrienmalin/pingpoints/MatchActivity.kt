@@ -121,7 +121,7 @@ class MatchActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             }
 
             textScore?.text = getString(
-                R.string.score,
+                R.string.score_score,
                 players[serviceSide].score,
                 players[relaunchSide].score
             )

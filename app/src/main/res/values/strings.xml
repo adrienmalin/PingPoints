@@ -25,7 +25,7 @@
     <string name="audio_record_permission_denied">Audio recording permission required to use voice recognition.</string>
     <string name="title_activity_match">Ping Points</string>
     <string name="service">Service: %s</string>
-    <string name="score">Score: %d - %d</string>
+    <string name="score_score">Score: %d - %d</string>
     <string name="service_img_description">Service</string>
     <string name="button_text" translatable="false">%s &lt;br /&gt; &lt;br /&gt; &lt;big&gt; &lt;big&gt; %d &lt;/big&gt;
         &lt;/big&gt;
@@ -46,4 +46,5 @@
     <string name="STT_hint">Say: \"Point for %s\"\nor \"Point for %s\"</string>
     <string name="pattern">point for %s</string>
     <string name="not_understood">Can you repeat?</string>
+    <string name="score" translatable="false">%d - %d</string>
 </resources>
