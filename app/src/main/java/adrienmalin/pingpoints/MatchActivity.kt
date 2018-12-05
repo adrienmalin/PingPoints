@@ -126,6 +126,15 @@ class MatchActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if (matchModel?.playId == 0)
+            super.onBackPressed()
+        else {
+            matchModel?.undo()
+            updateUI()
+        }
+    }
+
     fun updateUI() {
         matchModel?.apply {
             undo?.isVisible = when (playId) {
