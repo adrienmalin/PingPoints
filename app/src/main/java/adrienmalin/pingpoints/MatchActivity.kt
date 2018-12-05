@@ -195,6 +195,9 @@ class MatchActivity : AppCompatActivity() {
                                     players[1].name
                                 )
                             )
+                            putExtra(
+                                RecognizerIntent.EXTRA_MAX_RESULTS, 10
+                            )
                         },
                         REQ_CODE_SPEECH_INPUT
                     )
@@ -217,14 +220,17 @@ class MatchActivity : AppCompatActivity() {
                 matchModel?.apply {
                     if (resultCode == RESULT_OK && data != null) {
                         var understood: Boolean = false
-                        val result: String = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)[0]
-                        for (player in players) {
-                            if (player.pattern?.matcher(result)?.find() == true) {
-                                understood = true
-                                updateScore(player)
-                                updateUI()
-                                break
+                        val results: ArrayList<String> = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                        for (result in results) {
+                            for (player in players) {
+                                if (player.pattern?.matcher(result)?.find() == true) {
+                                    understood = true
+                                    updateScore(player)
+                                    updateUI()
+                                    break
+                                }
                             }
+                            if (understood) break
                         }
                         if (!understood) {
                             if (ttsEnabled) {
