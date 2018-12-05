@@ -66,6 +66,7 @@ class MatchActivity : AppCompatActivity() {
                         getBooleanExtra("enableTTS", false),
                         getBooleanExtra("enableSTT", false)
                     )
+                    for (player in it.players) player.pattern = Pattern.compile(getString(R.string.pattern, player.name))
                 }
                 Snackbar.make(
                     findViewById(R.id.coordinatorLayout),
@@ -106,28 +107,6 @@ class MatchActivity : AppCompatActivity() {
 
     fun updateUI() {
         matchModel?.apply {
-            textScore?.text = getString(
-                R.string.score,
-                players[serviceSide].score,
-                players[relaunchSide].score
-            )
-            textService?.text = getString(R.string.service, players[serviceSide].name)
-
-            for ((button, player) in buttons.zip(players)) {
-                button.text = fromHtml(getString(R.string.button_text, player.name, player.score))
-            }
-
-            when (serviceSide) {
-                0 -> {
-                    imageViews[0]?.setImageResource(R.drawable.ic_service_0)
-                    imageViews[1]?.setImageResource(0)
-                }
-                else -> {
-                    imageViews[0]?.setImageResource(0)
-                    imageViews[1]?.setImageResource(R.drawable.ic_service_1)
-                }
-            }
-
             undo?.isVisible = when (playId) {
                 0 -> false
                 else -> true
@@ -136,6 +115,31 @@ class MatchActivity : AppCompatActivity() {
                 history.size - 1 -> false
                 else -> true
             }
+
+            textScore?.text = getString(
+                R.string.score,
+                players[serviceSide].score,
+                players[relaunchSide].score
+            )
+            textService?.text = getString(R.string.service, players[serviceSide].name)
+
+            imageViews[0]?.setImageResource(
+                when(serviceSide) {
+                    0 -> R.drawable.ic_service_0
+                    else -> 0
+                }
+            )
+
+            for ((button, player) in buttons.zip(players)) {
+                button.text = fromHtml(getString(R.string.button_text, player.name, player.score))
+            }
+
+            imageViews[1]?.setImageResource(
+                when(serviceSide) {
+                    0 -> 0
+                    else -> R.drawable.ic_service_1
+                }
+            )
 
             if (ttsEnabled) ttsSpeak()
 
@@ -183,19 +187,28 @@ class MatchActivity : AppCompatActivity() {
     fun launchStt() {
         matchModel?.apply {
             if (sttEnabled) {
-                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().getDisplayLanguage())
-                intent.putExtra(
-                    RecognizerIntent.EXTRA_PROMPT,
-                    getString(
-                        R.string.STT_hint,
-                        players[0].name,
-                        players[1].name
-                    )
-                )
                 try {
-                    startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+                    startActivityForResult(
+                        Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                            putExtra(
+                                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+                            )
+                            putExtra(
+                                RecognizerIntent.EXTRA_LANGUAGE,
+                                Locale.getDefault().displayLanguage
+                            )
+                            putExtra(
+                                RecognizerIntent.EXTRA_PROMPT,
+                                getString(
+                                    R.string.STT_hint,
+                                    players[0].name,
+                                    players[1].name
+                                )
+                            )
+                        },
+                        REQ_CODE_SPEECH_INPUT
+                    )
                 } catch (e: ActivityNotFoundException) {
                     sttEnabled = false
                     Snackbar.make(
@@ -213,18 +226,35 @@ class MatchActivity : AppCompatActivity() {
         when (requestCode) {
             REQ_CODE_SPEECH_INPUT -> {
                 matchModel?.let {
-                    var understood: Boolean = false
                     if (resultCode == RESULT_OK && data != null) {
+                        var understood: Boolean = false
                         val result: String = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)[0]
                         for (player in it.players) {
-                            if (Pattern.compile(getString(R.string.pattern, player.name)).matcher(result).find()) {
-                                it.updateScore(player)
+                            if (player.pattern?.matcher(result)?.find() == true) {
                                 understood = true
+                                it.updateScore(player)
+                                updateUI()
                                 break
                             }
                         }
+                        if (!understood) {
+                            if (it.ttsEnabled) {
+                                tts?.speak(
+                                    getString(R.string.not_understood),
+                                    TextToSpeech.QUEUE_FLUSH,
+                                    hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "MessageId")
+                                )
+                            }
+                            else {
+                                Snackbar.make(
+                                    findViewById(R.id.coordinatorLayout),
+                                    R.string.not_understood,
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                                launchStt()
+                            }
+                        }
                     }
-                    if (!understood) launchStt()
                 }
             }
             else -> {

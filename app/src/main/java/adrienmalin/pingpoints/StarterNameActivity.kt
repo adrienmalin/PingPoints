@@ -198,7 +198,5 @@ class StarterNameActivity : AppCompatActivity() {
                 putExtra("enableSTT", enableSTT)
             }
         )
-
-        finish()
     }
 }

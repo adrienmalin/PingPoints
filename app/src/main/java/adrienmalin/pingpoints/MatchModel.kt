@@ -26,7 +26,7 @@ class MatchModel : ViewModel() {
         saveState()
     }
 
-    fun updateScore(scorer: player) {
+    fun updateScore(scorer: Player) {
         playId++
         scorer.score++
         if ((players.sumBy { it.score } % 2 == 0) or (players.all { it.score >= 10 })) {
