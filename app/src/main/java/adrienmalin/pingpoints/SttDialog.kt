@@ -9,65 +9,37 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.support.v4.app.DialogFragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import java.util.*
+import kotlin.math.max
+import kotlin.math.min
 
 class SttDialog : DialogFragment() {
-    var partialResultsTextView: TextView? = null
     var matchActivity: MatchActivity? = null
+    var partialResultsTextView: TextView? = null
+    var icStt: ImageView? = null
     var stt: SpeechRecognizer? = null
     var sttIntent: Intent? = null
 
     inner class SttListener : RecognitionListener {
-        val LOG_TAG: String = "SttListener"
+        var minRms: Float = 0f
+        var maxRms: Float = 0f
 
-        override fun onBeginningOfSpeech() {
-            Log.i(LOG_TAG, "onBeginningOfSpeech")
-        }
-
-        override fun onBufferReceived(buffer: ByteArray?) {
-            Log.i(LOG_TAG, "onBufferReceived: $buffer");
-        }
-
-        override fun onEndOfSpeech() {
-            Log.i(LOG_TAG, "onEndOfSpeech")
-        }
-
-        override fun onError(errorCode: Int) {
-            val errorMessage: String = when (errorCode) {
-                SpeechRecognizer.ERROR_AUDIO -> "Audio recording error"
-                SpeechRecognizer.ERROR_CLIENT -> "Client side error"
-                SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Insufficient permissions"
-                SpeechRecognizer.ERROR_NETWORK -> "Network error"
-                SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Network timeout"
-                SpeechRecognizer.ERROR_NO_MATCH -> "No match"
-                SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "RecognitionService busy"
-                SpeechRecognizer.ERROR_SERVER -> "error from server"
-                SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input"
-                else -> "Didn't understand, please try again."
-            }
-            Log.d(LOG_TAG, "FAILED $errorMessage")
-            stt?.startListening(sttIntent)
-        }
-
-        override fun onEvent(arg0: Int, arg1: Bundle?) {
-            Log.i(LOG_TAG, "onEvent")
+        override fun onRmsChanged(rmsdB: Float) {
+            minRms = min(rmsdB, minRms)
+            maxRms = max(rmsdB, maxRms)
+            if (minRms != maxRms)
+                icStt?.alpha = 0.5f + rmsdB / (2*(maxRms - minRms))
         }
 
         override fun onPartialResults(data: Bundle) {
-            //Log.i(LOG_TAG, "onPartialResults")
             partialResultsTextView?.text = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)[0]
         }
 
-        override fun onReadyForSpeech(arg0: Bundle?) {
-            Log.i(LOG_TAG, "onReadyForSpeech")
-        }
-
         override fun onResults(data: Bundle) {
-            Log.i(LOG_TAG, "onResults");
             val results: ArrayList<String> = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
             var understood = false
 
@@ -86,16 +58,22 @@ class SttDialog : DialogFragment() {
                         if (understood) break
                     }
                     if (!understood) {
-                        partialResultsTextView?.text = getString(R.string.not_understood)
-                        stt?.startListening(sttIntent)
+                        onError(0)
                     }
                 }
             }
         }
 
-        override fun onRmsChanged(rmsdB: Float) {
-            //Log.i(LOG_TAG, "onRmsChanged: $rmsdB")
+        override fun onError(errorCode: Int) {
+            partialResultsTextView?.text = getString(R.string.not_understood)
+            stt?.startListening(sttIntent)
         }
+
+        override fun onEvent(arg0: Int, arg1: Bundle?) {}
+        override fun onReadyForSpeech(arg0: Bundle?) {}
+        override fun onBeginningOfSpeech() {}
+        override fun onBufferReceived(buffer: ByteArray?) {}
+        override fun onEndOfSpeech() {}
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog.Builder(activity).apply {
@@ -104,6 +82,7 @@ class SttDialog : DialogFragment() {
             null
         )
         partialResultsTextView = view.findViewById(R.id.partialResultTextView)
+        icStt = view.findViewById(R.id.icStt)
 
         setView(view)
 

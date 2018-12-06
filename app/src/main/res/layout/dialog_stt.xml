@@ -13,12 +13,14 @@
         <ImageView
                 app:srcCompat="@drawable/ic_stt"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/imageView" android:layout_margin="8dp"/>
+                android:layout_height="wrap_content" android:id="@+id/icStt" android:layout_margin="8dp"
+                android:contentDescription="@string/STT"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/STT_hint" android:id="@+id/sttHintTextView" android:layout_margin="8dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:gravity="center"/>
+                android:text="@string/STT_hint" android:id="@+id/sttHintTextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:gravity="center"
+                android:layout_marginLeft="8dp" android:layout_marginRight="8dp"/>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/partialResultTextView"
