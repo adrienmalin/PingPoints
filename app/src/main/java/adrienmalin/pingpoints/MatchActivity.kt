@@ -78,12 +78,15 @@ class MatchActivity : AppCompatActivity() {
                         getBooleanExtra("enableSTT", false)
                     )
                     for (player in players)
-                        player.pattern = Pattern.compile(this@MatchActivity.getString(R.string.pattern, player.name))
+                        player.pattern = Pattern.compile(getString(R.string.pattern, player.name))
                 }
                 if (ttsEnabled) {
                     tts = TextToSpeech(this@MatchActivity, WaitForTtsInit())
                     if (sttEnabled)
                         tts?.setOnUtteranceProgressListener(SttAfterTts())
+                }
+                if (!sttEnabled){
+                    showText(getString(R.string.button_hint))
                 }
             }
         }
