@@ -4,13 +4,16 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -20,10 +23,30 @@ import java.util.regex.Pattern
 
 
 class MatchActivity : AppCompatActivity() {
+    var matchModel: MatchModel? = null
+    var textScore: android.widget.TextView? = null
+    var textService: android.widget.TextView? = null
+    var buttons: Array<Button> = emptyArray()
+    var imageViews: Array<ImageView?> = emptyArray()
+    var tts: TextToSpeech? = null
+    var stt: SpeechRecognizer? = null
+    var sttIntent: Intent? = null
 
     inner class WaitForTtsInit : TextToSpeech.OnInitListener {
         override fun onInit(status: Int) {
-            ttsSpeak()
+            updateUI()
+            matchModel?.apply{
+                if (sttEnabled) {
+                    speakText(
+                        getString(
+                            R.string.STT_hint,
+                            players[0].name,
+                            players[1].name
+                        ),
+                        TextToSpeech.QUEUE_ADD
+                    )
+                }
+            }
         }
     }
 
@@ -35,16 +58,108 @@ class MatchActivity : AppCompatActivity() {
         override fun onError(id: String) {}
     }
 
-    val REQ_CODE_SPEECH_INPUT = 1
-    val STT_RETRIES = 3
+    inner class SttListener : RecognitionListener {
+        val LOG_TAG: String = "SttListener"
 
-    var matchModel: MatchModel? = null
-    var textScore: android.widget.TextView? = null
-    var textService: android.widget.TextView? = null
-    var buttons: Array<Button> = emptyArray()
-    var imageViews: Array<ImageView?> = emptyArray()
-    var tts: TextToSpeech? = null
-    var numSttCancelled:Int = 0
+        override fun onBeginningOfSpeech() {
+            Log.i(LOG_TAG, "onBeginningOfSpeech")
+        }
+
+        override fun onBufferReceived(buffer: ByteArray?) {
+            Log.i(LOG_TAG, "onBufferReceived: $buffer");
+        }
+
+        override fun onEndOfSpeech() {
+            Log.i(LOG_TAG, "onEndOfSpeech")
+        }
+
+        override fun onError(errorCode: Int) {
+            val errorMessage: String = when(errorCode) {
+                SpeechRecognizer.ERROR_AUDIO -> "Audio recording error"
+                SpeechRecognizer.ERROR_CLIENT -> "Client side error"
+                SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS -> "Insufficient permissions"
+                SpeechRecognizer.ERROR_NETWORK -> "Network error"
+                SpeechRecognizer.ERROR_NETWORK_TIMEOUT -> "Network timeout"
+                SpeechRecognizer.ERROR_NO_MATCH -> "No match"
+                SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "RecognitionService busy"
+                SpeechRecognizer.ERROR_SERVER -> "error from server"
+                SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "No speech input"
+                else -> "Didn't understand, please try again."
+            }
+            Log.d(LOG_TAG, "FAILED $errorMessage")
+            launchStt()
+        }
+
+        override fun onEvent(arg0: Int, arg1: Bundle?) {
+            Log.i(LOG_TAG, "onEvent")
+        }
+
+        override fun onPartialResults(data: Bundle?) {
+            //Log.i(LOG_TAG, "onPartialResults")
+        }
+
+        override fun onReadyForSpeech(arg0: Bundle?) {
+            Log.i(LOG_TAG, "onReadyForSpeech")
+        }
+
+        override fun onResults(data: Bundle) {
+            Log.i(LOG_TAG, "onResults");
+            val results:ArrayList<String> = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+            var understood = false
+
+            matchModel?.apply {
+                for (result in results) {
+                    for (player in players) {
+                        if (player.pattern?.matcher(result)?.find() == true) {
+                            understood = true
+                            updateScore(player)
+                            updateUI()
+                            break
+                        }
+                    }
+                    if (understood) break
+                }
+                if (!understood) {
+                    if (ttsEnabled) {
+                        speakText(getString(R.string.not_understood))
+                    }
+                    else {
+                        showText(R.string.not_understood)
+                    }
+                }
+            }
+            launchStt()
+        }
+
+        override fun onRmsChanged(rmsdB: Float) {
+            //Log.i(LOG_TAG, "onRmsChanged: $rmsdB")
+        }
+    }
+
+    fun showText(text: String, duration: Int = Snackbar.LENGTH_SHORT) {
+        Snackbar.make(
+            findViewById(R.id.coordinatorLayout),
+            text,
+            duration
+        ).show()
+    }
+
+    fun showText(textId: Int, duration: Int = Snackbar.LENGTH_SHORT) {
+        Snackbar.make(
+            findViewById(R.id.coordinatorLayout),
+            textId,
+            duration
+        ).show()
+    }
+
+    fun speakText(text: String, queueMode: Int = TextToSpeech.QUEUE_FLUSH) {
+        //stt?.stopListening()
+        tts?.speak(
+            text,
+            queueMode,
+            hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "TTS")
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,18 +199,53 @@ class MatchActivity : AppCompatActivity() {
                     for (player in players)
                         player.pattern = Pattern.compile(this@MatchActivity.getString(R.string.pattern, player.name))
                 }
-                Snackbar.make(
-                    findViewById(R.id.coordinatorLayout),
-                    R.string.button_hint,
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-            if (ttsEnabled) {
-                tts = TextToSpeech(this@MatchActivity, WaitForTtsInit())
-                if (sttEnabled) tts?.setOnUtteranceProgressListener(WaitForTtsSpeak())
+                if (ttsEnabled) {
+                    tts = TextToSpeech(this@MatchActivity, WaitForTtsInit())
+                }
+                if (sttEnabled) {
+                    stt = SpeechRecognizer.createSpeechRecognizer(this@MatchActivity).apply {
+                        setRecognitionListener(SttListener())
+                    }
+                    sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                        putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().displayLanguage)
+                        putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10)
+                        putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, this@MatchActivity.packageName)
+                    }
+                    if (ttsEnabled) {
+                        tts?.setOnUtteranceProgressListener(WaitForTtsSpeak())
+                    } else {
+                        matchModel?.apply {
+                            showText(
+                                getString(
+                                    R.string.STT_hint,
+                                    players[0].name,
+                                    players[1].name
+                                ),
+                                Snackbar.LENGTH_LONG
+                            )
+                        }
+                        launchStt()
+                    }
+                } else {
+                    showText(R.string.button_hint)
+                }
             }
         }
         updateUI()
+    }
+
+    fun launchStt() {
+        matchModel?.apply {
+            if (sttEnabled and !matchFinished) {
+                try {
+                    stt?.startListening(sttIntent)
+                } catch (e: ActivityNotFoundException) {
+                    sttEnabled = false
+                    showText(R.string.STT_unavailable)
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -134,135 +284,39 @@ class MatchActivity : AppCompatActivity() {
                 }
             )
 
-            if (ttsEnabled) ttsSpeak()
-
-            if (matchFinished) endMatch()
-            else if (sttEnabled and !ttsEnabled) launchStt()
-        }
-    }
-
-    fun ttsSpeak() {
-        matchModel?.apply {
             if (matchFinished) {
                 val (loser, winner) = players.sortedBy { it.score }
-                tts?.speak(
-                    getString(
-                        R.string.victory_speech,
-                        winner.name,
-                        winner.score,
-                        loser.score
-                    ),
-                    TextToSpeech.QUEUE_FLUSH,
-                    hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "Victory")
+                if (sttEnabled) {
+                    speakText(
+                        getString(
+                            R.string.victory_speech,
+                            winner.name,
+                            winner.score,
+                            loser.score
+                        )
+                    )
+                }
+                startActivity(
+                    Intent(this@MatchActivity, VictoryActivity::class.java).apply {
+                        putExtra("winnerName", winner.name)
+                        putExtra("player1Name", players[0].name)
+                        putExtra("player2Name", players[1].name)
+                        putExtra("player1Score", players[0].score)
+                        putExtra("player2Score", players[1].score)
+                    }
                 )
             } else {
-                var scoreSpeech: String = getString(
-                    R.string.update_score_speech,
-                    players[serviceSide].score,
-                    players[relaunchSide].score,
-                    players[serviceSide].name
-                )
-                if (matchPoint)
-                    scoreSpeech += getString(R.string.match_point)
-                tts?.speak(
-                    scoreSpeech,
-                    TextToSpeech.QUEUE_FLUSH,
-                    hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "MessageId")
-                )
-            }
-        }
-    }
-
-    fun launchStt() {
-        matchModel?.apply {
-            if (sttEnabled and !matchFinished) {
-                try {
-                    startActivityForResult(
-                        Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                            putExtra(
-                                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
-                            )
-                            putExtra(
-                                RecognizerIntent.EXTRA_LANGUAGE,
-                                Locale.getDefault().displayLanguage
-                            )
-                            putExtra(
-                                RecognizerIntent.EXTRA_PROMPT,
-                                getString(
-                                    R.string.STT_hint,
-                                    players[0].name,
-                                    players[1].name
-                                )
-                            )
-                            putExtra(
-                                RecognizerIntent.EXTRA_MAX_RESULTS, 10
-                            )
-                        },
-                        REQ_CODE_SPEECH_INPUT
+                if (ttsEnabled) {
+                    var scoreSpeech: String = getString(
+                        R.string.update_score_speech,
+                        players[serviceSide].score,
+                        players[relaunchSide].score,
+                        players[serviceSide].name
                     )
-                } catch (e: ActivityNotFoundException) {
-                    sttEnabled = false
-                    Snackbar.make(
-                        findViewById(R.id.coordinatorLayout),
-                        R.string.STT_unavailable,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    if (matchPoint)
+                        scoreSpeech += getString(R.string.match_point)
+                    speakText(scoreSpeech)
                 }
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            REQ_CODE_SPEECH_INPUT -> {
-                matchModel?.apply {
-                    if (resultCode == RESULT_OK && data != null) {
-                        var understood: Boolean = false
-                        val results: ArrayList<String> = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                        for (result in results) {
-                            for (player in players) {
-                                if (player.pattern?.matcher(result)?.find() == true) {
-                                    understood = true
-                                    updateScore(player)
-                                    updateUI()
-                                    break
-                                }
-                            }
-                            if (understood) break
-                        }
-                        if (!understood) {
-                            if (ttsEnabled) {
-                                tts?.speak(
-                                    getString(R.string.not_understood),
-                                    TextToSpeech.QUEUE_FLUSH,
-                                    hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "MessageId")
-                                )
-                            }
-                            else {
-                                Snackbar.make(
-                                    findViewById(R.id.coordinatorLayout),
-                                    R.string.not_understood,
-                                    Snackbar.LENGTH_SHORT
-                                ).show()
-                                launchStt()
-                            }
-                        }
-                    } else {
-                        numSttCancelled++
-                        if (numSttCancelled >= STT_RETRIES) {
-                            sttEnabled = false
-                            Snackbar.make(
-                                findViewById(R.id.coordinatorLayout),
-                                R.string.STT_disabled,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                }
-            }
-            else -> {
             }
         }
     }
@@ -280,18 +334,9 @@ class MatchActivity : AppCompatActivity() {
         }
     }
 
-    fun endMatch() {
-        matchModel?.let {
-            startActivity(
-                Intent(this, VictoryActivity::class.java).apply {
-                    putExtra("winnerName", it.players.maxBy{ player -> player.score }?.name)
-                    putExtra("player1Name", it.players[0].name)
-                    putExtra("player1Score", it.players[0].score)
-                    putExtra("player2Name", it.players[1].name)
-                    putExtra("player2Score", it.players[1].score)
-                }
-            )
-        }
+    override fun onStop() {
+        super.onStop()
+        tts?.shutdown()
+        stt?.destroy()
     }
-
 }
