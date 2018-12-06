@@ -131,7 +131,7 @@ class MatchActivity : AppCompatActivity() {
 
             if (matchFinished) {
                 val (loser, winner) = players.sortedBy { it.score }
-                if (sttEnabled) {
+                if (ttsEnabled) {
                     speakText(
                         getString(
                             R.string.victory_speech,

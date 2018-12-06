@@ -36,7 +36,8 @@ class SttDialog : DialogFragment() {
         }
 
         override fun onPartialResults(data: Bundle) {
-            partialResultsTextView?.text = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)[0]
+            if (!data.isEmpty)
+                partialResultsTextView?.text = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)[0]
         }
 
         override fun onResults(data: Bundle) {
@@ -77,37 +78,35 @@ class SttDialog : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog.Builder(activity).apply {
-        val view: View = (context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(
-            R.layout.dialog_stt,
-            null
-        )
-        partialResultsTextView = view.findViewById(R.id.partialResultTextView)
-        icStt = view.findViewById(R.id.icStt)
+        (context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.dialog_stt, null). apply {
+            partialResultsTextView = findViewById(R.id.partialResultTextView)
+            icStt = findViewById(R.id.icStt)
 
-        setView(view)
+            setView(this)
 
-        matchActivity = (activity as MatchActivity).apply {
-            matchModel?.apply {
-                view.findViewById<TextView>(R.id.sttHintTextView).text = getString(
-                    R.string.STT_hint,
-                    players[0].name,
-                    players[1].name
-                )
-                sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                    putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                    putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().displayLanguage)
-                    putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10)
-                    putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, packageName)
-                    putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-                }
-                stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
-                    setRecognitionListener(SttListener())
-                    try {
-                        startListening(sttIntent)
-                    } catch (e: ActivityNotFoundException) {
-                        sttEnabled = false
-                        dismiss()
-                        showText(R.string.STT_unavailable)
+            matchActivity = (activity as MatchActivity).apply {
+                matchModel?.apply {
+                    findViewById<TextView>(R.id.sttHintTextView).text = getString(
+                        R.string.STT_hint,
+                        players[0].name,
+                        players[1].name
+                    )
+                    sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+                        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                        putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().displayLanguage)
+                        putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10)
+                        putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, packageName)
+                        putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+                    }
+                    stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
+                        setRecognitionListener(SttListener())
+                        try {
+                            startListening(sttIntent)
+                        } catch (e: ActivityNotFoundException) {
+                            sttEnabled = false
+                            dismiss()
+                            showText(R.string.STT_unavailable)
+                        }
                     }
                 }
             }
