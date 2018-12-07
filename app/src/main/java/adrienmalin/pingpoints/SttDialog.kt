@@ -24,6 +24,7 @@ class SttDialog : DialogFragment() {
     var sttIntent: Intent? = null
 
     inner class SttListener : RecognitionListener {
+        val ERROR_NOT_UNDERSTOOD = 1
         var minRms: Float = 0f
         var maxRms: Float = 0f
 
@@ -42,25 +43,20 @@ class SttDialog : DialogFragment() {
         }
 
         override fun onResults(data: Bundle) {
-            var understood = false
             data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let { results ->
                 matchActivity?.apply {
                     matchModel?.apply {
                         for (result in results) {
                             for (player in players) {
                                 if (player.pattern?.matcher(result)?.find() == true) {
-                                    understood = true
                                     dismiss()
                                     updateScore(player)
                                     updateUI()
-                                    break
+                                    return
                                 }
                             }
-                            if (understood) break
                         }
-                        if (!understood) {
-                            onError(0)
-                        }
+                        onError(ERROR_NOT_UNDERSTOOD)
                     }
                 }
             }
@@ -79,15 +75,15 @@ class SttDialog : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog.Builder(activity).apply {
-        (context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.dialog_stt, null). apply {
-            partialResultsTextView = findViewById(R.id.partialResultTextView)
-            icStt = findViewById(R.id.icStt)
+        (context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater).inflate(R.layout.dialog_stt, null).let { view ->
+            partialResultsTextView = view.findViewById(R.id.partialResultTextView)
+            icStt = view.findViewById(R.id.icStt)
 
-            setView(this)
+            setView(view)
 
             matchActivity = (activity as MatchActivity).apply {
                 matchModel?.apply {
-                    findViewById<TextView>(R.id.sttHintTextView).text = getString(
+                    view.findViewById<TextView>(R.id.sttHintTextView).text = getString(
                         R.string.STT_hint,
                         players[0].name,
                         players[1].name
@@ -96,8 +92,8 @@ class SttDialog : DialogFragment() {
                         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
                         putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().displayLanguage)
                         putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10)
-                        putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, packageName)
                         putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+                        putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true)
                     }
                     stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
                         setRecognitionListener(SttListener())
