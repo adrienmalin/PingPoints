@@ -44,8 +44,7 @@ class StarterNameActivity : AppCompatActivity() {
         enableSttSwitch = findViewById(R.id.enableSttSwitch)
 
         // Restore previous data
-        previousMatch = getPreferences(Context.MODE_PRIVATE)
-        previousMatch?.apply {
+        previousMatch = getPreferences(Context.MODE_PRIVATE).apply {
             previousPlayers = getStringSet("previousPlayers", emptySet())
             val adapter = ArrayAdapter<String>(
                 this@StarterNameActivity,

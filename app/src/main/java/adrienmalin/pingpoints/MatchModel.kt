@@ -29,7 +29,6 @@ class MatchModel : ViewModel() {
     }
 
     fun updateScore(scorer: Player) {
-        pointId++
         scorer.score++
         if ((players.sumBy { it.score } % 2 == 0) or (players.all { it.score >= 10 })) {
             serviceSide = relaunchSide.also { relaunchSide = serviceSide }
@@ -46,7 +45,7 @@ class MatchModel : ViewModel() {
 
     fun saveState() {
         val point = Point(players.map { it.score }, serviceSide)
-        if (pointId == history.size) {
+        if (++pointId == history.size) {
             history.add(point)
         } else {
             history[pointId] = point
@@ -54,7 +53,7 @@ class MatchModel : ViewModel() {
     }
 
     fun undo() {
-        history[pointId--].let{
+        history[pointId--].let {
             players.zip(it.score).forEach{(player, score) -> player.score = score}
             serviceSide = it.serviceSide
             relaunchSide = when(serviceSide) {

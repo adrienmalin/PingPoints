@@ -25,10 +25,8 @@ class VictoryActivity : AppCompatActivity() {
 
         val previousMatch = getPreferences(Context.MODE_PRIVATE)
 
-        // Init victoryModel
-        victoryModel = ViewModelProviders.of(this).get(VictoryModel::class.java)
-
-        victoryModel?.apply {
+        // Init VictoryModel
+        victoryModel = ViewModelProviders.of(this).get(VictoryModel::class.java).apply {
             if (!matchFinished) {
                 matchFinished = true
                 winnerName = intent.getStringExtra("winnerName")

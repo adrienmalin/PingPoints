@@ -65,7 +65,7 @@ class MatchActivity : AppCompatActivity() {
             findViewById(R.id.imgService1)
         )
 
-        // Init or restore ViewModel
+        // Init ViewModel
         matchModel = ViewModelProviders.of(this).get(MatchModel::class.java)
         matchModel?.apply {
             if (!matchStarted) {
@@ -172,10 +172,9 @@ class MatchActivity : AppCompatActivity() {
     fun updateScore(view: View) {
         matchModel?.apply {
             if (!matchFinished) {
-                for (side in 0..1) {
-                    if (view == buttons[side]) {
-                        updateScore(players[side])
-                    }
+                when(view) {
+                    buttons[0] -> updateScore(players[0])
+                    buttons[1] -> updateScore(players[1])
                 }
                 updateUI()
             }

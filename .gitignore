@@ -10,3 +10,7 @@
 /captures
 .externalNativeBuild
 *.ser
+*.ser
+*.apk
+*.apk
+*.ser
