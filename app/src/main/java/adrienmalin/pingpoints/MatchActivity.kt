@@ -110,18 +110,17 @@ class MatchActivity : AppCompatActivity() {
             )
             textService?.text = getString(R.string.service, players[serviceSide].name)
 
-            imageViews[0]?.setImageResource(
+            for ((button, player) in buttons.zip(players)) {
+                button.text = fromHtml(getString(R.string.button_text, player.name, player.score))
+            }
+
+            imageViews[0].setImageResource(
                 when(serviceSide) {
                     0 -> R.drawable.ic_service_0
                     else -> 0
                 }
             )
-
-            for ((button, player) in buttons.zip(players)) {
-                button.text = fromHtml(getString(R.string.button_text, player.name, player.score))
-            }
-
-            imageViews[1]?.setImageResource(
+            imageViews[1].setImageResource(
                 when(serviceSide) {
                     0 -> 0
                     else -> R.drawable.ic_service_1
@@ -205,6 +204,7 @@ class MatchActivity : AppCompatActivity() {
         ).show()
     }
 
+    @Suppress("DEPRECATION")
     fun say(text: String, queueMode: Int = TextToSpeech.QUEUE_FLUSH) {
         tts?.speak(
             text,

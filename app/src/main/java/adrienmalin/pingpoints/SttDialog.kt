@@ -35,30 +35,32 @@ class SttDialog : DialogFragment() {
         }
 
         override fun onPartialResults(data: Bundle) {
-            if (!data.isEmpty)
-                partialResultsTextView?.text = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)[0]
+            data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let { results ->
+                if (results.isNotEmpty())
+                    partialResultsTextView?.text = results[0]
+            }
         }
 
         override fun onResults(data: Bundle) {
-            val results: ArrayList<String> = data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
             var understood = false
-
-            matchActivity?.apply {
-                matchModel?.apply {
-                    for (result in results) {
-                        for (player in players) {
-                            if (player.pattern?.matcher(result)?.find() == true) {
-                                understood = true
-                                dismiss()
-                                updateScore(player)
-                                updateUI()
-                                break
+            data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let { results ->
+                matchActivity?.apply {
+                    matchModel?.apply {
+                        for (result in results) {
+                            for (player in players) {
+                                if (player.pattern?.matcher(result)?.find() == true) {
+                                    understood = true
+                                    dismiss()
+                                    updateScore(player)
+                                    updateUI()
+                                    break
+                                }
                             }
+                            if (understood) break
                         }
-                        if (understood) break
-                    }
-                    if (!understood) {
-                        onError(0)
+                        if (!understood) {
+                            onError(0)
+                        }
                     }
                 }
             }

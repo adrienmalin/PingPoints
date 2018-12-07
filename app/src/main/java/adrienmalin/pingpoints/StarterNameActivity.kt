@@ -45,18 +45,18 @@ class StarterNameActivity : AppCompatActivity() {
 
         // Restore previous data
         previousMatch = getPreferences(Context.MODE_PRIVATE).apply {
-            previousPlayers = getStringSet("previousPlayers", emptySet())
+            getStringSet("previousPlayers", emptySet())?.let { previousPlayers = it.toSet() }
             val adapter = ArrayAdapter<String>(
                 this@StarterNameActivity,
                 android.R.layout.simple_list_item_1,
                 previousPlayers.toList())
-            player1NameInput?.run {
+            player1NameInput?.apply {
                 setText(
                     getString("previousPlayer2", getString(R.string.player_1_default_name)),
                     TextView.BufferType.EDITABLE)
                 setAdapter(adapter)
             }
-            player2NameInput?.run{
+            player2NameInput?.apply{
                 setText(
                     getString("previousPlayer1", getString(R.string.player_2_default_name)),
                     TextView.BufferType.EDITABLE)
@@ -75,7 +75,6 @@ class StarterNameActivity : AppCompatActivity() {
                     startActivityForResult(this, CHECK_TTS)
                 }
             }
-            false
         }
 
         enableSttSwitch?.setOnCheckedChangeListener  { _, isChecked ->
@@ -98,7 +97,6 @@ class StarterNameActivity : AppCompatActivity() {
                     showText(R.string.STT_unavailable)
                 }
             }
-            false
         }
     }
 
