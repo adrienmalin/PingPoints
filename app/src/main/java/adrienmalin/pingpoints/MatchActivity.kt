@@ -47,10 +47,42 @@ class MatchActivity : AppCompatActivity() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_match)
 
-        // Set HTML text for icons credits
-        findViewById<TextView>(R.id.iconsCredit).run {
-            setText(fromHtml(getString(R.string.iconCredits)))
-            movementMethod = LinkMovementMethod.getInstance()
+        // Init ViewModel
+        matchModel = ViewModelProviders.of(this).get(MatchModel::class.java).apply {
+            if (!matchStarted) {
+                intent.apply {
+                    matchStarted = true
+                    val player1Name = getStringExtra("player1Name")
+                    val player2Name = getStringExtra("player2Name")
+                    players = listOf(
+                        Player(
+                            getStringExtra("player1Name"),
+                            0,
+                            Pattern.compile(getString(R.string.pattern, player1Name))
+                        ), Player(
+                            player2Name,
+                            0,
+                            Pattern.compile(getString(R.string.pattern, player2Name))
+                        )
+                    )
+                    serviceSide = getIntExtra("starterId", 0)
+                    relaunchSide = when(serviceSide) {
+                        0 -> 1
+                        else -> 0
+                    }
+                    ttsEnabled = getBooleanExtra("enableTTS", false)
+                    sttEnabled = getBooleanExtra("enableSTT", false)
+                    saveState()
+                }
+                if (ttsEnabled) {
+                    tts = TextToSpeech(this@MatchActivity, WaitForTtsInit())
+                    if (sttEnabled)
+                        tts?.setOnUtteranceProgressListener(SttAfterTts())
+                }
+                if (!sttEnabled){
+                    showText(getString(R.string.button_hint))
+                }
+            }
         }
 
         // Find views
@@ -64,32 +96,12 @@ class MatchActivity : AppCompatActivity() {
             findViewById(R.id.imgService0),
             findViewById(R.id.imgService1)
         )
-
-        // Init ViewModel
-        matchModel = ViewModelProviders.of(this).get(MatchModel::class.java)
-        matchModel?.apply {
-            if (!matchStarted) {
-                intent.apply {
-                    startMatch(
-                        getStringExtra("player1Name"),
-                        getStringExtra("player2Name"),
-                        getIntExtra("starterId", 0),
-                        getBooleanExtra("enableTTS", false),
-                        getBooleanExtra("enableSTT", false)
-                    )
-                    for (player in players)
-                        player.pattern = Pattern.compile(getString(R.string.pattern, player.name))
-                }
-                if (ttsEnabled) {
-                    tts = TextToSpeech(this@MatchActivity, WaitForTtsInit())
-                    if (sttEnabled)
-                        tts?.setOnUtteranceProgressListener(SttAfterTts())
-                }
-                if (!sttEnabled){
-                    showText(getString(R.string.button_hint))
-                }
-            }
+        // Set HTML text for icons credits
+        findViewById<TextView>(R.id.iconsCredit).run {
+            setText(fromHtml(getString(R.string.iconCredits)))
+            movementMethod = LinkMovementMethod.getInstance()
         }
+
         updateUI()
     }
 

@@ -15,19 +15,6 @@ class MatchModel : ViewModel() {
     var pointId: Int = -1
     var history: MutableList<Point> = ArrayList()
 
-    fun startMatch(player1Name: String, player2Name:String, starterId: Int, enableTTS: Boolean, enableSTT: Boolean) {
-        matchStarted = true
-        players = listOf(Player(player1Name, 0), Player(player2Name, 0))
-        serviceSide = starterId
-        relaunchSide = when(serviceSide) {
-            0 -> 1
-            else -> 0
-        }
-        ttsEnabled = enableTTS
-        sttEnabled = enableSTT
-        saveState()
-    }
-
     fun updateScore(scorer: Player) {
         scorer.score++
         if ((players.sumBy { it.score } % 2 == 0) or (players.all { it.score >= 10 })) {
