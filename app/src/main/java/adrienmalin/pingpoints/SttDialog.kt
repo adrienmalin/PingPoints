@@ -112,6 +112,7 @@ class SttDialog : DialogFragment() {
 
     override fun onStop() {
         super.onStop()
+        stt?.stopListening()
         stt?.destroy()
     }
 
