@@ -1,11 +1,8 @@
 package adrienmalin.pingpoints
 
 import android.arch.lifecycle.ViewModelProviders
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
@@ -16,7 +13,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import java.util.*
 import java.util.regex.Pattern
 
 
@@ -80,7 +76,7 @@ class MatchActivity : AppCompatActivity() {
                         tts?.setOnUtteranceProgressListener(SttAfterTts())
                 }
                 if (!sttEnabled){
-                    showText(getString(R.string.button_hint))
+                    showPopUp(getString(R.string.button_hint))
                 }
             }
         }
@@ -135,7 +131,7 @@ class MatchActivity : AppCompatActivity() {
             if (matchFinished) {
                 val (loser, winner) = players.sortedBy { it.score }
                 if (ttsEnabled) {
-                    speakText(
+                    say(
                         getString(
                             R.string.victory_speech,
                             winner.name,
@@ -163,7 +159,7 @@ class MatchActivity : AppCompatActivity() {
                     )
                     if (matchPoint)
                         scoreSpeech += getString(R.string.match_point)
-                    speakText(scoreSpeech)
+                    say(scoreSpeech)
                 } else {
                     if (sttEnabled)
                         SttDialog().show(supportFragmentManager, "SttDialog")
@@ -184,30 +180,6 @@ class MatchActivity : AppCompatActivity() {
         }
     }
 
-    fun showText(text: String, duration: Int = Snackbar.LENGTH_SHORT) {
-        Snackbar.make(
-            findViewById(R.id.coordinatorLayout),
-            text,
-            duration
-        ).show()
-    }
-
-    fun showText(textId: Int, duration: Int = Snackbar.LENGTH_SHORT) {
-        Snackbar.make(
-            findViewById(R.id.coordinatorLayout),
-            textId,
-            duration
-        ).show()
-    }
-
-    fun speakText(text: String, queueMode: Int = TextToSpeech.QUEUE_FLUSH) {
-        tts?.speak(
-            text,
-            queueMode,
-            hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "TTS")
-        )
-    }
-
     override fun onBackPressed() {
         if (matchModel?.pointId == 0)
             super.onBackPressed()
@@ -215,5 +187,29 @@ class MatchActivity : AppCompatActivity() {
             matchModel?.undo()
             updateUI()
         }
+    }
+
+    fun showPopUp(text: String, duration: Int = Snackbar.LENGTH_SHORT) {
+        Snackbar.make(
+            findViewById(R.id.coordinatorLayout),
+            text,
+            duration
+        ).show()
+    }
+
+    fun showPopUp(textId: Int, duration: Int = Snackbar.LENGTH_SHORT) {
+        Snackbar.make(
+            findViewById(R.id.coordinatorLayout),
+            textId,
+            duration
+        ).show()
+    }
+
+    fun say(text: String, queueMode: Int = TextToSpeech.QUEUE_FLUSH) {
+        tts?.speak(
+            text,
+            queueMode,
+            hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "TTS")
+        )
     }
 }

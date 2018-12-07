@@ -79,7 +79,7 @@ class StarterNameActivity : AppCompatActivity() {
         }
 
         enableSttSwitch?.setOnCheckedChangeListener  { _, isChecked ->
-        if (isChecked) {
+            if (isChecked) {
                 if (SpeechRecognizer.isRecognitionAvailable(this@StarterNameActivity)) {
                     // Ask for record audio permission
                     if (ContextCompat.checkSelfPermission(
@@ -95,11 +95,7 @@ class StarterNameActivity : AppCompatActivity() {
                     }
                 } else {
                     enableSttSwitch?.isChecked = false
-                    Snackbar.make(
-                        findViewById(R.id.coordinatorLayout),
-                        R.string.STT_unavailable,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    showText(R.string.STT_unavailable,)
                 }
             }
             false
@@ -114,11 +110,7 @@ class StarterNameActivity : AppCompatActivity() {
                     enableTtsSwitch?.isChecked = true
                 } else {
                     enableTtsSwitch?.isChecked = false
-                    Snackbar.make(
-                        findViewById(R.id.coordinatorLayout),
-                        R.string.TTS_unavailable,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                    showText(R.string.TTS_unavailable)
                     Intent().apply {
                         action = TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA
                         startActivity(this)
@@ -135,11 +127,7 @@ class StarterNameActivity : AppCompatActivity() {
                     enableSttSwitch?.isChecked = true
                 } else {
                     enableSttSwitch?.isChecked = false
-                    Snackbar.make(
-                        findViewById(R.id.coordinatorLayout),
-                        R.string.audio_record_permission_denied,
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    showText(R.string.audio_record_permission_denied)
                 }
             } else -> {}
         }
@@ -184,5 +172,13 @@ class StarterNameActivity : AppCompatActivity() {
                 putExtra("enableSTT", enableSTT)
             }
         )
+    }
+
+    fun showText(textId: Int, duration: Int = Snackbar.LENGTH_SHORT) {
+        Snackbar.make(
+            findViewById(R.id.coordinatorLayout),
+            textId,
+            duration
+        ).show()
     }
 }

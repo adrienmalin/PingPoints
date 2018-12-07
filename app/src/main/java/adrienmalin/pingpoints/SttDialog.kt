@@ -10,7 +10,6 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import java.util.*
@@ -105,7 +104,7 @@ class SttDialog : DialogFragment() {
                         } catch (e: ActivityNotFoundException) {
                             sttEnabled = false
                             dismiss()
-                            showText(R.string.STT_unavailable)
+                            showPopUp(R.string.STT_unavailable)
                         }
                     }
                 }
