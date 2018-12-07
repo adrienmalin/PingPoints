@@ -174,8 +174,8 @@ class MatchActivity : AppCompatActivity() {
                     buttons[0] -> updateScore(players[0])
                     buttons[1] -> updateScore(players[1])
                 }
-                updateUI()
             }
+            updateUI()
         }
     }
 
