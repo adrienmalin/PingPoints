@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -15,6 +17,7 @@ import android.widget.TextView
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
+
 
 class SttDialog : DialogFragment() {
     var matchActivity: MatchActivity? = null
@@ -64,6 +67,15 @@ class SttDialog : DialogFragment() {
         }
 
         override fun onError(errorCode: Int) {
+            muteAudio()
+
+            // Restart STT
+            stt?.apply{
+                stopListening()
+                cancel()
+                destroy()
+            }
+
             stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
                 setRecognitionListener(SttListener())
                 startListening(sttIntent)
@@ -117,5 +129,49 @@ class SttDialog : DialogFragment() {
         super.onStop()
         stt?.stopListening()
         stt?.destroy()
+
+        unMuteAudio()
+    }
+
+    @Suppress("DEPRECATION")
+    fun muteAudio() {
+        activity?.apply {
+            (getSystemService(Context.AUDIO_SERVICE) as AudioManager).apply {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_MUTE, 0)
+                    adjustStreamVolume(AudioManager.STREAM_ALARM, AudioManager.ADJUST_MUTE, 0)
+                    adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0)
+                    adjustStreamVolume(AudioManager.STREAM_RING, AudioManager.ADJUST_MUTE, 0)
+                    adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_MUTE, 0)
+                } else {
+                    setStreamMute(AudioManager.STREAM_NOTIFICATION, true)
+                    setStreamMute(AudioManager.STREAM_ALARM, true)
+                    setStreamMute(AudioManager.STREAM_MUSIC, true)
+                    setStreamMute(AudioManager.STREAM_RING, true)
+                    setStreamMute(AudioManager.STREAM_SYSTEM, true)
+                }
+            }
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    fun unMuteAudio() {
+        activity?.apply {
+            (getSystemService(Context.AUDIO_SERVICE) as AudioManager).apply {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    adjustStreamVolume(AudioManager.STREAM_NOTIFICATION, AudioManager.ADJUST_UNMUTE, 0)
+                    adjustStreamVolume(AudioManager.STREAM_ALARM, AudioManager.ADJUST_UNMUTE, 0)
+                    adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0)
+                    adjustStreamVolume(AudioManager.STREAM_RING, AudioManager.ADJUST_UNMUTE, 0)
+                    adjustStreamVolume(AudioManager.STREAM_SYSTEM, AudioManager.ADJUST_UNMUTE, 0)
+                } else {
+                    setStreamMute(AudioManager.STREAM_NOTIFICATION, false)
+                    setStreamMute(AudioManager.STREAM_ALARM, false)
+                    setStreamMute(AudioManager.STREAM_MUSIC, false)
+                    setStreamMute(AudioManager.STREAM_RING, false)
+                    setStreamMute(AudioManager.STREAM_SYSTEM, false)
+                }
+            }
+        }
     }
 }
