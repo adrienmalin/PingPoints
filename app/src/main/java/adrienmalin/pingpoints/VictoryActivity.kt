@@ -50,8 +50,7 @@ class VictoryActivity : AppCompatActivity() {
                         getString(
                             R.string.results,
                             players[0].name,
-                            players[0].score,
-                            players[1].score,
+                            "%2d - %2d".format(players[0].score, players[1].score),
                             players[1].name,
                             previousMatches
                         )

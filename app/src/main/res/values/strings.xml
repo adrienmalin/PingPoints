@@ -32,7 +32,7 @@
     <string name="previous_matches">Previous matches</string>
     <string name="new_match">New match</string>
     <string name="share">Share</string>
-    <string name="results" translatable="false">%s\t%d - %d\t%s\n%s</string>
+    <string name="results" translatable="false">%s\t%s\t%s\n%s</string>
     <string name="victory_speech">%s wins by %d to %d.</string>
     <string name="share_subject">Ping Points Match: %s vs. %s</string>
     <string name="share_message">%s vs. %s:\n%s won by %d to %d\nGet Ping Points on Google Play</string>
@@ -40,6 +40,6 @@
     <string name="STT_hint">Say: \"Point for %s\"\nor \"Point for %s\"</string>
     <string name="pattern">(?i:Point for %s)</string>
     <string name="not_understood">Can you repeat, please?</string>
-    <string name="score" translatable="false">%2d - %2d</string>
+    <string name="score" translatable="false">%d - %d</string>
     <string name="STT_disabled">Voice recognition disabled.</string>
 </resources>
