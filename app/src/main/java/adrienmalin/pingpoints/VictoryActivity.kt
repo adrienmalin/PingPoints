@@ -41,7 +41,7 @@ class VictoryActivity : AppCompatActivity() {
                     )
                 )
 
-                previousMatches = previousMatch.getString("previousMatches", "")
+                previousMatches = previousMatch.getString("previousMatches", "") ?: ""
                 previousMatch.edit().apply {
                     putString(
                         "previousMatches",

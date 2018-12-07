@@ -56,6 +56,7 @@ class SttDialog : DialogFragment() {
                                 }
                             }
                         }
+                        partialResultsTextView?.text = getString(R.string.not_understood)
                         onError(ERROR_NOT_UNDERSTOOD)
                     }
                 }
@@ -63,15 +64,17 @@ class SttDialog : DialogFragment() {
         }
 
         override fun onError(errorCode: Int) {
-            partialResultsTextView?.text = getString(R.string.not_understood)
-            stt?.startListening(sttIntent)
+            stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
+                setRecognitionListener(SttListener())
+                startListening(sttIntent)
+            }
         }
 
-        override fun onEvent(arg0: Int, arg1: Bundle?) {}
         override fun onReadyForSpeech(arg0: Bundle?) {}
         override fun onBeginningOfSpeech() {}
         override fun onBufferReceived(buffer: ByteArray?) {}
         override fun onEndOfSpeech() {}
+        override fun onEvent(arg0: Int, arg1: Bundle?) {}
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?) = AlertDialog.Builder(activity).apply {
@@ -115,5 +118,4 @@ class SttDialog : DialogFragment() {
         stt?.stopListening()
         stt?.destroy()
     }
-
 }
