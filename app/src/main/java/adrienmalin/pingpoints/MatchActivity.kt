@@ -93,15 +93,6 @@ class MatchActivity : AppCompatActivity() {
         updateUI()
     }
 
-    override fun onBackPressed() {
-        if (matchModel?.pointId == 0)
-            super.onBackPressed()
-        else {
-            matchModel?.undo()
-            updateUI()
-        }
-    }
-
     fun updateUI() {
         matchModel?.apply {
             textScore?.text = getString(
@@ -203,5 +194,14 @@ class MatchActivity : AppCompatActivity() {
             queueMode,
             hashMapOf(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to "TTS")
         )
+    }
+
+    override fun onBackPressed() {
+        if (matchModel?.pointId == 0)
+            super.onBackPressed()
+        else {
+            matchModel?.undo()
+            updateUI()
+        }
     }
 }

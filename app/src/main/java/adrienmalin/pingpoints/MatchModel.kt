@@ -12,7 +12,7 @@ class MatchModel : ViewModel() {
     var relaunchSide: Int = 1
     var ttsEnabled: Boolean = false
     var sttEnabled: Boolean = false
-    var pointId: Int = 0
+    var pointId: Int = -1
     var history: MutableList<Point> = ArrayList()
 
     fun startMatch(player1Name: String, player2Name:String, starterId: Int, enableTTS: Boolean, enableSTT: Boolean) {
@@ -53,7 +53,7 @@ class MatchModel : ViewModel() {
     }
 
     fun undo() {
-        history[pointId--].let {
+        history[--pointId].let {
             players.zip(it.score).forEach{(player, score) -> player.score = score}
             serviceSide = it.serviceSide
             relaunchSide = when(serviceSide) {
