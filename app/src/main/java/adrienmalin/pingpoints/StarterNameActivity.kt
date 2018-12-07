@@ -95,7 +95,7 @@ class StarterNameActivity : AppCompatActivity() {
                     }
                 } else {
                     enableSttSwitch?.isChecked = false
-                    showText(R.string.STT_unavailable,)
+                    showText(R.string.STT_unavailable)
                 }
             }
             false
