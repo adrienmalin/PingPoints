@@ -35,7 +35,7 @@ class SttDialog : DialogFragment() {
             minRms = min(rmsdB, minRms)
             maxRms = max(rmsdB, maxRms)
             if (minRms != maxRms)
-                icStt?.alpha = 0.5f + rmsdB / (2*(maxRms - minRms))
+                icStt?.alpha = 0.5f + (rmsdB - minRms) / (2 * (maxRms - minRms))
         }
 
         override fun onPartialResults(data: Bundle) {
@@ -105,7 +105,6 @@ class SttDialog : DialogFragment() {
                     )
                     sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                        putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().displayLanguage)
                         putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10)
                         putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                         putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true)
