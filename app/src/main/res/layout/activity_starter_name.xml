@@ -63,7 +63,9 @@
                         android:id="@+id/player1Name"
                         tools:layout_editor_absoluteX="143dp" android:hint="@string/player_1_default_name"
                         android:selectAllOnFocus="true"
-                        android:completionThreshold="1"/>
+                        android:completionThreshold="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"/>
                 <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" app:srcCompat="@drawable/ic_swap_vert"
@@ -74,7 +76,9 @@
                         tools:layout_editor_absoluteX="136dp" android:id="@+id/player2Name"
                         android:hint="@string/player_2_default_name" android:layout_height="wrap_content"
                         android:layout_width="match_parent" android:selectAllOnFocus="true"
-                        android:completionThreshold="1"/>
+                        android:completionThreshold="1"
+                        android:singleLine="true"
+                        android:imeOptions="actionNext"/>
             </LinearLayout>
         </LinearLayout>
         <Switch
@@ -99,7 +103,7 @@
                 android:text="@string/start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/button"
+                android:id="@+id/startMatchButton"
                 style="@android:style/Widget.DeviceDefault.Button"
                 android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
                 android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
