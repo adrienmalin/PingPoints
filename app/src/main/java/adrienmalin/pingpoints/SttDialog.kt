@@ -31,6 +31,12 @@ class SttDialog : DialogFragment() {
         var minRms: Float = 0f
         var maxRms: Float = 0f
 
+        override fun onReadyForSpeech(arg0: Bundle?) {}
+
+        override fun onBeginningOfSpeech() {}
+
+        override fun onBufferReceived(buffer: ByteArray?) {}
+
         override fun onRmsChanged(rmsdB: Float) {
             minRms = min(rmsdB, minRms)
             maxRms = max(rmsdB, maxRms)
@@ -66,26 +72,17 @@ class SttDialog : DialogFragment() {
             }
         }
 
+        override fun onEndOfSpeech() {}
+
         override fun onError(errorCode: Int) {
             muteAudio()
-
-            // Restart STT
-            stt?.apply{
-                stopListening()
-                cancel()
-                destroy()
-            }
-
+            stt?.destroy()
             stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
                 setRecognitionListener(SttListener())
                 startListening(sttIntent)
             }
         }
 
-        override fun onReadyForSpeech(arg0: Bundle?) {}
-        override fun onBeginningOfSpeech() {}
-        override fun onBufferReceived(buffer: ByteArray?) {}
-        override fun onEndOfSpeech() {}
         override fun onEvent(arg0: Int, arg1: Bundle?) {}
     }
 
@@ -119,6 +116,7 @@ class SttDialog : DialogFragment() {
                             showPopUp(R.string.STT_unavailable)
                         }
                     }
+                    muteAudio()
                 }
             }
         }

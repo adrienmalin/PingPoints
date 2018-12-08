@@ -69,7 +69,12 @@ class StarterNameActivity : AppCompatActivity() {
                     TextView.BufferType.EDITABLE)
                 setAdapter(adapter)
             }
-            starterRadioGroup?.check(getInt("previousStarterId", R.id.radioPlayer1Starts))
+            starterRadioGroup?.check(
+                when(getInt("previousStarterId", 0)) {
+                    1 -> R.id.radioPlayer2Starts
+                    else -> R.id.radioPlayer1Starts
+                }
+            )
             enableTtsSwitch?.isChecked = getBoolean("enableTTS", false)
             enableSttSwitch?.isChecked = getBoolean("enableSTT", false)
         }
@@ -151,6 +156,10 @@ class StarterNameActivity : AppCompatActivity() {
         val player1Name = player1NameInput?.text.toString()
         val player2Name = player2NameInput?.text.toString()
         val radioStarterId = starterRadioGroup?.checkedRadioButtonId
+        val starterId = when(radioStarterId) {
+            R.id.radioPlayer2Starts -> 1
+            else -> 0
+        }
         val enableTTS = enableTtsSwitch?.isChecked
         val enableSTT = enableSttSwitch?.isChecked
 
@@ -158,7 +167,7 @@ class StarterNameActivity : AppCompatActivity() {
         previousMatch?.edit()?.apply{
             player1Name.let { putString("previousPlayer1", it) }
             player2Name.let { putString("previousPlayer2", it) }
-            radioStarterId?.let{ putInt("previousStarterId", it) }
+            putInt("previousStarterId", starterId)
             putStringSet("previousPlayers", previousPlayers.plus(player1Name).plus(player2Name))
             enableTTS?.let { putBoolean("enableTTS", it) }
             enableSTT?.let { putBoolean("enableSTT", it) }
@@ -169,13 +178,7 @@ class StarterNameActivity : AppCompatActivity() {
             Intent(this, MatchActivity::class.java).apply {
                 putExtra("player1Name", player1Name)
                 putExtra("player2Name", player2Name)
-                putExtra(
-                    "starterId",
-                    when(radioStarterId) {
-                        R.id.radioPlayer2Starts -> 1
-                        else -> 0
-                    }
-                )
+                putExtra("starterId", starterId)
                 putExtra("enableTTS", enableTTS)
                 putExtra("enableSTT", enableSTT)
             }
