@@ -60,13 +60,15 @@ class StarterNameActivity : AppCompatActivity() {
             player1NameInput?.apply {
                 setText(
                     getString("previousPlayer2", getString(R.string.player_1_default_name)),
-                    TextView.BufferType.EDITABLE)
+                    TextView.BufferType.EDITABLE
+                )
                 setAdapter(adapter)
             }
             player2NameInput?.apply{
                 setText(
                     getString("previousPlayer1", getString(R.string.player_2_default_name)),
-                    TextView.BufferType.EDITABLE)
+                    TextView.BufferType.EDITABLE
+                )
                 setAdapter(adapter)
             }
             starterRadioGroup?.check(
