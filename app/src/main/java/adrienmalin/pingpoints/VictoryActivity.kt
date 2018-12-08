@@ -3,6 +3,7 @@ package adrienmalin.pingpoints
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
@@ -15,17 +16,21 @@ import kotlin.math.min
 
 
 class VictoryActivity : AppCompatActivity() {
-
     var victoryModel: VictoryModel? = null
+    var previousMatch: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_victory)
 
-        val previousMatch = getPreferences(Context.MODE_PRIVATE)
+        initVictoryModel()
+        previousMatch = getPreferences(Context.MODE_PRIVATE)
+        updateUI()
+        saveScore()
+    }
 
-        // Init VictoryModel
+    fun initVictoryModel() {
         victoryModel = ViewModelProviders.of(this).get(VictoryModel::class.java).apply {
             if (!matchFinished) {
                 matchFinished = true
@@ -40,24 +45,12 @@ class VictoryActivity : AppCompatActivity() {
                         intent.getIntExtra("player2Score", 0)
                     )
                 )
-
-                previousMatches = previousMatch.getString("previousMatches", "") ?: ""
-                previousMatch.edit().apply {
-                    putString(
-                        "previousMatches",
-                        getString(
-                            R.string.results,
-                            players[0].name,
-                            "%2d - %2d".format(players[0].score, players[1].score),
-                            players[1].name,
-                            previousMatches
-                        )
-                    )
-                    commit()
-                }
             }
+        }
+    }
 
-            // UpdateUI
+    fun updateUI() {
+        victoryModel?.apply {
             findViewById<TextView>(R.id.congrats).text = getString(R.string.congrats, winnerName)
             findViewById<TextView>(R.id.player1NameTextView).text = players[0].name
             findViewById<TextView>(R.id.scoreTextView).text = getString(
@@ -70,8 +63,26 @@ class VictoryActivity : AppCompatActivity() {
                 this@VictoryActivity,
                 R.layout.grid_item,
                 R.id.grid_item_text,
-                previousMatches.split("\t|\n".toRegex())
+                previousMatch?.getString("previousMatches", "")?.split("\t|\n".toRegex())?.toMutableList()
             )
+        }
+    }
+
+    fun saveScore() {
+        victoryModel?.apply {
+            previousMatch?.edit()?.apply {
+                putString(
+                    "previousMatches",
+                    getString(
+                        R.string.results,
+                        players[0].name,
+                        "%2d - %2d".format(players[0].score, players[1].score),
+                        players[1].name,
+                        previousMatches
+                    )
+                )
+                commit()
+            }
         }
     }
 

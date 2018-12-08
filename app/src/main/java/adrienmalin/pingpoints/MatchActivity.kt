@@ -34,7 +34,10 @@ class MatchActivity : AppCompatActivity() {
         override fun onDone(id: String) {
             SttDialog().show( supportFragmentManager, "SttDialog")
         }
+
         override fun onStart(id: String) {}
+
+        @Suppress("OverridingDeprecatedMember")
         override fun onError(id: String) {}
     }
 
@@ -43,7 +46,12 @@ class MatchActivity : AppCompatActivity() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_match)
 
-        // Init ViewModel
+        initMatchModel()
+        findViews()
+        updateUI()
+    }
+
+    fun initMatchModel() {
         matchModel = ViewModelProviders.of(this).get(MatchModel::class.java).apply {
             if (!matchStarted) {
                 intent.apply {
@@ -62,19 +70,15 @@ class MatchActivity : AppCompatActivity() {
                     ttsEnabled = getBooleanExtra("enableTTS", false)
                     sttEnabled = getBooleanExtra("enableSTT", false)
                     saveState()
-                }
-                if (ttsEnabled) {
-                    tts = TextToSpeech(this@MatchActivity, WaitForTtsInit())
-                    if (sttEnabled)
-                        tts?.setOnUtteranceProgressListener(SttAfterTts())
-                }
-                if (!sttEnabled){
-                    showPopUp(getString(R.string.button_hint))
+
+                    if (ttsEnabled) tts = TextToSpeech(this@MatchActivity, WaitForTtsInit())
+                    if (!sttEnabled) showPopUp(getString(R.string.button_hint))
                 }
             }
         }
+    }
 
-        // Find views
+    fun findViews() {
         textScore = findViewById(R.id.textScore)
         textService = findViewById(R.id.textService)
         buttons = arrayOf(
@@ -85,13 +89,12 @@ class MatchActivity : AppCompatActivity() {
             findViewById(R.id.imgService0),
             findViewById(R.id.imgService1)
         )
+
         // Set HTML text for icons credits
-        findViewById<TextView>(R.id.iconsCredit).run {
+        findViewById<TextView>(R.id.iconsCredit).apply {
             setText(fromHtml(getString(R.string.iconCredits)))
             movementMethod = LinkMovementMethod.getInstance()
         }
-
-        updateUI()
     }
 
     fun updateUI() {
@@ -103,9 +106,8 @@ class MatchActivity : AppCompatActivity() {
             )
             textService?.text = getString(R.string.service, players[serviceSide].name)
 
-            for ((button, player) in buttons.zip(players)) {
+            for ((button, player) in buttons.zip(players))
                 button.text = fromHtml(getString(R.string.button_text, player.name, player.score))
-            }
 
             imageViews[0].setImageResource(
                 when(serviceSide) {
@@ -120,28 +122,9 @@ class MatchActivity : AppCompatActivity() {
                 }
             )
 
-            if (matchFinished) {
-                val (loser, winner) = players.sortedBy { it.score }
-                if (ttsEnabled) {
-                    say(
-                        getString(
-                            R.string.victory_speech,
-                            winner.name,
-                            winner.score,
-                            loser.score
-                        )
-                    )
-                }
-                startActivity(
-                    Intent(this@MatchActivity, VictoryActivity::class.java).apply {
-                        putExtra("winnerName", winner.name)
-                        putExtra("player1Name", players[0].name)
-                        putExtra("player2Name", players[1].name)
-                        putExtra("player1Score", players[0].score)
-                        putExtra("player2Score", players[1].score)
-                    }
-                )
-            } else {
+            if (matchFinished)
+                proclaimVictory()
+            else {
                 if (ttsEnabled) {
                     var scoreSpeech: String = getString(
                         R.string.update_score_speech,
@@ -149,14 +132,39 @@ class MatchActivity : AppCompatActivity() {
                         players[relaunchSide].score,
                         players[serviceSide].name
                     )
-                    if (matchPoint)
-                        scoreSpeech += getString(R.string.match_point)
+                    if (matchPoint) scoreSpeech += getString(R.string.match_point)
                     say(scoreSpeech)
-                } else {
-                    if (sttEnabled)
-                        SttDialog().show(supportFragmentManager, "SttDialog")
+                }
+                if (sttEnabled) {
+                    if (ttsEnabled) tts?.setOnUtteranceProgressListener(SttAfterTts())
+                    else SttDialog().show(supportFragmentManager, "SttDialog")
                 }
             }
+        }
+    }
+
+    fun proclaimVictory() {
+        matchModel?.apply {
+            val (loser, winner) = players.sortedBy { it.score }
+            if (ttsEnabled) {
+                say(
+                    getString(
+                        R.string.victory_speech,
+                        winner.name,
+                        winner.score,
+                        loser.score
+                    )
+                )
+            }
+            startActivity(
+                Intent(this@MatchActivity, VictoryActivity::class.java).apply {
+                    putExtra("winnerName", winner.name)
+                    putExtra("player1Name", players[0].name)
+                    putExtra("player2Name", players[1].name)
+                    putExtra("player1Score", players[0].score)
+                    putExtra("player2Score", players[1].score)
+                }
+            )
         }
     }
 

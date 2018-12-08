@@ -36,14 +36,21 @@ class StarterNameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_starter_name)
 
-        // Find views
+        findViews()
+        checkTtsAvailable()
+        checkSttAvailable()
+        restorePreviousSettings()
+    }
+
+    fun findViews() {
         player1NameInput = findViewById(R.id.player1Name)
         player2NameInput = findViewById(R.id.player2Name)
         starterRadioGroup = findViewById(R.id.starterRadioGroup)
         enableTtsSwitch = findViewById(R.id.enableTtsSwitch)
         enableSttSwitch = findViewById(R.id.enableSttSwitch)
+    }
 
-        // Restore previous data
+    fun restorePreviousSettings() {
         previousMatch = getPreferences(Context.MODE_PRIVATE).apply {
             getStringSet("previousPlayers", emptySet())?.let { previousPlayers = it.toSet() }
             val adapter = ArrayAdapter<String>(
@@ -66,35 +73,14 @@ class StarterNameActivity : AppCompatActivity() {
             enableTtsSwitch?.isChecked = getBoolean("enableTTS", false)
             enableSttSwitch?.isChecked = getBoolean("enableSTT", false)
         }
+    }
 
-        // Check if function is available on switch checked or swapped
+    fun checkTtsAvailable() {
         enableTtsSwitch?.setOnCheckedChangeListener  { _, isChecked ->
-        if (isChecked)  {
+            if (isChecked)  {
                 Intent().apply {
                     action = TextToSpeech.Engine.ACTION_CHECK_TTS_DATA
                     startActivityForResult(this, CHECK_TTS)
-                }
-            }
-        }
-
-        enableSttSwitch?.setOnCheckedChangeListener  { _, isChecked ->
-            if (isChecked) {
-                if (SpeechRecognizer.isRecognitionAvailable(this@StarterNameActivity)) {
-                    // Ask for record audio permission
-                    if (ContextCompat.checkSelfPermission(
-                            this@StarterNameActivity,
-                            Manifest.permission.RECORD_AUDIO
-                        ) != PackageManager.PERMISSION_GRANTED
-                    ) {
-                        ActivityCompat.requestPermissions(
-                            this@StarterNameActivity,
-                            arrayOf(Manifest.permission.RECORD_AUDIO),
-                            ASK_PERMISSIONS_RECORD_AUDIO
-                        )
-                    }
-                } else {
-                    enableSttSwitch?.isChecked = false
-                    showText(R.string.STT_unavailable)
                 }
             }
         }
@@ -115,6 +101,30 @@ class StarterNameActivity : AppCompatActivity() {
                     }
                 }
             } else -> {}
+        }
+    }
+
+    fun checkSttAvailable() {
+        enableSttSwitch?.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                if (SpeechRecognizer.isRecognitionAvailable(this@StarterNameActivity)) {
+                    // Ask for record audio permission
+                    if (ContextCompat.checkSelfPermission(
+                            this@StarterNameActivity,
+                            Manifest.permission.RECORD_AUDIO
+                        ) != PackageManager.PERMISSION_GRANTED
+                    ) {
+                        ActivityCompat.requestPermissions(
+                            this@StarterNameActivity,
+                            arrayOf(Manifest.permission.RECORD_AUDIO),
+                            ASK_PERMISSIONS_RECORD_AUDIO
+                        )
+                    }
+                } else {
+                    enableSttSwitch?.isChecked = false
+                    showText(R.string.STT_unavailable)
+                }
+            }
         }
     }
 
@@ -144,7 +154,7 @@ class StarterNameActivity : AppCompatActivity() {
         val enableTTS = enableTtsSwitch?.isChecked
         val enableSTT = enableSttSwitch?.isChecked
 
-        // Save
+        // Save settings
         previousMatch?.edit()?.apply{
             player1Name.let { putString("previousPlayer1", it) }
             player2Name.let { putString("previousPlayer2", it) }
