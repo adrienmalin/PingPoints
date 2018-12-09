@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".SttDialog">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ImageView
+                app:srcCompat="@drawable/ic_stt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/icStt" android:layout_margin="8dp"
+                android:contentDescription="@string/STT"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/STT_hint" android:id="@+id/sttHintTextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:gravity="center"
+                android:layout_marginLeft="8dp" android:layout_marginRight="8dp"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/partialResultTextView"
+                android:layout_margin="8dp" android:gravity="center"/>
+    </LinearLayout>
+
+</FrameLayout>

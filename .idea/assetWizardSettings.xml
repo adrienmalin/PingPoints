@@ -13,46 +13,6 @@
                       <PersistentState>
                         <option name="children">
                           <map>
-                            <entry key="actionbar">
-                              <value>
-                                <PersistentState>
-                                  <option name="children">
-                                    <map>
-                                      <entry key="clipartAsset">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_info_outline_black_24dp.xml" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                      <entry key="textAsset">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="text" value="" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                    </map>
-                                  </option>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="assetType" value="TEXT" />
-                                      <entry key="imageAsset" value="C:\Users\adima\Downloads\ping-pong (2).png" />
-                                      <entry key="outputName" value="not_server" />
-                                      <entry key="theme" value="HOLO_DARK" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
                             <entry key="launcher">
                               <value>
                                 <PersistentState>
@@ -64,7 +24,6 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="scalingPercent" value="90" />
-                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -75,21 +34,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="3c3a41" />
-                                      <entry key="foregroundImage" value="C:\Users\adima\AndroidStudioProjects\PingPoints\app\src\main\res\drawable\ic_ping_pong_table.xml" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
-                            <entry key="launcherLegacy">
-                              <value>
-                                <PersistentState>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="assetType" value="IMAGE" />
-                                      <entry key="iconShape" value="NONE" />
-                                      <entry key="imageAsset" value="C:\Users\adima\Downloads\ping-pong (1).png" />
+                                      <entry key="foregroundImage" value="C:\Users\adrien.malingrey\Documents\GitHub\PingPoints.V1\app\src\main\res\drawable\ic_launcher_foreground.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -120,7 +65,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_redo_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_voice_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -130,10 +75,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="autoMirrored" value="true" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_redo" />
-                            <entry key="sourceFile" value="C:\Users\adima\Downloads\ping-pong (3).svg" />
+                            <entry key="outputName" value="ic_stt" />
+                            <entry key="sourceFile" value="C:\Users\adima" />
                           </map>
                         </option>
                       </PersistentState>

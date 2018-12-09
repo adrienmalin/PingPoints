@@ -1,7 +1,7 @@
 *.iml
 .gradle
-app/release
 /local.properties
+/.idea/caches/build_file_checksums.ser
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
@@ -9,3 +9,9 @@ app/release
 /build
 /captures
 .externalNativeBuild
+*.ser
+*.ser
+*.apk
+*.apk
+*.ser
+*.ser

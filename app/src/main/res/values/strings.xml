@@ -1,27 +1,45 @@
 <resources>
     <string name="app_name">Ping Points</string>
-    <string name="go_button">Play</string>
-    <string name="starter_name_dialog_message">Who starts?</string>
-    <string name="info">Click on the scoring player</string>
-    <string name="service">Service: %s</string>
-    <string name="score">Score: %d - %d</string>
-    <string name="button_text" translatable="false">%s &lt;br /&gt; &lt;br /&gt; &lt;big&gt; &lt;big&gt; %d &lt;/big&gt; &lt;/big&gt;</string>
-    <string name="end_match_dialog_title">Congratulations, %s!</string>
-    <string-array name="default_players_names">
-        <item>Player 1</item>
-        <item>Player 2</item>
-    </string-array>
-    <string name="new_match">New match</string>
-    <string name="quit_button">Quit</string>
-    <string name="name">Name</string>
-    <string name="share_button">Share</string>
-    <string name="share_subject">Ping Points Match: %s vs. %s</string>
-    <string name="share_message">%s vs. %s:\n%s won by %d to %d\n\nGet Ping Points on Google Play</string>
-    <string name="radioText" translatable="false"></string>
+    <string name="who_starts">Who starts?</string>
+    <string name="player_1_default_name">Player 1</string>
+    <string name="player_2_default_name">Player 2</string>
+    <string name="TTS">Text to speech</string>
+    <string name="STT">Voice recognizer</string>
+    <string name="start">Play</string>
+    <string name="swap_names">Swap names</string>
     <string name="PingPointsCredits">Ping Points by Adrien Malin</string>
-    <string name="iconCredits">Icons made by &lt;a href=&quot;http://www.freepik.com&quot; title=&quot;Freepik&quot;&gt;Freepik&lt;/a&gt; from &lt;a href=&quot;https://www.flaticon.com/&quot; title=&quot;Flaticon&quot;&gt;www.flaticon.com&lt;/a&gt; is licensed by &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/&quot; title=&quot;Creative Commons BY 3.0&quot; target=&quot;_blank&quot;&gt;CC 3.0 BY&lt;/a&gt;</string>
-    <string name="about">About</string>
+    <string name="iconCredits">Icons made by &lt;a href=&quot;http://www.freepik.com&quot; title=&quot;Freepik&quot;&gt;Freepik&lt;/a&gt;
+        from &lt;a href=&quot;https://www.flaticon.com/&quot; title=&quot;Flaticon&quot;&gt;flaticon.com&lt;/a&gt; is
+        licensed by &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/&quot; title=&quot;Creative Commons BY
+        3.0&quot; target=&quot;_blank&quot;&gt;CC 3.0 BY&lt;/a&gt;
+    </string>
+    <string name="TTS_unavailable">Sorry, your device doesn\'t support text to speech.</string>
+    <string name="STT_unavailable">Sorry, your device doesn\'t support voice recognition.</string>
+    <string name="OK">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="audio_record_permission_denied">Audio recording permission required to use voice recognition.</string>
+    <string name="service">Service: %s</string>
+    <string name="score_score">Score: %d - %d</string>
     <string name="service_img_description">Service</string>
+    <string name="button_text" translatable="false">%s &lt;br /&gt; &lt;br /&gt; &lt;big&gt; &lt;big&gt; %d &lt;/big&gt;
+        &lt;/big&gt;
+    </string>
+    <string name="update_score_speech">"%d - %d. Service: %s. "</string>
+    <string name="button_hint">Click on the scoring player</string>
     <string name="undo">Undo</string>
     <string name="redo">Redo</string>
+    <string name="congrats">Congratulations, %s!</string>
+    <string name="previous_matches">Previous matches</string>
+    <string name="new_match">New match</string>
+    <string name="share">Share</string>
+    <string name="results" translatable="false">%s\t%s\t%s\n%s</string>
+    <string name="victory_speech">%s wins by %d to %d.</string>
+    <string name="share_subject">Ping Points Match: %s vs. %s</string>
+    <string name="share_message">%s vs. %s:\n%s won by %d to %d\nGet Ping Points on Google Play</string>
+    <string name="match_point">Match point</string>
+    <string name="STT_hint">Say: \"Point for %s\"\nor \"Point for %s\"</string>
+    <string name="pattern">(?i:Point for %s)</string>
+    <string name="not_understood">Can you repeat, please?</string>
+    <string name="score" translatable="false">%d - %d</string>
+    <string name="STT_disabled">Voice recognition disabled.</string>
 </resources>
