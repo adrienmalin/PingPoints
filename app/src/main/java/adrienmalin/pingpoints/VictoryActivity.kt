@@ -24,8 +24,8 @@ class VictoryActivity : AppCompatActivity() {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         setContentView(R.layout.activity_victory)
 
-        initVictoryModel()
         previousMatch = getPreferences(Context.MODE_PRIVATE)
+        initVictoryModel()
         updateUI()
         saveScore()
     }
@@ -45,6 +45,7 @@ class VictoryActivity : AppCompatActivity() {
                         intent.getIntExtra("player2Score", 0)
                     )
                 )
+                previousMatch?.apply{ previousMatches = getString("previousMatches", "") }
             }
         }
     }
@@ -63,7 +64,7 @@ class VictoryActivity : AppCompatActivity() {
                 this@VictoryActivity,
                 R.layout.grid_item,
                 R.id.grid_item_text,
-                previousMatch?.getString("previousMatches", "")?.split("\t|\n".toRegex())?.toMutableList()
+                previousMatches.split("\t|\n".toRegex())?.toMutableList()
             )
         }
     }
