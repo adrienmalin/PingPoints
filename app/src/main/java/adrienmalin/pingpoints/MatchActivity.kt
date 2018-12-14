@@ -59,8 +59,8 @@ class MatchActivity : AppCompatActivity() {
                     val player1Name = getStringExtra("player1Name")
                     val player2Name = getStringExtra("player2Name")
                     players = listOf(
-                        Player(player1Name, 0),
-                        Player(player2Name, 0)
+                        Player(player1Name, 0, Pattern.compile(getString(R.string.pattern, player1Name))),
+                        Player(player2Name, 0, Pattern.compile(getString(R.string.pattern, player2Name)))
                     )
                     serviceSide = getIntExtra("starterId", 0)
                     relaunchSide = when(serviceSide) {

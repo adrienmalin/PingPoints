@@ -57,7 +57,7 @@ class SttDialog : DialogFragment() {
                     matchModel?.apply {
                         for (result in results) {
                             for (player in players) {
-                                if (getString(R.string.pattern, player.name).equals(result, ignoreCase=true)) {
+                                if (player.pattern?.matcher(result)?.find() == true) {
                                     dismiss()
                                     updateScore(player)
                                     updateUI()
@@ -97,8 +97,8 @@ class SttDialog : DialogFragment() {
                 matchModel?.apply {
                     view.findViewById<TextView>(R.id.sttHintTextView).text = getString(
                         R.string.STT_hint,
-                        getString(R.string.pattern, players[0].name),
-                        getString(R.string.pattern, players[1].name)
+                        players[0].name,
+                        players[1].name
                     )
                     sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
                         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
