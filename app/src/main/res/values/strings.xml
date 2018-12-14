@@ -38,7 +38,7 @@
     <string name="share_message">%s vs. %s:\n%s won by %d to %d\nGet Ping Points on Google Play</string>
     <string name="match_point">Match point</string>
     <string name="STT_hint">Say: \"Point for %s\"\nor \"Point for %s\"</string>
-    <string name="pattern">(?i:Point for %s)</string>
+    <string name="pattern">Point for %s</string>
     <string name="not_understood">Can you repeat, please?</string>
     <string name="score" translatable="false">%d - %d</string>
     <string name="STT_disabled">Voice recognition disabled.</string>
