@@ -11,6 +11,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.support.v4.app.DialogFragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
@@ -109,6 +110,7 @@ class SttDialog : DialogFragment() {
                     stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
                         setRecognitionListener(SttListener())
                         try {
+                            stopListening()
                             startListening(sttIntent)
                         } catch (e: ActivityNotFoundException) {
                             sttEnabled = false

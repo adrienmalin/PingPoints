@@ -30,10 +30,10 @@
     <string name="share">Partager</string>
     <string name="victory_speech">%s gagne par %d à %d.</string>
     <string name="share_subject">Match Ping Points : %s contre %s</string>
-    <string name="share_message">"%s contre %s:\n%s a gagné par %d à %d\nPing Points est disponible sur Google Play\n "</string>
+    <string name="share_message">"%s contre %s:\n%s a gagné par %d à %d\nPing Points est disponible sur Google Play"</string>
     <string name="match_point">Balle de match</string>
-    <string name="STT_hint">Dîtes : \"Point pour %s\"\nou \"Point pour %s\"</string>
-    <string name="pattern">(?i:Point pour %s)</string>
+    <string name="STT_hint">Dîtes : \"point %s\"\nou \"point %s\"</string>
+    <string name="pattern">(?i:(point|.) %s)</string>
     <string name="not_understood">Pouvez-vous répéter ?</string>
     <string name="STT_disabled">Reconnaissance vocale désactivée.</string>
 </resources>
