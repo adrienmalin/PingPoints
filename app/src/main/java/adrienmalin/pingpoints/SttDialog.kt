@@ -46,9 +46,9 @@ class SttDialog : DialogFragment() {
         }
 
         override fun onPartialResults(data: Bundle) {
-            matchActivity?.apply {
-                matchModel?.apply {
-                    data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let { results ->
+            data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let { results ->
+                matchActivity?.apply {
+                    matchModel?.apply {
                         for (result in results) {
                             partialResultsTextView?.text = result
                             for (player in players) {
