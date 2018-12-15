@@ -46,19 +46,14 @@ class SttDialog : DialogFragment() {
         }
 
         override fun onPartialResults(data: Bundle) {
-            data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let { results ->
-                if (results.isNotEmpty())
-                    partialResultsTextView?.text = results[0]
-            }
-        }
-
-        override fun onResults(data: Bundle) {
-            data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let { results ->
-                matchActivity?.apply {
-                    matchModel?.apply {
+            matchActivity?.apply {
+                matchModel?.apply {
+                    data.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.let { results ->
                         for (result in results) {
+                            partialResultsTextView?.text = result
                             for (player in players) {
                                 if (player.pattern?.matcher(result)?.find() == true) {
+                                    stt?.stopListening()
                                     dismiss()
                                     updateScore(player)
                                     updateUI()
@@ -66,11 +61,14 @@ class SttDialog : DialogFragment() {
                                 }
                             }
                         }
-                        partialResultsTextView?.text = getString(R.string.not_understood)
-                        onError(ERROR_NOT_UNDERSTOOD)
                     }
                 }
             }
+        }
+
+        override fun onResults(data: Bundle) {
+            partialResultsTextView?.text = getString(R.string.not_understood)
+            onError(ERROR_NOT_UNDERSTOOD)
         }
 
         override fun onEndOfSpeech() {}
