@@ -53,7 +53,6 @@ class SttDialog : DialogFragment() {
                             partialResultsTextView?.text = result
                             for (player in players) {
                                 if (player.pattern?.matcher(result)?.find() == true) {
-                                    stt?.stopListening()
                                     dismiss()
                                     updateScore(player)
                                     updateUI()
@@ -77,7 +76,7 @@ class SttDialog : DialogFragment() {
             muteAudio()
             stt?.destroy()
             stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
-                setRecognitionListener(SttListener())
+                setRecognitionListener(this@SttListener)
                 startListening(sttIntent)
             }
         }
@@ -116,7 +115,6 @@ class SttDialog : DialogFragment() {
                             showPopUp(R.string.STT_unavailable)
                         }
                     }
-                    muteAudio()
                 }
             }
         }
