@@ -123,11 +123,10 @@ class SttDialog : DialogFragment() {
     }.create()!!
 
     override fun onStop() {
-        super.onStop()
+        unMuteAudio()
         stt?.stopListening()
         stt?.destroy()
-
-        unMuteAudio()
+        super.onStop()
     }
 
     @Suppress("DEPRECATION")
