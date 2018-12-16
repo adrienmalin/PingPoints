@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.GridView
@@ -66,6 +67,12 @@ class VictoryActivity : AppCompatActivity() {
                 R.id.grid_item_text,
                 previousMatches.split("\t|\n".toRegex())?.toMutableList()
             )
+        }
+
+        // Set HTML text for icons credits
+        findViewById<TextView>(R.id.iconsCredit).apply {
+            setText(fromHtml(getString(R.string.iconCredits)))
+            movementMethod = LinkMovementMethod.getInstance()
         }
     }
 

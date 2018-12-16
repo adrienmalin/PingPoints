@@ -15,3 +15,4 @@
 *.apk
 *.ser
 *.ser
+.idea/misc.xml

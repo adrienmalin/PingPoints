@@ -8,11 +8,9 @@ import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
-import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import java.util.regex.Pattern
 
 
@@ -89,12 +87,6 @@ class MatchActivity : AppCompatActivity() {
             findViewById(R.id.imgService0),
             findViewById(R.id.imgService1)
         )
-
-        // Set HTML text for icons credits
-        findViewById<TextView>(R.id.iconsCredit).apply {
-            setText(fromHtml(getString(R.string.iconCredits)))
-            movementMethod = LinkMovementMethod.getInstance()
-        }
     }
 
     fun updateUI() {
