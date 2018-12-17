@@ -16,3 +16,8 @@
 *.ser
 *.ser
 .idea/misc.xml
+app/release/app-release.apk
+.idea/misc.xml
+app/release/output.json
+app/release/release/app.aab
+.idea/misc.xml
