@@ -30,7 +30,7 @@ class MatchActivity : AppCompatActivity() {
 
     inner class SttAfterTts : UtteranceProgressListener() {
         override fun onDone(id: String) {
-            SttDialog().show( supportFragmentManager, "SttDialog")
+            SttDialog().show(supportFragmentManager, "SttDialog")
         }
 
         override fun onStart(id: String) {}
@@ -57,8 +57,8 @@ class MatchActivity : AppCompatActivity() {
                     val player1Name = getStringExtra("player1Name")
                     val player2Name = getStringExtra("player2Name")
                     players = listOf(
-                        Player(player1Name, 0, Pattern.compile(getString(R.string.pattern, player1Name))),
-                        Player(player2Name, 0, Pattern.compile(getString(R.string.pattern, player2Name)))
+                        Player(player1Name, 0),
+                        Player(player2Name, 0)
                     )
                     serviceSide = getIntExtra("starterId", 0)
                     relaunchSide = when(serviceSide) {
@@ -69,7 +69,10 @@ class MatchActivity : AppCompatActivity() {
                     sttEnabled = getBooleanExtra("enableSTT", false)
                     saveState()
 
-                    if (ttsEnabled) tts = TextToSpeech(this@MatchActivity, WaitForTtsInit())
+                    if (ttsEnabled) {
+                        tts = TextToSpeech(this@MatchActivity, WaitForTtsInit())
+                        if (sttEnabled) tts?.setOnUtteranceProgressListener(SttAfterTts())
+                    }
                     if (!sttEnabled) showPopUp(getString(R.string.button_hint))
                 }
             }
@@ -127,10 +130,7 @@ class MatchActivity : AppCompatActivity() {
                     if (matchPoint) scoreSpeech += getString(R.string.match_point)
                     say(scoreSpeech)
                 }
-                if (sttEnabled) {
-                    if (ttsEnabled) tts?.setOnUtteranceProgressListener(SttAfterTts())
-                    else SttDialog().show(supportFragmentManager, "SttDialog")
-                }
+                if (sttEnabled and !ttsEnabled) SttDialog().show(supportFragmentManager, "SttDialog")
             }
         }
     }

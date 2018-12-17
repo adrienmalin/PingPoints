@@ -11,11 +11,10 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.support.v4.app.DialogFragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
-import java.util.*
+import java.util.regex.Pattern
 import kotlin.math.max
 import kotlin.math.min
 
@@ -26,6 +25,7 @@ class SttDialog : DialogFragment() {
     var icStt: ImageView? = null
     var stt: SpeechRecognizer? = null
     var sttIntent: Intent? = null
+    var pattern: Pattern? = null
 
     inner class SttListener : RecognitionListener {
         val ERROR_NOT_UNDERSTOOD = 1
@@ -51,12 +51,18 @@ class SttDialog : DialogFragment() {
                     matchModel?.apply {
                         for (result in results) {
                             partialResultsTextView?.text = result
-                            for (player in players) {
-                                if (player.pattern?.matcher(result)?.find() == true) {
-                                    dismiss()
-                                    updateScore(player)
-                                    updateUI()
-                                    return
+                            pattern?.apply{
+                                val matcher = matcher(result)
+                                if (matcher.matches()) {
+                                    val name_found = matcher.group(1)
+                                    for (player in players) {
+                                        if (name_found == player.name) {
+                                            dismiss()
+                                            updateScore(player)
+                                            updateUI()
+                                            return
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -99,11 +105,24 @@ class SttDialog : DialogFragment() {
                         players[1].name
                     )
                     sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
                         putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10)
                         putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                         putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true)
+                        putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 30000)
                     }
+                    stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
+                        setRecognitionListener(SttListener())
+                        try {
+                            stopListening()
+                            startListening(sttIntent)
+                        } catch (e: ActivityNotFoundException) {
+                            sttEnabled = false
+                            dismiss()
+                            showPopUp(R.string.STT_unavailable)
+                        }
+                    }
+                    pattern = Pattern.compile(getString(R.string.pattern), Pattern.CASE_INSENSITIVE)
                 }
             }
         }
