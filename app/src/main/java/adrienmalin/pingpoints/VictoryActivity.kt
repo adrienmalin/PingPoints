@@ -28,7 +28,6 @@ class VictoryActivity : AppCompatActivity() {
         previousMatch = getPreferences(Context.MODE_PRIVATE)
         initVictoryModel()
         updateUI()
-        saveScore()
     }
 
     fun initVictoryModel() {
@@ -76,7 +75,7 @@ class VictoryActivity : AppCompatActivity() {
         }
     }
 
-    fun saveScore() {
+    override fun onStop() {
         victoryModel?.apply {
             previousMatch?.edit()?.apply {
                 putString(
@@ -92,6 +91,7 @@ class VictoryActivity : AppCompatActivity() {
                 commit()
             }
         }
+        super.onStop()
     }
 
     fun newMatch(view: View) {

@@ -104,27 +104,37 @@ class SttDialog : DialogFragment() {
                         putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                         putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true)
                     }
-                    stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
-                        setRecognitionListener(SttListener())
-                        try {
-                            stopListening()
-                            startListening(sttIntent)
-                        } catch (e: ActivityNotFoundException) {
-                            sttEnabled = false
-                            dismiss()
-                            showPopUp(R.string.STT_unavailable)
-                        }
-                    }
                 }
             }
         }
     }.create()!!
 
-    override fun onStop() {
+    override fun onResume() {
+        super.onResume()
+
+        matchActivity?.apply {
+            matchModel?.apply {
+                stt?.destroy()
+                stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
+                    setRecognitionListener(SttListener())
+                    try {
+                        stopListening()
+                        startListening(sttIntent)
+                    } catch (e: ActivityNotFoundException) {
+                        sttEnabled = false
+                        dismiss()
+                        showPopUp(R.string.STT_unavailable)
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onPause() {
         unMuteAudio()
         stt?.stopListening()
         stt?.destroy()
-        super.onStop()
+        super.onPause()
     }
 
     @Suppress("DEPRECATION")
