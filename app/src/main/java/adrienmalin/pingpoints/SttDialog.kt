@@ -99,10 +99,11 @@ class SttDialog : DialogFragment() {
                         players[1].name
                     )
                     sttIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+                        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
                         putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10)
                         putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
                         putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true)
+                        putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 30000)
                     }
                     stt = SpeechRecognizer.createSpeechRecognizer(activity).apply {
                         setRecognitionListener(SttListener())
