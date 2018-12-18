@@ -53,10 +53,10 @@ class SttDialog : DialogFragment() {
                             partialResultsTextView?.text = result
                             pattern?.apply{
                                 val matcher = matcher(result)
-                                if (matcher.matches()) {
+                                if (matcher.find()) {
                                     val foundName = matcher.group(1)
                                     for (player in players) {
-                                        if (foundName.equals(player.name, ignoreCase=true)) {
+                                        if (soundex(foundName) == soundex(player.name)) {
                                             dismiss()
                                             updateScore(player)
                                             updateUI()
