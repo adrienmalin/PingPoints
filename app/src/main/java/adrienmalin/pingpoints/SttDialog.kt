@@ -54,9 +54,9 @@ class SttDialog : DialogFragment() {
                             pattern?.apply{
                                 val matcher = matcher(result)
                                 if (matcher.matches()) {
-                                    val nameFound = matcher.group(1)
+                                    val foundName = matcher.group(1)
                                     for (player in players) {
-                                        if (nameFound.equals(player.name, ignoreCase=true)) {
+                                        if (foundName.equals(player.name, ignoreCase=true)) {
                                             dismiss()
                                             updateScore(player)
                                             updateUI()
