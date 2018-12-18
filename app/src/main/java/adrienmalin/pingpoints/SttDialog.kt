@@ -56,7 +56,7 @@ class SttDialog : DialogFragment() {
                                 if (matcher.find()) {
                                     val foundName = matcher.group(1)
                                     for (player in players) {
-                                        if (soundex(foundName) == soundex(player.name)) {
+                                        if (soundex(foundName) == player.soundex) {
                                             dismiss()
                                             updateScore(player)
                                             updateUI()

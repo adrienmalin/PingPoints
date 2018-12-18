@@ -1,6 +1,7 @@
 package adrienmalin.pingpoints
 
 data class Player (
-    var name: String,
-    var score: Int
+    val name: String,
+    var score: Int,
+    val soundex: String = soundex(name)
 )
