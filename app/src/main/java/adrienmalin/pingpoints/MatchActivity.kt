@@ -130,7 +130,9 @@ class MatchActivity : AppCompatActivity() {
                     if (matchPoint) scoreSpeech += getString(R.string.match_point)
                     say(scoreSpeech)
                 }
-                if (sttEnabled and !ttsEnabled) SttDialog().show(supportFragmentManager, "SttDialog")
+                else {
+                    if (sttEnabled) SttDialog().show(supportFragmentManager, "SttDialog")
+                }
             }
         }
     }
