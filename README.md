@@ -14,7 +14,7 @@ You can use this app without it.
 
 ### Français
 
-Appli Android for compter les points d'un match de tennis de table
+Appli Android pour compter les points d'un match de tennis de table
 
 Disponible sur le [Google Play Store](https://play.google.com/store/apps/details?id=adrienmalin.pingpoints)
 
