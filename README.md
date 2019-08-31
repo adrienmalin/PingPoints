@@ -2,7 +2,7 @@
 
 ### English
 
-Android App to count points on a Tenis Table match
+Android app to score points in a table tennis match
 
 Get it on [Google Play Store](https://play.google.com/store/apps/details?id=adrienmalin.pingpoints)
 
