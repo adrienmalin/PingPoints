@@ -1,6 +1,6 @@
 package adrienmalin.pingpoints
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 
 
 class MatchModel : ViewModel() {

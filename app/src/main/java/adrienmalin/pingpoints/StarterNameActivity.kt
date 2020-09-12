@@ -9,14 +9,16 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
-import android.view.MotionEvent
 import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.RadioGroup
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 
 class StarterNameActivity : AppCompatActivity() {
@@ -26,8 +28,8 @@ class StarterNameActivity : AppCompatActivity() {
     var player1NameInput: AutoCompleteTextView? = null
     var player2NameInput: AutoCompleteTextView? = null
     var starterRadioGroup: RadioGroup? = null
-    var enableTtsSwitch: Switch? = null
-    var enableSttSwitch: Switch? = null
+    var enableTtsSwitch: SwitchMaterial? = null
+    var enableSttSwitch: SwitchMaterial? = null
     var previousMatch: SharedPreferences? = null
     var previousPlayers: Set<String> = emptySet()
 
@@ -53,10 +55,11 @@ class StarterNameActivity : AppCompatActivity() {
     fun restorePreviousSettings() {
         previousMatch = getPreferences(Context.MODE_PRIVATE).apply {
             getStringSet("previousPlayers", emptySet())?.let { previousPlayers = it.toSet() }
-            val adapter = ArrayAdapter<String>(
+            val adapter = ArrayAdapter(
                 this@StarterNameActivity,
                 android.R.layout.simple_list_item_1,
-                previousPlayers.toList())
+                previousPlayers.toList()
+            )
             player1NameInput?.apply {
                 setText(
                     getString("previousPlayer2", getString(R.string.player_1_default_name)),
@@ -148,17 +151,16 @@ class StarterNameActivity : AppCompatActivity() {
         }
     }
 
-    fun swapNames(view: View) {
+    fun swapNames(@Suppress("UNUSED_PARAMETER") view: View) {
         player1NameInput?.text = player2NameInput?.text.also {
             player2NameInput?.text = player1NameInput?.text
         }
     }
 
-    fun startMatch(view: View) {
+    fun startMatch(@Suppress("UNUSED_PARAMETER") view: View) {
         val player1Name = player1NameInput?.text.toString()
         val player2Name = player2NameInput?.text.toString()
-        val radioStarterId = starterRadioGroup?.checkedRadioButtonId
-        val starterId = when(radioStarterId) {
+        val starterId = when (starterRadioGroup?.checkedRadioButtonId) {
             R.id.radioPlayer2Starts -> 1
             else -> 0
         }
@@ -166,14 +168,14 @@ class StarterNameActivity : AppCompatActivity() {
         val enableSTT = enableSttSwitch?.isChecked
 
         // Save settings
-        previousMatch?.edit()?.apply{
-            player1Name.let { putString("previousPlayer1", it) }
-            player2Name.let { putString("previousPlayer2", it) }
+        previousMatch?.edit()?.apply {
+            putString("previousPlayer1", player1Name)
+            putString("previousPlayer2", player2Name)
             putInt("previousStarterId", starterId)
             putStringSet("previousPlayers", previousPlayers.plus(player1Name).plus(player2Name))
             enableTTS?.let { putBoolean("enableTTS", it) }
             enableSTT?.let { putBoolean("enableSTT", it) }
-            commit()
+            apply()
         }
 
         startActivity(

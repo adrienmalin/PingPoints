@@ -15,8 +15,6 @@
     </string>
     <string name="TTS_unavailable">Sorry, your device doesn\'t support text to speech.</string>
     <string name="STT_unavailable">Sorry, your device doesn\'t support voice recognition.</string>
-    <string name="OK">OK</string>
-    <string name="cancel">Cancel</string>
     <string name="audio_record_permission_denied">Audio recording permission required to use voice recognition.</string>
     <string name="service">Service: %s</string>
     <string name="score_score">Score: %d - %d</string>
@@ -26,8 +24,6 @@
     </string>
     <string name="update_score_speech">"%d - %d. Service: %s. "</string>
     <string name="button_hint">Click on the scoring player</string>
-    <string name="undo">Undo</string>
-    <string name="redo">Redo</string>
     <string name="congrats">Congratulations, %s!</string>
     <string name="previous_matches">Previous matches</string>
     <string name="new_match">New match</string>
@@ -38,8 +34,7 @@
     <string name="share_message">%s vs. %s:\n%s won by %d to %d\nGet Ping Points on Google Play</string>
     <string name="match_point">Match point</string>
     <string name="STT_hint">Say: \"Point for %s\"\nor \"Point for %s\"</string>
-    <string name="pattern">point for (.+)</string>
+    <string name="soundex">point for %s</string>
     <string name="not_understood">Can you repeat, please?</string>
     <string name="score" translatable="false">%d - %d</string>
-    <string name="STT_disabled">Voice recognition disabled.</string>
 </resources>
