@@ -1,17 +1,17 @@
 package adrienmalin.pingpoints
 
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDelegate
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.lifecycle.ViewModelProvider
 import kotlin.math.max
 import kotlin.math.min
 
@@ -31,17 +31,19 @@ class VictoryActivity : AppCompatActivity() {
     }
 
     fun initVictoryModel() {
-        victoryModel = ViewModelProviders.of(this).get(VictoryModel::class.java).apply {
+        victoryModel = ViewModelProvider(this).get(VictoryModel::class.java).apply {
             if (!matchFinished) {
                 matchFinished = true
-                winnerName = intent.getStringExtra("winnerName")
+                winnerName = intent.getStringExtra("winnerName") ?: ""
                 players = listOf(
                     Player(
-                        intent.getStringExtra("player1Name"),
+                        intent.getStringExtra("player1Name")
+                            ?: getString(R.string.player_1_default_name),
                         intent.getIntExtra("player1Score", 0)
                     ),
                     Player(
-                        intent.getStringExtra("player2Name"),
+                        intent.getStringExtra("player2Name")
+                            ?: getString(R.string.player_2_default_name),
                         intent.getIntExtra("player2Score", 0)
                     )
                 )
@@ -60,17 +62,17 @@ class VictoryActivity : AppCompatActivity() {
                 players[1].score
             )
             findViewById<TextView>(R.id.player2NameTextView).text = players[1].name
-            findViewById<GridView>(R.id.previousMatchesGrid).adapter = ArrayAdapter<String>(
+            findViewById<GridView>(R.id.previousMatchesGrid).adapter = ArrayAdapter(
                 this@VictoryActivity,
                 R.layout.grid_item,
                 R.id.grid_item_text,
-                previousMatches.split("\t|\n".toRegex()).toMutableList()
+                previousMatches.split("[\t\n]".toRegex()).toMutableList()
             )
         }
 
         // Set HTML text for icons credits
         findViewById<TextView>(R.id.iconsCredit).apply {
-            setText(fromHtml(getString(R.string.iconCredits)))
+            text = fromHtml(getString(R.string.iconCredits))
             movementMethod = LinkMovementMethod.getInstance()
         }
     }
@@ -88,19 +90,19 @@ class VictoryActivity : AppCompatActivity() {
                         previousMatches
                     )
                 )
-                commit()
+                apply()
             }
         }
         super.onStop()
     }
 
-    fun newMatch(view: View) {
+    fun newMatch(@Suppress("UNUSED_PARAMETER") view: View) {
         startActivity(
             Intent(this, StarterNameActivity::class.java)
         )
     }
 
-    fun share(view: View) {
+    fun share(@Suppress("UNUSED_PARAMETER") view: View) {
         victoryModel?.apply {
             startActivity(
                 Intent().apply {

@@ -1,116 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.design.widget.CoordinatorLayout
-        xmlns:tools="http://schemas.android.com/tools" android:id="@+id/coordinatorLayout"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinatorLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:keepScreenOn="true">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-        <LinearLayout
-                android:id="@+id/linearLayoutText"
-                android:layout_width="match_parent"
+        <TextView
+                android:id="@+id/textService"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:orientation="horizontal"
+                android:layout_margin="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="@string/service"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+                android:id="@+id/icStt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:alpha="0"
+                android:contentDescription="@string/STT"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_stt" />
+
+        <TextView
+                android:id="@+id/textScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="start"
+                android:text="@string/score_score"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintBottom_toTopOf="@+id/imgService0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textService" />
+
+        <ImageView
+                android:id="@+id/imgService0"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/service_img_description"
+                app:layout_constraintBottom_toTopOf="@+id/buttonPlayer0"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="8dp" android:layout_weight="0">
+                app:layout_constraintTop_toBottomOf="@+id/textScore"
+                app:srcCompat="@drawable/ic_service_1" />
 
-            <TextView
-                    android:id="@+id/textScore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:gravity="left"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginRight="8dp" android:text="@string/score_score"
-                    android:layout_weight="1" android:layout_margin="8dp"/>
-            <TextView
-                    android:id="@+id/textService"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/textScore"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:gravity="right" android:text="@string/service"
-                    android:layout_weight="1" android:layout_margin="8dp"/>
+        <Button
+                android:id="@+id/buttonPlayer0"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:bufferType="spannable"
+                android:onClick="updateScore"
+                android:textAllCaps="false"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:theme="@style/ColoredButtonStyle"
+                app:layout_constraintBottom_toTopOf="@+id/buttonPlayer1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgService0"
+                tools:text="@string/button_text" />
 
-        </LinearLayout>
+        <Button
+                android:id="@+id/buttonPlayer1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:bufferType="spannable"
+                android:onClick="updateScore"
+                android:textAllCaps="false"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:theme="@style/ColoredButtonStyle"
+                app:layout_constraintBottom_toTopOf="@+id/imgService1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonPlayer0"
+                tools:text="@string/button_text" />
 
-        <LinearLayout
+        <ImageView
+                android:id="@+id/imgService1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" android:layout_weight="1">
+                android:layout_height="48dp"
+                android:layout_margin="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginBottom="32dp"
+                android:contentDescription="@string/service_img_description"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonPlayer1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
-                    android:id="@+id/imgService0"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_margin="8dp"
-                    android:contentDescription="@string/service_img_description"
-                    app:srcCompat="@drawable/ic_service_1"
-                    tools:layout_editor_absoluteY="120dp"/>
-
-            <Button
-                    android:id="@+id/buttonPlayer0"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:bufferType="spannable"
-                    android:onClick="updateScore"
-                    android:textAllCaps="false"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imgService0"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/button_text" android:layout_margin="8dp" android:layout_weight="1"
-                    android:theme="@style/ScoreButton" android:layout_marginLeft="8dp"/>
-
-            <Button
-                    android:id="@+id/buttonPlayer1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:bufferType="spannable"
-                    android:onClick="updateScore"
-                    android:textAllCaps="false"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Button"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/imgService1"
-                    app:layout_constraintStart_toEndOf="@+id/buttonPlayer0"
-                    tools:text="@string/button_text" android:layout_margin="8dp" android:layout_weight="1"
-                    android:theme="@style/ScoreButton"/>
-
-            <ImageView
-                    android:id="@+id/imgService1"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_margin="8dp"
-                    android:contentDescription="@string/service_img_description"
-                    tools:layout_editor_absoluteY="120dp"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

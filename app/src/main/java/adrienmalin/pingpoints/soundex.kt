@@ -1,6 +1,7 @@
 package adrienmalin.pingpoints
 
-import java.util.regex.*
+import java.util.*
+import java.util.regex.Pattern
 
 val yNotPrecededByA:Pattern = Pattern.compile("(?<!A)Y")
 val hNotPrecededByCS: Pattern = Pattern.compile("(?<![CS])H")
@@ -12,7 +13,7 @@ val doubleLetter = Pattern.compile("(\\w)\\1+(?!\\1)")
 fun soundex(string: String): String {
     var s = string
         .trim()
-        .toUpperCase()
+        .toUpperCase(Locale.ROOT)
         .replace('Â', 'A')
         .replace('Ä', 'A')
         .replace('À', 'A')

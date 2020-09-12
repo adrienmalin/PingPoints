@@ -12,8 +12,6 @@
     <string name="iconCredits">Icônes par &lt;a href=&quot;http://www.freepik.com&quot; title=&quot;Freepik&quot;&gt;Freepik&lt;/a&gt; chez &lt;a href=&quot;https://www.flaticon.com/&quot; title=&quot;Flaticon&quot;&gt;flaticon.com&lt;/a&gt; Licence &lt;a href=&quot;http://creativecommons.org/licenses/by/3.0/&quot; title=&quot;Creative Commons BY 3.0&quot; target=&quot;_blank&quot;&gt;CC 3.0 BY&lt;/a&gt;</string>
     <string name="TTS_unavailable">Désolé, votre appareil ne permet pas la synthèse vocale.</string>
     <string name="STT_unavailable">Désolé, votre appareil ne permet pas la reconnaissance vocale.</string>
-    <string name="OK">OK</string>
-    <string name="cancel">Annuler</string>
     <string name="audio_record_permission_denied">La reconnaissance vocale a besoin de la permission d\'enregistrer des
         fichiers audio pour fonctionner.
     </string>
@@ -22,8 +20,6 @@
     <string name="service_img_description">Service</string>
     <string name="update_score_speech">"%d - %d. Service : %s. "</string>
     <string name="button_hint">Cliquez sur le joueur qui a marqué</string>
-    <string name="redo">Rétablir</string>
-    <string name="undo">Annuler</string>
     <string name="congrats">Bravo %s !</string>
     <string name="previous_matches">Matchs précédents</string>
     <string name="new_match">Nouveau match</string>
@@ -33,7 +29,6 @@
     <string name="share_message">"%s contre %s:\n%s a gagné par %d à %d\nPing Points est disponible sur Google Play"</string>
     <string name="match_point">Balle de match</string>
     <string name="STT_hint">Dîtes : \"Point pour %s\"\nou \"Point pour %s\"</string>
-    <string name="pattern">point pour (.+)</string>
     <string name="not_understood">Pouvez-vous répéter ?</string>
-    <string name="STT_disabled">Reconnaissance vocale désactivée.</string>
+    <string name="soundex">point pour %s</string>
 </resources>
