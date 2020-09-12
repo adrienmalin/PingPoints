@@ -151,13 +151,13 @@ class StarterNameActivity : AppCompatActivity() {
         }
     }
 
-    fun swapNames(view: View) {
+    fun swapNames(@Suppress("UNUSED_PARAMETER") view: View) {
         player1NameInput?.text = player2NameInput?.text.also {
             player2NameInput?.text = player1NameInput?.text
         }
     }
 
-    fun startMatch(view: View) {
+    fun startMatch(@Suppress("UNUSED_PARAMETER") view: View) {
         val player1Name = player1NameInput?.text.toString()
         val player2Name = player2NameInput?.text.toString()
         val starterId = when (starterRadioGroup?.checkedRadioButtonId) {
